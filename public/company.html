@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="이사업체 고르는 법 & 신혼부부 도우미 | 이비서">
+<meta property="og:description" content="이사업체 견적을 비교할 때 확인할 항목과 계약서에 꼭 기록할 내용, 그리고 신혼부부를 위한 예식·이사 일정과 혼수 목록 도우미.">
+<meta property="og:url" content="https://isabiseo.com/company">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="이사업체 고르는 법 & 신혼부부 도우미 | 이비서">
+<meta name="twitter:description" content="이사업체 견적 비교 체크포인트와 계약서 기록 항목, 신혼부부 예식·이사 일정 도우미.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>이사업체 고르는 법 & 신혼부부 도우미 | 이비서</title>
+<meta name="description" content="이사업체 견적을 비교할 때 확인할 항목과 계약서에 꼭 기록할 내용, 그리고 신혼부부를 위한 예식·이사 일정과 혼수 목록 도우미.">
+<link rel="canonical" href="https://isabiseo.com/company">
+<link rel="stylesheet" href="/css/style.css?v=12">
+</head>
+<body>
+
+<main class="container">
+
+  <h1 style="margin-top:20px">업체 고르기 · 신혼부부 도우미</h1>
+  <p class="sub" style="font-size:14px;margin-bottom:14px">이사업체를 고를 때 확인할 것과, 신혼부부의 예식·이사 일정을 함께 관리하는 도구예요.</p>
+
+  <div class="chip-row" id="co-tabs" style="margin-bottom:16px">
+    <button class="chip" data-tab="choose">① 업체 고르는 법</button>
+    <button class="chip" data-tab="wedding">② 신혼부부 도우미</button>
+  </div>
+
+  <!-- ===== ① 업체 고르는 법 ===== -->
+  <section class="tab-panel" id="panel-choose">
+    <div class="card">
+      <div class="card-title"><span data-icon="truck"></span><h2>견적 비교, 이렇게 하세요</h2></div>
+      <p style="font-size:14px;margin-bottom:6px">이비서는 특정 업체를 추천하거나 제휴 광고를 노출하지 않아요. 대신 <b>어떤 항목을 비교해야 안전한지</b>를 알려드려요. 견적은 최소 3곳에서 <b>방문견적</b>으로 받고, 아래 항목을 같은 기준으로 비교하세요.</p>
+      <div class="table-wrap"><table style="min-width:0">
+        <thead><tr><th>비교 항목</th><th>확인 포인트</th></tr></thead>
+        <tbody>
+          <tr><td>총액</td><td>부가세 포함인지, 어떤 작업이 포함된 금액인지</td></tr>
+          <tr><td>포함/불포함</td><td>포장·운반·정리·사다리차·에어컨 이전 중 무엇이 포함인지</td></tr>
+          <tr><td>차량·인원</td><td>톤수·대수와 작업 인원 (짐 대비 부족하면 당일 지연)</td></tr>
+          <tr><td>추가금 조건</td><td>"현장 상황에 따라"처럼 모호한 표현은 분쟁의 씨앗 — 구체적으로 명시된 곳 선택</td></tr>
+          <tr><td>취소 조건</td><td>며칠 전까지 무료 취소인지, 위약금 비율</td></tr>
+          <tr><td>적재물 배상보험</td><td>가입 여부와 보상 한도 (파손·분실 대비)</td></tr>
+        </tbody>
+      </table></div>
+      <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span><b>총액이 아니라 '추가금 조건'을 비교하세요.</b> 5만원 싼 견적이 현장 추가금으로 15만원 비싸지는 일이 흔합니다.</span></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:8px">계약서에 꼭 기록할 항목</h3>
+      <p class="sub" style="font-size:13px;margin-bottom:6px">구두 약속은 증거가 남지 않아요. 아래 항목을 계약서(또는 예약 문자)에 남기세요. 체크 내용은 이 기기에 저장됩니다.</p>
+      <div id="contract-list"></div>
+    </div>
+
+    <div class="info" style="margin:4px 0 16px"><span data-icon="info"></span><span>계약 전 집의 권리관계가 걱정된다면 <a href="/safety">계약 안전센터</a>에서 등기부등본·보증금 안전부터 점검하세요.</span></div>
+  </section>
+
+  <!-- ===== ② 신혼부부 도우미 ===== -->
+  <section class="tab-panel" id="panel-wedding" style="display:none">
+    <div class="card">
+      <div class="card-title"><span data-icon="cal"></span><h2>예식 · 이사 일정 함께 보기</h2></div>
+      <div class="grid-2">
+        <div class="field"><label for="wd-wedding">💍 예식일</label><input type="date" id="wd-wedding"></div>
+        <div class="field"><label for="wd-move">🚚 이사일 (홈과 연동)</label><input type="date" id="wd-move"></div>
+      </div>
+      <div id="wd-timeline"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:8px">커플 공동 체크리스트</h3>
+      <p class="sub" style="font-size:13px;margin-bottom:6px">항목별로 담당자를 정해 나눠서 진행하세요.</p>
+      <div id="couple-list"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:8px">혼수·가전 구매목록 <small class="sub">중복 구매 방지</small></h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <input type="text" id="dowry-name" aria-label="혼수 품목" placeholder="품목 (예: 냉장고)" style="flex:2;min-width:120px">
+        <select id="dowry-who" aria-label="담당" style="flex:1;min-width:90px"><option>예비신랑</option><option>예비신부</option><option>같이</option><option>혼수 대신 현금</option></select>
+        <button class="btn btn-sm" id="dowry-add">추가</button>
+      </div>
+      <div id="dowry-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script src="/js/company.js?v=12"></script>
+</body>
+</html>

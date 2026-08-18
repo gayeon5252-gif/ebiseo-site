@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="이비서 — 이사 준비의 모든 것, 이사 플래너">
+<meta property="og:description" content="이사 날짜만 입력하면 D-day 체크리스트, 이사비용 계산, 대출·주거지원 진단까지. 집을 구하는 순간부터 이사 후 정리까지 놓치는 일 없게 도와주는 무료 이사 플래너 이비서.">
+<meta property="og:url" content="https://isabiseo.com/">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="이비서 — 이사 준비의 모든 것, 이사 플래너">
+<meta name="twitter:description" content="이사 날짜만 입력하면 D-day 체크리스트, 이사비용 계산, 대출·주거지원 진단까지. 집을 구하는 순간부터 이사 후 정리까지 놓치는 일 없게 도와주는 무료 이사 플래너 이비서.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="naver-site-verification" content="6e1437ecb61766cf82b926c5c5abeee63f6966c0" />
+<title>이비서 — 이사 준비의 모든 것, 이사 플래너</title>
+<meta name="description" content="이사 날짜만 입력하면 D-day 체크리스트, 이사비용 계산, 대출·주거지원 진단까지. 집을 구하는 순간부터 이사 후 정리까지 놓치는 일 없게 도와주는 무료 이사 플래너 이비서.">
+<link rel="canonical" href="https://isabiseo.com/">
+<link rel="stylesheet" href="/css/style.css?v=12">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"이비서","alternateName":"ebiseo","url":"https://isabiseo.com/","description":"이사 날짜 기반 체크리스트·이사비용 계산·대출/주거지원 진단·계약 안전 체크를 제공하는 무료 이사 플래너","inLanguage":"ko-KR"}
+</script>
+</head>
+<body>
+
+<main class="container">
+
+  <!-- ===== 히어로: 이사 날짜 / D-day 대시보드 ===== -->
+  <section class="hero" id="hero">
+    <!-- 날짜 미입력(빈 상태) -->
+    <div id="hero-empty">
+      <h1>집을 구하는 순간부터<br>이사 후 정리까지, 놓치는 일 없게</h1>
+      <p>이사 날짜를 입력하면 맞춤 플래너가 시작됩니다.</p>
+      <div style="margin-top:16px;background:rgba(255,255,255,.16);border-radius:14px;padding:14px">
+        <label for="move-date-input" style="display:block;font-size:13px;font-weight:600;margin-bottom:8px">📅 이사 예정일을 선택하세요</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input type="date" id="move-date-input" style="max-width:220px;border:none;font-size:16px;font-weight:600;color:#191F28">
+          <button class="btn" style="background:#fff;color:var(--primary)" id="btn-set-date">플래너 시작하기</button>
+        </div>
+        <p style="font-size:12px;color:rgba(255,255,255,.9);margin-top:8px">날짜를 모르면 <b>대략적인 날짜</b>를 넣어도 됩니다. 나중에 언제든 바꿀 수 있어요.</p>
+      </div>
+      <p id="date-error" style="display:none;color:#FFD9A0;font-size:13px;margin-top:8px">⚠ 올바른 날짜를 선택해 주세요.</p>
+    </div>
+    <!-- 날짜 입력됨(대시보드) -->
+    <div id="hero-dash" style="display:none">
+      <p id="dash-date-label" style="font-size:13px"></p>
+      <div class="dday-num" id="dday"></div>
+      <div style="margin-top:10px">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
+          <span>전체 준비율</span><b id="progress-pct">0%</b>
+        </div>
+        <div class="progress" style="background:rgba(255,255,255,.25)"><div id="progress-bar" style="background:#fff;width:0%"></div></div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat"><b id="stat-today">0개</b><span>오늘 할 일</span></div>
+        <div class="stat"><b id="stat-urgent">0개</b><span>임박한 중요 업무</span></div>
+        <div class="stat"><b id="stat-est">—</b><span>예상 이사비</span></div>
+        <div class="stat"><b id="stat-spent">0원</b><span>사용한 비용</span></div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.2)" id="btn-change-date">날짜 변경</button>
+        <button class="btn btn-sm" style="background:#fff;color:var(--primary)" id="btn-export-ics">📅 주요 일정 캘린더에 담기</button>
+      </div>
+      <p class="sub" style="font-size:11px;color:rgba(255,255,255,.85);margin-top:8px">전입신고·확정일자 등 핵심 일정을 .ics 파일로 내려받아 휴대폰·구글·애플 캘린더에 추가할 수 있어요.</p>
+    </div>
+  </section>
+
+  <!-- ===== 상황별 가이드 (상단 배치) ===== -->
+  <section class="section" id="situation-section">
+    <div class="section-head">
+      <h2 style="display:inline">🔎 내 상황은?</h2>
+      <a href="/situation" style="font-size:13px;font-weight:600">전체 보기 →</a>
+    </div>
+    <p class="sub" style="font-size:13px;margin:-4px 0 10px">상황마다 챙길 것이 다릅니다. 해당되는 것을 눌러보세요.</p>
+    <div class="stat-grid">
+      <a class="card" href="/situation#youth" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🎒</div><b style="color:var(--primary);font-size:14px">청년 1인가구</b><div style="font-size:12px;color:var(--sub)">자취·원룸·지원금</div></a>
+      <a class="card" href="/situation#newlywed" style="text-align:center;padding:16px 8px"><div style="font-size:22px">💍</div><b style="color:var(--primary);font-size:14px">신혼부부</b><div style="font-size:12px;color:var(--sub)">집 마련·대출 순서</div></a>
+      <a class="card" href="/situation#pregnant" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🤰</div><b style="color:var(--primary);font-size:14px">임신 중</b><div style="font-size:12px;color:var(--sub)">몸이 우선입니다</div></a>
+      <a class="card" href="/situation#baby" style="text-align:center;padding:16px 8px"><div style="font-size:22px">👶</div><b style="color:var(--primary);font-size:14px">아기·어린이</b><div style="font-size:12px;color:var(--sub)">안전과 적응</div></a>
+      <a class="card" href="/situation#middle" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🧭</div><b style="color:var(--primary);font-size:14px">중장년</b><div style="font-size:12px;color:var(--sub)">집 줄이기·노후 준비</div></a>
+      <a class="card" href="/situation#senior" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🧓</div><b style="color:var(--primary);font-size:14px">어르신</b><div style="font-size:12px;color:var(--sub)">안전·주택연금·임대</div></a>
+      <a class="card" href="/situation#foreign" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🌏</div><b style="color:var(--primary);font-size:14px">외국인</b><div style="font-size:12px;color:var(--sub)">체류지 신고·보증금</div></a>
+    </div>
+    <a class="card" href="/policy" style="display:block;margin-top:10px;border-color:var(--primary);background:#E8F3FF">
+      <div style="font-weight:700;color:var(--primary-dark);font-size:15px">🏛 이사할 때 챙기는 정부 지원·제도</div>
+      <div class="sub" style="font-size:13px;margin-top:4px">몰라서 못 받는 돈이 많습니다. 임대차 신고·전세보증보험·버팀목 대출·주거급여·월세 세액공제를 기한과 함께 정리했습니다.</div>
+    </a>
+    <a class="card" href="/news" style="display:block;margin-top:10px">
+      <div style="font-weight:700;color:#191F28;font-size:15px">📌 제도, 언제 무엇이 바뀌나</div>
+      <div class="sub" style="font-size:13px;margin-top:4px">전월세 신고 과태료·원룸 관리비 설명 의무·월세 세액공제까지. 시행일 순서로 정리하고 확정된 것과 아닌 것을 구분했습니다.</div>
+    </a>
+  </section>
+
+  <!-- ===== 오늘 할 일 ===== -->
+  <section class="section" id="today-section" style="display:none">
+    <div class="section-head">
+      <h2 data-icon="check"></h2><h2 style="display:inline">오늘 할 일</h2>
+      <a href="/checklist" style="font-size:13px;font-weight:600">전체 보기 →</a>
+    </div>
+    <div class="card" id="today-list"></div>
+  </section>
+
+  <!-- ===== 임박한 중요 업무 ===== -->
+  <section class="section" id="urgent-section" style="display:none">
+    <div class="section-head"><h2>⏰ 임박한 중요 업무</h2></div>
+    <div class="card" id="urgent-list"></div>
+  </section>
+
+  <!-- 이사 임박 시에만 노출 (home.js가 제어) -->
+  <section class="section" id="aff-section" style="display:none">
+    <div class="aff-slot" data-aff="supplies"></div>
+  </section>
+
+  <!-- ===== 이비서에게 물어보기 ===== -->
+  <section class="section">
+    <div class="card">
+      <div class="card-title"><span data-icon="chat"></span><h2>이비서 빠른 안내 <span class="badge badge-gray" style="font-size:11px;vertical-align:middle">베타</span></h2></div>
+      <p class="sub" style="font-size:13px;margin-bottom:10px">자주 묻는 이사 질문에 <b>규칙 기반</b>으로 답하는 도우미예요(AI 대화가 아닙니다). 답변 가능: 이사비용·견적비교·체크리스트·준비물·전입신고·과태료·확정일자·보증금 미반환·전세보증보험·입주청소·주소변경·손 없는 날·개인 길일·이사 방향·대출·사다리차·보관이사·용달·에어컨 이전</p>
+      <div class="chat-box" id="chat-box">
+        <div class="chat-msg chat-bot">안녕하세요! 아래 버튼을 누르거나 키워드를 입력하면 자주 묻는 내용을 바로 안내해 드려요. (정식 AI 대화가 아니라 정해진 주제에 답하는 베타 안내예요)</div>
+      </div>
+      <div class="chip-row">
+        <button class="chip" data-q="이사 7일 전인데 뭘 해야 해?">이사 7일 전 할 일</button>
+        <button class="chip" data-q="포장이사 비용이 얼마나 들어?">이사비용</button>
+        <button class="chip" data-q="전입신고는 언제까지 해야 해?">전입신고 기한</button>
+        <button class="chip" data-q="전입신고 안하면 과태료 얼마야?">전입신고 안 하면?</button>
+        <button class="chip" data-q="보증금을 안 돌려주면 어떻게 해?">보증금 못 받을 때</button>
+        <button class="chip" data-q="전세보증보험 가입 조건이 뭐야?">전세보증보험</button>
+        <button class="chip" data-q="이사 준비물 박스 몇 개 필요해?">준비물·박스</button>
+        <button class="chip" data-q="입주청소 맡길까 직접 할까?">입주청소</button>
+        <button class="chip" data-q="이사 후 주소변경 어디까지 해야 해?">주소변경</button>
+        <button class="chip" data-q="손 없는 날이 뭐야?">손 없는 날</button>
+        <button class="chip" data-q="나한테 좋은 이사 길일은 언제야?">개인 길일</button>
+        <button class="chip" data-q="견적 비교는 어떻게 해?">견적 비교</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="질문을 입력하세요">
+        <button class="btn" id="chat-send" aria-label="질문 보내기" data-icon="send"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 바로가기 ===== -->
+  <section class="section">
+    <div class="section-head"><h2>무엇부터 할까요?</h2></div>
+    <p class="sub" style="font-size:13px;margin:-4px 0 10px">이사 준비에 필요한 도구를 모아뒀습니다. 순서를 모르겠다면 <b>체크리스트</b>부터, 돈이 걱정이면 <b>정부 지원·제도</b>부터 보세요.</p>
+    <div class="stat-grid">
+      <a class="card" href="/cost" style="text-align:center;padding:16px 8px"><span data-icon="calc" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">이사비용 계산</div><small>박스·차량·비용</small></a>
+      <a class="card" href="/checklist" style="text-align:center;padding:16px 8px"><span data-icon="cal" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">체크리스트</div><small>D-60부터 이사 후까지</small></a>
+      <a class="card" href="/loan" style="text-align:center;padding:16px 8px"><span data-icon="loan" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">대출·지원 찾기</div><small>버팀목·디딤돌 등</small></a>
+      <a class="card" href="/gilil" style="text-align:center;padding:16px 8px"><span data-icon="cal" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">이사 길일 찾기</div><small>손없는날·띠·방향</small></a>
+      <a class="card" href="/safety" style="text-align:center;padding:16px 8px"><span data-icon="alert" style="color:var(--warn)"></span><div style="font-weight:700;font-size:14px;color:#191F28">계약 안전센터</div><small>전세사기 예방 체크</small></a>
+      <a class="card" href="/policy" style="text-align:center;padding:16px 8px"><span data-icon="loan" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">정부 지원·제도</div><small>몰라서 못 받는 돈</small></a>
+      <a class="card" href="/situation" style="text-align:center;padding:16px 8px"><span data-icon="info" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">상황별 가이드</div><small>청년·신혼·어르신 등</small></a>
+      <a class="card" href="/company" style="text-align:center;padding:16px 8px"><span data-icon="box" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">업체 고르기</div><small>견적 비교 요령</small></a>
+      <a class="card" href="/guide" style="text-align:center;padding:16px 8px"><span data-icon="book" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">이사 가이드</div><small>글 25편</small></a>
+      <a class="card" href="/board" style="text-align:center;padding:16px 8px"><span data-icon="check" style="color:var(--primary)"></span><div style="font-weight:700;font-size:14px;color:#191F28">문의 게시판</div><small>궁금한 점 물어보기</small></a>
+    </div>
+  </section>
+
+  <!-- ===== 가이드 미리보기 ===== -->
+  <section class="section">
+    <div class="section-head">
+      <h2>이사 가이드</h2>
+      <a href="/guide" style="font-size:13px;font-weight:600">전체 글 보기 →</a>
+    </div>
+    <div class="card">
+      <div class="task-item"><div class="grow"><a href="/guide/packing-vs-semi-packing"><div class="title">포장이사 vs 반포장이사, 뭐가 다를까?</div></a><div class="meta">이사 방식 · 5분 읽기</div></div><span data-icon="arrow" data-icon-class="icon-sm" style="color:var(--sub)"></span></div>
+      <div class="task-item"><div class="grow"><a href="/guide/move-in-report"><div class="title">전입신고·확정일자, 이사 후 꼭 해야 하는 행정 업무 총정리</div></a><div class="meta">행정 · 7분 읽기</div></div><span data-icon="arrow" data-icon-class="icon-sm" style="color:var(--sub)"></span></div>
+      <div class="task-item"><div class="grow"><a href="/guide/registry-check"><div class="title">전세 계약 전 등기부등본에서 반드시 확인할 5가지</div></a><div class="meta">계약 안전 · 6분 읽기</div></div><span data-icon="arrow" data-icon-class="icon-sm" style="color:var(--sub)"></span></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script src="/js/home.js?v=12"></script>
+</body>
+</html>

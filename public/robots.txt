@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /mypage
+
+Sitemap: https://isabiseo.com/sitemap.xml

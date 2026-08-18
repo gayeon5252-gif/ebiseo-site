@@ -1,0 +1,11 @@
+# 줄바꿈 문자를 저장소 안에서는 LF로 통일합니다.
+# 윈도우에서 받아 쓸 때는 자동으로 CRLF로 바뀌므로 편집에 문제가 없습니다.
+* text=auto eol=lf
+
+# PowerShell 도구는 윈도우에서만 실행되므로 CRLF를 유지합니다.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# 이미지는 손대지 않습니다.
+*.png binary
+*.zip binary

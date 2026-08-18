@@ -1,0 +1,13 @@
+# 배포용 zip — 저장소에 넣지 않습니다 (필요하면 도구로 다시 만들면 됩니다)
+*.zip
+zi1lngZz
+
+# 지금은 쓰지 않는 옛 설정 파일
+netlify.toml
+_redirects
+_redirects.netlify-backup.txt
+ads.txt
+
+# 윈도우 잡파일
+Thumbs.db
+desktop.ini

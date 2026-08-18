@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="이사비용 계산기 — 박스·차량·비용 견적 | 이비서">
+<meta property="og:description" content="가구원 수, 거리, 층수, 엘리베이터 유무만 입력하면 예상 박스 수, 차량 톤수, 작업 인원과 최소·평균·최대 이사비용을 계산합니다. 포장이사·반포장이사 등 이사 방식 비교표와 추가비용, 준비물 계산기 제공.">
+<meta property="og:url" content="https://isabiseo.com/cost">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="이사비용 계산기 — 박스·차량·비용 견적 | 이비서">
+<meta name="twitter:description" content="가구원 수, 거리, 층수, 엘리베이터 유무만 입력하면 예상 박스 수, 차량 톤수, 작업 인원과 최소·평균·최대 이사비용을 계산합니다. 포장이사·반포장이사 등 이사 방식 비교표와 추가비용, 준비물 계산기 제공.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>이사비용 계산기 — 박스·차량·비용 견적 | 이비서</title>
+<meta name="description" content="가구원 수, 거리, 층수, 엘리베이터 유무만 입력하면 예상 박스 수, 차량 톤수, 작업 인원과 최소·평균·최대 이사비용을 계산합니다. 포장이사·반포장이사 등 이사 방식 비교표와 추가비용, 준비물 계산기 제공.">
+<link rel="canonical" href="https://isabiseo.com/cost">
+<link rel="stylesheet" href="/css/style.css?v=12">
+</head>
+<body>
+
+<main class="container">
+
+  <h1 style="margin-top:20px">이사비용 계산</h1>
+  <p class="sub" style="font-size:14px;margin-bottom:14px">조건을 입력하면 박스·차량·인원·비용을 한 번에 계산해 드려요.</p>
+
+  <!-- 페이지 내 탭 -->
+  <div class="chip-row" id="cost-tabs" style="margin-bottom:16px">
+    <button class="chip" data-tab="diagnose">① 맞춤 진단</button>
+    <button class="chip" data-tab="result">② 비용 계산</button>
+    <button class="chip" data-tab="extra">③ 추가비용</button>
+    <button class="chip" data-tab="compare">④ 방식 비교</button>
+    <button class="chip" data-tab="supplies">⑤ 준비물</button>
+  </div>
+
+  <!-- ===== ① 이사 맞춤 진단 ===== -->
+  <section class="tab-panel" id="panel-diagnose">
+    <div class="card">
+      <div class="card-title"><span data-icon="search"></span><h2>이사 맞춤 진단</h2></div>
+
+      <div class="grid-2">
+        <div class="field"><label>가구원 수</label>
+          <select id="f-people">
+            <option value="1">1인</option><option value="2">2인</option><option value="3">3인</option>
+            <option value="4">4인</option><option value="5">5인</option><option value="6">6인 이상</option>
+          </select>
+        </div>
+        <div class="field"><label>이사 날짜</label><input type="date" id="f-date"></div>
+        <div class="field"><label>이사 방식</label>
+          <select id="f-method">
+            <option value="pack">포장이사 (포장~정리 모두 업체)</option>
+            <option value="semi">반포장이사 (잔짐은 직접 포장)</option>
+            <option value="normal">일반이사 (운반만 업체)</option>
+            <option value="truck">용달이사 (원룸·소형, 차량+기사)</option>
+          </select>
+        </div>
+        <div class="field"><label>출발지</label><select id="f-from"></select></div>
+        <div class="field"><label>도착지</label><select id="f-to"></select></div>
+        <div class="field" id="samearea-wrap" style="display:none"><label>같은 지역 내 이동 범위</label>
+          <select id="f-samearea">
+            <option value="3">같은 동네 (약 3km)</option>
+            <option value="10" selected>같은 시·구 안 (약 10km)</option>
+            <option value="25">인근 시·구 (약 25km)</option>
+          </select>
+        </div>
+        <div class="field"><label>이동 거리 (km) <small class="sub">— 지역 선택 시 자동 계산, 직접 수정 가능</small></label><input type="number" id="f-distance" placeholder="출발지·도착지를 선택하세요" min="1"></div>
+        <div class="field"><label>주택 형태</label>
+          <select id="f-house"><option>아파트</option><option>빌라·다세대</option><option>오피스텔</option><option>단독주택</option><option>원룸·고시원</option></select>
+        </div>
+        <div class="field"><label>평수</label><input type="number" id="f-size" placeholder="예: 24" min="1"></div>
+        <div class="field"><label>방 개수</label><input type="number" id="f-rooms" placeholder="예: 3" min="1"></div>
+        <div class="field"><label>출발지 층수</label><input type="number" id="f-floor-from" placeholder="예: 5" min="1"></div>
+        <div class="field"><label>도착지 층수</label><input type="number" id="f-floor-to" placeholder="예: 12" min="1"></div>
+        <div class="field"><label>엘리베이터</label>
+          <select id="f-elevator"><option value="both">양쪽 모두 있음</option><option value="one">한쪽만 있음</option><option value="none">양쪽 모두 없음</option></select>
+        </div>
+        <div class="field"><label>엘리베이터 예약비 (있는 경우)</label><input type="number" id="f-elev-fee" placeholder="예: 100000 (모르면 비워두세요)"></div>
+        <div class="field"><label>사다리차 진입</label>
+          <select id="f-ladder"><option value="yes">가능</option><option value="no">불가(좁은 골목 등)</option><option value="na">불필요</option></select>
+        </div>
+        <div class="field"><label>주차 가능 여부</label>
+          <select id="f-parking"><option value="yes">건물 앞 주차 가능</option><option value="no">불가(공영주차장 등 이용)</option></select>
+        </div>
+        <div class="field"><label>트럭→현관 운반 거리</label>
+          <select id="f-carry"><option value="short">10m 이내</option><option value="mid">10~30m</option><option value="long">30m 이상(손운반)</option></select>
+        </div>
+        <div class="field"><label>보관이사 필요</label>
+          <select id="f-storage"><option value="no">아니오</option><option value="yes">예 (입주일이 안 맞음)</option></select>
+        </div>
+      </div>
+
+      <h3 style="margin:14px 0 6px">대형 가구·가전 / 특수 짐 <small class="sub">(해당하는 것 모두 선택)</small></h3>
+      <div class="chip-row" id="f-items">
+        <button class="chip" data-item="냉장고(양문형)">냉장고(양문형)</button>
+        <button class="chip" data-item="김치냉장고">김치냉장고</button>
+        <button class="chip" data-item="세탁기·건조기">세탁기·건조기</button>
+        <button class="chip" data-item="침대(퀸 이상)">침대(퀸 이상)</button>
+        <button class="chip" data-item="장롱·붙박이장">장롱·붙박이장</button>
+        <button class="chip" data-item="소파(3인 이상)">소파(3인 이상)</button>
+        <button class="chip" data-item="피아노" data-special="1">피아노 ⚠</button>
+        <button class="chip" data-item="금고" data-special="1">금고 ⚠</button>
+        <button class="chip" data-item="돌침대" data-special="1">돌침대 ⚠</button>
+        <button class="chip" data-item="에어컨 이전설치">에어컨 이전설치</button>
+        <button class="chip" data-item="벽걸이TV 이전">벽걸이TV 이전</button>
+      </div>
+
+      <div style="margin-top:18px">
+        <button class="btn btn-block" id="btn-diagnose">진단 완료 → 비용 계산하기</button>
+      </div>
+      <p id="diag-error" style="display:none;color:var(--danger);font-size:13px;margin-top:8px">⚠ 가구원 수·이동 거리·층수는 꼭 입력해 주세요.</p>
+    </div>
+  </section>
+
+  <!-- ===== ② 비용 계산 결과 ===== -->
+  <section class="tab-panel" id="panel-result" style="display:none">
+    <!-- 로딩 상태 -->
+    <div class="card" id="result-loading" style="display:none"><div class="state"><div class="spinner"></div><p>조건에 맞춰 계산 중이에요…</p></div></div>
+    <!-- 빈 상태 -->
+    <div class="card" id="result-empty"><div class="state" data-icon="calc"><p>먼저 ① 맞춤 진단을 완료하면<br>박스·차량·비용이 여기에 표시돼요.</p><button class="btn btn-sm" style="margin-top:10px" onclick="showTab('diagnose')">진단하러 가기</button></div></div>
+    <!-- 결과 -->
+    <div id="result-body" style="display:none">
+      <div class="card">
+        <div class="card-title"><span data-icon="box"></span><h2>예상 규모</h2></div>
+        <div class="stat-grid" id="scale-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span data-icon="won"></span><h2>예상 비용 <span id="method-label" class="badge badge-blue"></span></h2></div>
+        <div class="stat-grid" id="cost-grid"></div>
+        <div id="method-compare"></div>
+        <h3 style="margin:16px 0 8px">항목별 계산 내역 <small class="sub">기본 차량·작업비 + 거리 + 인력 + 층수·운반환경 + 날짜 할증 + 추가 서비스</small></h3>
+        <div class="table-wrap"><table id="breakdown-table" style="min-width:0">
+          <thead><tr><th>항목</th><th>내용</th><th style="text-align:right">금액</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+        <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>위 금액은 <b>동일 지역 일반 조건의 참고값</b>이며 실제 견적이 아닙니다. 정확한 금액은 방문 견적 2~3곳 이상을 비교하세요. 예상비용 외 <b>10~15% 예비비</b>를 권장합니다.</span></div>
+      </div>
+      <div class="aff-slot" data-aff="supplies"></div>
+      <!-- 인원별 참고 범위 -->
+      <div class="card">
+        <h3 style="margin-bottom:8px">가구원 수별 참고 범위 <small class="sub">(동일 지역 · 일반 조건 · 포장이사 기준 참고값)</small></h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>가구원</th><th>박스 수</th><th>차량</th><th>포장이사 비용</th></tr></thead>
+          <tbody>
+            <tr><td>1인</td><td>15~25박스</td><td>1톤</td><td>50~70만원</td></tr>
+            <tr><td>2인</td><td>25~45박스</td><td>1~2.5톤</td><td>60~120만원</td></tr>
+            <tr><td>3인</td><td>40~65박스</td><td>2.5~5톤</td><td>100~160만원</td></tr>
+            <tr><td>4인</td><td>60~90박스</td><td>5톤</td><td>130~190만원</td></tr>
+            <tr><td>5인</td><td>85~120박스</td><td>5~7.5톤</td><td>160~230만원</td></tr>
+            <tr><td>6인 이상</td><td>110~160박스 이상</td><td>7.5~10톤</td><td>200~300만원 이상</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ③ 추가비용 계산 ===== -->
+  <section class="tab-panel" id="panel-extra" style="display:none">
+    <div class="card">
+      <div class="card-title"><span data-icon="won"></span><h2>추가비용 계산</h2></div>
+      <p class="sub" style="font-size:13px;margin-bottom:8px">해당하는 항목을 선택하면 합산됩니다. 금액은 일반적인 참고 범위의 평균값이에요.</p>
+      <div id="extra-list"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:2px solid var(--border)">
+        <b style="font-size:15px;color:#191F28">추가비용 합계</b>
+        <b style="font-size:20px;color:var(--primary)" id="extra-total">0원</b>
+      </div>
+      <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>이사 총예산은 <b>예상비용 + 추가비용 + 예비비 10~15%</b>로 잡는 것이 안전해요.</span></div>
+    </div>
+  </section>
+
+  <!-- ===== ④ 이사 방식 비교 ===== -->
+  <section class="tab-panel" id="panel-compare" style="display:none">
+    <div class="card">
+      <div class="card-title"><span data-icon="truck"></span><h2>이사 방식 비교</h2></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>방식</th><th>포장</th><th>운반</th><th>정리</th><th>장점</th><th>단점</th><th>시간·비용(1~2인 기준)</th></tr></thead>
+        <tbody>
+          <tr><td><b>셀프이사</b></td><td>본인</td><td>본인(렌트)</td><td>본인</td><td>비용 최소(10~30만원대)</td><td>체력 소모 큼, 파손 책임 본인</td><td>반나절~1일 · 10~30만원</td></tr>
+          <tr><td><b>용달이사</b></td><td>본인</td><td>기사(운반만)</td><td>본인</td><td>저렴, 소량 짐에 적합</td><td>포장·정리 직접, 인력 추가 시 비용↑</td><td>2~4시간 · 15~40만원</td></tr>
+          <tr><td><b>일반이사</b></td><td>본인</td><td>업체</td><td>본인</td><td>운반 전문 인력, 중간 가격</td><td>포장 품질은 본인 책임</td><td>3~5시간 · 30~60만원</td></tr>
+          <tr><td><b>반포장이사</b></td><td>큰 짐은 업체<br>잔짐은 본인</td><td>업체</td><td>일부 업체</td><td>비용·편의 균형</td><td>잔짐 포장은 직접</td><td>4~6시간 · 40~80만원</td></tr>
+          <tr><td><b>포장이사</b></td><td>업체</td><td>업체</td><td>업체</td><td>가장 편함, 파손 배상 범위 넓음</td><td>비용 최고</td><td>4~7시간 · 50~120만원</td></tr>
+          <tr><td><b>보관이사</b></td><td>업체</td><td>업체+창고</td><td>업체</td><td>입주일 안 맞을 때 유일한 해법</td><td>보관료·이중 상하차 비용</td><td>이사 2회 · +월 10~30만원</td></tr>
+          <tr><td><b>부분이사</b></td><td>선택 짐만</td><td>업체</td><td>본인</td><td>일부 짐만 저렴하게</td><td>대상 짐 협의 필요</td><td>1~3시간 · 10~30만원</td></tr>
+        </tbody>
+      </table></div>
+      <h3 style="margin:16px 0 8px">한 번에 이사 vs 나눠서 이사</h3>
+      <div class="table-wrap"><table style="min-width:0">
+        <thead><tr><th></th><th>한 번에 이사</th><th>나눠서 이사</th></tr></thead>
+        <tbody>
+          <tr><td><b>적합한 경우</b></td><td>입주·퇴거일이 같은 날</td><td>입주일이 늦거나 수리·청소 필요</td></tr>
+          <tr><td><b>장점</b></td><td>비용 1회, 하루에 끝</td><td>여유 있게 정리, 새집 준비 가능</td></tr>
+          <tr><td><b>단점</b></td><td>당일 일정 빡빡</td><td>운반비 2회 또는 보관료 발생</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ===== ⑤ 이사 준비물 계산기 ===== -->
+  <section class="tab-panel" id="panel-supplies" style="display:none">
+    <div class="card">
+      <div class="card-title"><span data-icon="box"></span><h2>이사 준비물 계산기</h2></div>
+      <div class="field" style="max-width:240px"><label>가구원 수 기준</label>
+        <select id="supply-people">
+          <option value="1">1인</option><option value="2">2인</option><option value="3">3인</option>
+          <option value="4">4인</option><option value="5">5인</option><option value="6">6인 이상</option>
+        </select>
+      </div>
+      <div class="table-wrap"><table id="supply-table" style="min-width:0">
+        <thead><tr><th>준비물</th><th style="text-align:right">추천 수량</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+    </div>
+    <div class="aff-slot" data-aff="supplies"></div>
+    <div class="card">
+      <h3 style="margin-bottom:4px">🎒 첫날 생존박스 <small class="sub">이사 당일 밤~다음 날 아침에 바로 꺼내 쓸 것들</small></h3>
+      <p class="sub" style="font-size:13px;margin-bottom:6px">박스 겉면에 <b style="color:var(--warn)">"생존박스 — 마지막에 싣고 제일 먼저 내리기"</b>라고 크게 써두세요.</p>
+      <div id="survival-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script src="/js/cost.js?v=12"></script>
+</body>
+</html>

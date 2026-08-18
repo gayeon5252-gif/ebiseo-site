@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="마이페이지 | 이비서">
+<meta property="og:description" content="">
+<meta property="og:url" content="https://isabiseo.com/mypage">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="마이페이지 | 이비서">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="robots" content="noindex,follow">
+<title>마이페이지 | 이비서</title>
+<link rel="stylesheet" href="/css/style.css?v=12">
+</head>
+<body>
+
+<main class="container" style="max-width:560px">
+
+  <h1 style="margin-top:20px">마이페이지</h1>
+
+  <!-- 로딩 -->
+  <div class="card" id="my-loading" style="margin-top:14px"><div class="state"><div class="spinner"></div><p>내 정보를 불러오는 중…</p></div></div>
+
+  <!-- 미연결 안내 -->
+  <div class="card" id="my-disabled" style="display:none;margin-top:14px">
+    <div class="state" data-icon="alert"><p><b>백엔드 미연결 상태예요.</b><br>js/config.js에 Supabase 키를 입력하면 마이페이지가 작동합니다.</p></div>
+  </div>
+
+  <!-- 본문 -->
+  <div id="my-body" style="display:none">
+    <div class="card">
+      <div class="card-title"><span data-icon="info"></span><h2>내 프로필</h2></div>
+      <div class="field"><label>이메일</label><input type="email" id="my-email" disabled style="background:var(--bg)"></div>
+      <div class="field"><label>닉네임</label><input type="text" id="my-nickname" placeholder="닉네임" maxlength="20"></div>
+      <div class="field"><label>이사 예정일 <small class="sub">— 홈 화면 D-day와 연동</small></label><input type="date" id="my-movedate"></div>
+      <button class="btn btn-block" id="my-save">저장하기</button>
+      <p id="my-msg" style="display:none;font-size:13px;margin-top:10px;text-align:center"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span data-icon="check"></span><h2>내 활동 요약</h2></div>
+      <div class="grid-2">
+        <div class="card" style="padding:14px;text-align:center"><b id="my-progress" style="font-size:18px">0%</b><div style="font-size:12px;color:var(--sub)">체크리스트 진행률</div></div>
+        <div class="card" style="padding:14px;text-align:center"><b id="my-est" style="font-size:18px">—</b><div style="font-size:12px;color:var(--sub)">예상 이사비</div></div>
+      </div>
+      <p class="sub" style="font-size:12px;margin-top:8px">체크리스트·계산 기록은 <b>이 기기(브라우저)에만 저장</b>됩니다. 다른 기기와 자동으로 동기화되지 않아요. (닉네임·이사 예정일만 계정에 저장됩니다.)</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">계정</h3>
+      <div class="field">
+        <label>연결된 로그인 수단</label>
+        <div id="my-providers" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"></div>
+        <p class="sub" style="font-size:12px;margin-top:8px">같은 이메일이면 Google·카카오·이메일 어느 쪽으로 로그인해도 <b>이 계정 하나</b>로 연결됩니다. 새 계정이 따로 만들어지지 않아요.</p>
+      </div>
+      <button class="btn btn-outline btn-block" id="my-logout">로그아웃</button>
+      <p class="sub" style="font-size:12px;margin-top:10px;text-align:center">계정 삭제를 원하시면 <a href="/contact">문의하기</a>로 요청해 주세요.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script>
+/* ============================================================
+   마이페이지 — 본인 프로필 조회/수정 (RLS로 본인 데이터만 접근)
+   ============================================================ */
+const $ = id => document.getElementById(id);
+function msg(text, ok) {
+  const el = $('my-msg');
+  el.style.display = 'block';
+  el.style.color = ok ? 'var(--success)' : 'var(--danger)';
+  el.textContent = text;
+}
+
+if (!window.ebAuth.enabled) {
+  $('my-loading').style.display = 'none';
+  $('my-disabled').style.display = 'block';
+} else {
+  window.ebAuth.onReady(async () => {
+    // 보호 라우트: 미로그인 시 로그인 페이지로 이동
+    const user = await window.ebAuth.requireLogin();
+    if (!user) return;
+    const sb = window.ebAuth.client();
+
+    // 프로필 조회 (없으면 생성 — 가입 트리거 백업)
+    let { data: profile, error } = await sb.from('profiles').select('*').eq('id', user.id).single();
+    if (error && error.code === 'PGRST116') {
+      const meta = user.user_metadata || {};
+      const nick = meta.nickname || meta.name || meta.full_name ||
+                   (user.email ? user.email.split('@')[0] : '회원');
+      const ins = await sb.from('profiles').insert({ id: user.id, nickname: nick }).select().single();
+      profile = ins.data;
+    }
+
+    $('my-loading').style.display = 'none';
+    $('my-body').style.display = 'block';
+    $('my-email').value = user.email || '카카오 로그인 — 이메일 제공 안 함';
+    $('my-nickname').value = (profile && profile.nickname) || '';
+    $('my-movedate').value = (profile && profile.move_date) || store.get('moveDate', '') || '';
+
+    /* 연결된 로그인 수단 — 같은 이메일이면 Supabase가 한 계정으로 묶어줍니다 */
+    const PROVIDER_LABEL = { google: 'Google', kakao: '카카오', email: '이메일' };
+    const provs = (user.identities || []).map(i => i.provider)
+                    .filter((v, i, a) => a.indexOf(v) === i);
+    $('my-providers').innerHTML = (provs.length ? provs : ['email'])
+      .map(function (pv) {
+        return '<span class="badge badge-gray" style="font-size:12px">' +
+               (PROVIDER_LABEL[pv] || pv) + '</span>';
+      }).join('');
+
+    // 활동 요약 (로컬 데이터)
+    const done = store.get('homeDone', {});
+    const doneCount = Object.values(done).filter(Boolean).length;
+    $('my-progress').textContent = Math.round(doneCount / 27 * 100) + '%';
+    const est = store.get('costEstimate', null);
+    $('my-est').textContent = est ? Math.round(est.avg / 10000).toLocaleString() + '만원' : '계산 전';
+
+    // 저장 (본인 행만 업데이트 — RLS가 서버에서 강제)
+    $('my-save').addEventListener('click', async function () {
+      const nickname = $('my-nickname').value.trim();
+      const move_date = $('my-movedate').value || null;
+      if (!nickname) { msg('닉네임을 입력해 주세요.'); return; }
+      this.disabled = true; this.textContent = '저장 중…';
+      const { error: upErr } = await sb.from('profiles')
+        .update({ nickname, move_date, updated_at: new Date().toISOString() })
+        .eq('id', user.id);
+      this.disabled = false; this.textContent = '저장하기';
+      if (upErr) { msg('저장 실패: ' + upErr.message); return; }
+      if (move_date) store.set('moveDate', move_date); // 홈 D-day 연동
+      msg('저장되었어요! 홈 화면 D-day에도 반영됩니다.', true);
+    });
+
+    $('my-logout').addEventListener('click', () => window.ebAuth.signOut());
+  });
+}
+</script>
+</body>
+</html>

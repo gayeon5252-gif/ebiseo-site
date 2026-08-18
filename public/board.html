@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="문의 게시판 | 이비서">
+<meta property="og:description" content="이사 준비 중 궁금한 점, 오류 제보, 제휴 제안을 이비서 안에서 바로 남기세요. 비공개로도 쓸 수 있습니다.">
+<meta property="og:url" content="https://isabiseo.com/board">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="문의 게시판 | 이비서">
+<meta name="twitter:description" content="이사 준비 중 궁금한 점을 이비서 안에서 바로 남기세요.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>문의 게시판 | 이비서</title>
+<meta name="description" content="이사 준비 중 궁금한 점, 오류 제보, 제휴 제안을 이비서 안에서 바로 남기세요. 로그인 후 작성할 수 있고, 비공개 글도 가능합니다.">
+<link rel="canonical" href="https://isabiseo.com/board">
+<link rel="stylesheet" href="/css/style.css?v=12">
+<style>
+  .bd-row{display:block;padding:14px 4px;border-bottom:1px solid var(--border);text-decoration:none}
+  .bd-row:last-child{border-bottom:none}
+  .bd-row:hover .bd-title{color:var(--primary)}
+  .bd-title{font-weight:700;color:#191F28;font-size:15px;line-height:1.5}
+  .bd-meta{font-size:12px;color:var(--sub);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .bd-body{white-space:pre-wrap;font-size:15px;line-height:1.75;color:var(--text)}
+</style>
+</head>
+<body>
+
+<main class="container" style="max-width:720px">
+
+  <h1 style="margin-top:20px">문의 게시판</h1>
+  <p class="sub" style="font-size:14px;margin-bottom:14px">이사 준비 중 궁금한 점, 오류 제보, 제휴 제안 모두 환영해요. 이비서 안에서 바로 주고받습니다.</p>
+
+  <div class="notice" style="margin-bottom:14px">
+    <span data-icon="info"></span>
+    <span><b>공개 글은 다른 분들도 볼 수 있습니다.</b> 주소·연락처·계약 금액처럼 알려지면 곤란한 내용이 들어간다면 글쓰기에서 <b>비공개</b>를 체크해 주세요. 비공개 글은 작성자 본인과 운영자만 볼 수 있습니다.</span>
+  </div>
+
+  <!-- 미연결 안내 -->
+  <div class="card" id="bd-disabled" style="display:none">
+    <div class="state" data-icon="alert"><p><b>백엔드 미연결 상태예요.</b><br>js/config.js에 Supabase 키를 입력하면 게시판이 작동합니다.</p></div>
+  </div>
+
+  <div id="bd-main" style="display:none">
+
+    <!-- 글쓰기 -->
+    <div class="card" id="bd-write-card">
+      <div class="card-title"><span data-icon="info"></span><h2>문의 남기기</h2></div>
+
+      <!-- 로그인 안내 -->
+      <div id="bd-need-login" style="display:none">
+        <p style="font-size:14px;margin-bottom:10px">스팸과 광고 글을 막기 위해 <b>로그인한 회원만</b> 글을 쓸 수 있습니다. 읽는 것은 로그인 없이도 됩니다.</p>
+        <a class="btn btn-block" href="/login?next=%2Fboard">로그인하고 문의하기</a>
+      </div>
+
+      <!-- 작성 폼 -->
+      <div id="bd-form" style="display:none">
+        <div class="field"><label>문의 유형</label>
+          <select id="bd-type">
+            <option>서비스 이용 문의</option>
+            <option>이사 준비 질문</option>
+            <option>오류 제보</option>
+            <option>정보 수정 요청 (금리·제도 변경 등)</option>
+            <option>제휴 제안</option>
+            <option>개인정보 관련 요청</option>
+          </select>
+        </div>
+        <div class="field"><label>제목</label><input type="text" id="bd-title" maxlength="80" placeholder="한 줄로 요약해 주세요"></div>
+        <div class="field"><label>내용</label><textarea id="bd-body" rows="7" maxlength="4000" placeholder="상황을 자세히 적어주실수록 정확히 답변드릴 수 있어요."></textarea></div>
+
+        <label class="check-row" style="border-bottom:none;padding-bottom:4px">
+          <input type="checkbox" id="bd-private">
+          <span style="font-size:14px">비공개로 남기기
+            <small class="sub" style="display:block;font-size:12px">작성자 본인과 운영자만 볼 수 있습니다. 개인정보가 들어간다면 꼭 체크하세요.</small>
+          </span>
+        </label>
+
+        <button class="btn btn-block" id="bd-submit" style="margin-top:10px">문의 등록하기</button>
+        <p id="bd-msg" style="display:none;font-size:13px;margin-top:10px;text-align:center"></p>
+        <p class="sub" style="font-size:12px;margin-top:10px">등록한 글은 마이페이지가 아닌 이 게시판에서 확인하시고, 필요하면 직접 삭제하실 수 있습니다. 답변은 이 게시판에 달립니다.</p>
+      </div>
+    </div>
+
+    <!-- 목록 -->
+    <div class="card">
+      <div class="card-title"><span data-icon="check"></span><h2>문의 목록</h2></div>
+      <div id="bd-list"><div class="state"><div class="spinner"></div><p>불러오는 중…</p></div></div>
+    </div>
+
+  </div>
+
+  <p class="sub" style="font-size:12px;margin-top:14px;line-height:1.8">
+    답변에는 보통 며칠이 걸릴 수 있습니다. 이비서는 1인이 운영하는 무료 서비스라 실시간 응대는 어렵습니다.<br>
+    법률·금융에 관한 답변은 일반적인 참고 정보이며 자문이 아닙니다. 중요한 결정은 반드시 전문가·공식 기관에서 확인하세요.
+  </p>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script src="/js/board.js?v=12"></script>
+</body>
+</html>

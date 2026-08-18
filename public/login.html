@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="로그인 | 이비서">
+<meta property="og:description" content="이비서 로그인 — 이메일 또는 Google, 카카오 계정으로 시작하세요.">
+<meta property="og:url" content="https://isabiseo.com/login">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="로그인 | 이비서">
+<meta name="twitter:description" content="이비서 로그인 — 이메일 또는 Google, 카카오 계정으로 시작하세요.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="robots" content="noindex,follow">
+<title>로그인 | 이비서</title>
+<meta name="description" content="이비서 로그인 — 이메일 또는 Google, 카카오 계정으로 시작하세요.">
+<link rel="stylesheet" href="/css/style.css?v=12">
+</head>
+<body>
+
+<main class="container" style="max-width:440px">
+
+  <div class="card" style="margin-top:32px">
+    <h1 style="text-align:center;font-size:22px;margin-bottom:4px" id="auth-title">로그인</h1>
+    <p class="sub" style="text-align:center;font-size:13px;margin-bottom:18px">이사 준비 기록을 어디서든 이어서 보세요.</p>
+
+    <!-- 백엔드 미연결 안내 -->
+    <div id="auth-disabled" class="notice" style="display:none;margin-bottom:14px"><span data-icon="alert"></span>
+      <span><b>백엔드 미연결 상태예요.</b> <code>js/config.js</code>에 Supabase 키를 입력하면 실제 로그인이 작동합니다. (SUPABASE-설정가이드.md 참고)</span>
+    </div>
+
+    <!-- 소셜 로그인 (기본·상단) -->
+    <button class="btn btn-block btn-ghost" id="au-google" style="margin-bottom:8px;height:48px">
+      <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.1a4.4 4.4 0 0 1-1.9 2.9v2.4h3A9 9 0 0 0 21 12.2z"/><path d="M12 21a8.6 8.6 0 0 0 6-2.2l-3-2.4a5.4 5.4 0 0 1-8-2.8H4v2.4A9 9 0 0 0 12 21z"/><path d="M7 13.6a5.4 5.4 0 0 1 0-3.4V7.8H4a9 9 0 0 0 0 8.2z"/><path d="M12 6.6c1.3 0 2.5.5 3.4 1.3L18 5.4A9 9 0 0 0 4 7.8l3 2.4A5.4 5.4 0 0 1 12 6.6z"/></svg>
+      Google로 계속하기
+    </button>
+    <button class="btn btn-block" id="au-kakao" style="background:#FEE500;color:#191600;height:48px">
+      <svg class="icon icon-sm" viewBox="0 0 24 24" style="fill:currentColor;stroke:none"><path d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.6 4.7 4.1 6l-.9 3.4c-.1.3.3.6.6.4l4-2.7c.4 0 .8.1 1.2.1 5 0 9-3.2 9-7.2S17 4 12 4z"/></svg>
+      카카오로 계속하기
+    </button>
+
+    <p class="sub" style="font-size:12px;margin-top:10px;text-align:center;line-height:1.7">
+      Google·카카오 중 <b>어느 것으로 눌러도 이메일이 같으면 같은 계정</b>으로 연결됩니다.<br>
+      계정이 두 개로 나뉘지 않으니 편한 쪽을 쓰세요.
+    </p>
+
+    <!-- 구분선 -->
+    <div style="display:flex;align-items:center;gap:10px;margin:18px 0 14px">
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+      <small class="sub">이메일로 계속하기</small>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+
+    <!-- 이메일 폼 (접기/펼치기) -->
+    <button class="btn btn-block btn-ghost" id="au-email-toggle" style="height:44px">이메일 주소로 로그인</button>
+    <div id="au-email-form" style="display:none;margin-top:12px">
+      <div class="field"><label>이메일</label><input type="email" id="au-email" placeholder="you@example.com" autocomplete="email"></div>
+      <div class="field"><label>비밀번호</label><input type="password" id="au-pw" placeholder="8자 이상 입력" autocomplete="current-password"></div>
+      <div class="field" id="au-pw2-wrap" style="display:none"><label>비밀번호 확인</label><input type="password" id="au-pw2" placeholder="비밀번호를 한 번 더 입력" autocomplete="new-password"></div>
+      <button class="btn btn-block" id="au-submit">이메일로 로그인</button>
+      <p style="text-align:center;font-size:13px;margin-top:14px">
+        <span id="au-toggle-label">아직 계정이 없나요?</span>
+        <a href="#" id="au-toggle" style="font-weight:700">회원가입</a>
+      </p>
+    </div>
+    <p id="au-msg" style="display:none;font-size:13px;margin-top:10px;text-align:center"></p>
+  </div>
+
+  <p class="sub" style="text-align:center;font-size:12px;margin-top:14px">
+    로그인하면 <a href="/terms">이용약관</a>과 <a href="/privacy">개인정보처리방침</a>에 동의하는 것으로 간주됩니다.<br>
+    비밀번호는 이비서가 아닌 인증 제공자(Supabase)에 안전하게 위임 저장됩니다.
+  </p>
+
+</main>
+
+<script src="/js/config.js?v=12"></script>
+<script src="/js/analytics.js?v=12"></script>
+<script src="/js/common.js?v=12"></script>
+<script src="/js/affiliate.js?v=12"></script>
+<script src="/js/auth.js?v=12"></script>
+<script>
+/* ---------- 로그인/회원가입 UI ---------- */
+let mode = 'login'; // 'login' | 'signup'
+const $ = id => document.getElementById(id);
+
+function setMode(m) {
+  mode = m;
+  $('auth-title').textContent = m === 'login' ? '로그인' : '회원가입';
+  $('au-submit').textContent = m === 'login' ? '이메일로 로그인' : '이메일로 회원가입';
+  $('au-pw2-wrap').style.display = m === 'signup' ? 'block' : 'none';
+  $('au-toggle-label').textContent = m === 'login' ? '아직 계정이 없나요?' : '이미 계정이 있나요?';
+  $('au-toggle').textContent = m === 'login' ? '회원가입' : '로그인';
+  msg('');
+}
+$('au-toggle').addEventListener('click', e => { e.preventDefault(); setMode(mode === 'login' ? 'signup' : 'login'); });
+
+// 이메일 폼 펼치기
+$('au-email-toggle').addEventListener('click', function () {
+  $('au-email-form').style.display = 'block';
+  this.style.display = 'none';
+  $('au-email').focus();
+});
+
+function msg(text, ok) {
+  const el = $('au-msg');
+  if (!text) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.style.color = ok ? 'var(--success)' : 'var(--danger)';
+  el.textContent = text;
+}
+function loading(on) {
+  $('au-submit').disabled = on;
+  $('au-submit').textContent = on ? '처리 중…' : (mode === 'login' ? '이메일로 로그인' : '이메일로 회원가입');
+}
+
+// 미연결 모드 안내
+if (!window.ebAuth.enabled) $('auth-disabled').style.display = 'flex';
+
+// 이미 로그인된 경우 홈으로
+window.ebAuth.onReady(async () => {
+  if (await window.ebAuth.getUser()) location.href = '/';
+});
+
+/* 이메일 로그인/가입 */
+$('au-submit').addEventListener('click', async function () {
+  if (!window.ebAuth.enabled) { msg('백엔드 미연결 상태예요. config.js에 키를 입력해 주세요.'); return; }
+  const email = $('au-email').value.trim();
+  const pw = $('au-pw').value;
+  if (!email || !pw) { msg('이메일과 비밀번호를 입력해 주세요.'); return; }
+  if (pw.length < 8) { msg('비밀번호는 8자 이상이어야 해요.'); return; }
+  if (mode === 'signup' && pw !== $('au-pw2').value) { msg('비밀번호 확인이 일치하지 않아요.'); return; }
+
+  loading(true);
+  try {
+    const fn = mode === 'login' ? 'signIn' : 'signUp';
+    const { data, error } = await window.ebAuth[fn](email, pw);
+    if (error) throw error;
+    if (mode === 'signup' && data.user && !data.session) {
+      msg('가입 확인 메일을 보냈어요! 메일함에서 인증 후 로그인해 주세요.', true);
+      if (window.track) window.track('signup_completed', { method: 'email' });
+    } else {
+      const next = new URLSearchParams(location.search).get('next') || 'index.html';
+      location.href = (next && next.startsWith('/')) ? next : '/';
+    }
+  } catch (e) {
+    const m = (e.message || '').includes('Invalid login') ? '이메일 또는 비밀번호가 올바르지 않아요.'
+      : (e.message || '').includes('already registered') ? '이미 가입된 이메일이에요. 로그인해 주세요.'
+      : '오류: ' + (e.message || '잠시 후 다시 시도해 주세요.');
+    msg(m);
+  } finally { loading(false); }
+});
+
+/* 소셜 로그인 — Google (활성화됨) */
+$('au-google').addEventListener('click', async function () {
+  if (!window.ebAuth.enabled) { msg('백엔드 미연결 상태예요. config.js에 키를 입력해 주세요.'); return; }
+  if (window.track) window.track('signup_completed', { method: 'google_start' });
+  const { error } = await window.ebAuth.signInOAuth('google');
+  if (error) msg('Google 로그인 오류: ' + error.message);
+});
+
+/* 소셜 로그인 — 카카오 */
+$('au-kakao').addEventListener('click', async function () {
+  if (!window.ebAuth.enabled) { msg('백엔드 미연결 상태예요. config.js에 키를 입력해 주세요.'); return; }
+  if (window.track) window.track('signup_completed', { method: 'kakao_start' });
+  const { error } = await window.ebAuth.signInOAuth('kakao');
+  if (error) {
+    /* 공급자 미설정 시 기술 메시지 대신 사람이 이해할 안내를 보여준다 */
+    var m = String(error.message || '');
+    if (/provider|not enabled|unsupported/i.test(m)) {
+      msg('카카오 로그인을 준비 중이에요. 지금은 Google 또는 이메일로 로그인해 주세요 🙏');
+    } else {
+      msg('카카오 로그인 오류: ' + m);
+    }
+  }
+});
+</script>
+</body>
+</html>
