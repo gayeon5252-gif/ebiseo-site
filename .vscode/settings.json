@@ -1,0 +1,23 @@
+{
+  // Live Server가 public 폴더를 사이트 루트로 인식하게 합니다.
+  // 이래야 /css, /js 같은 절대경로가 실제 사이트와 똑같이 동작합니다.
+  "liveServer.settings.root": "/public",
+  "liveServer.settings.donotShowInfoMsg": true,
+
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  "search.exclude": {
+    "**/.git": true,
+    "**/*.zip": true
+  },
+
+  "[html]": { "editor.tabSize": 2 },
+  "[css]":  { "editor.tabSize": 2 },
+  "[javascript]": { "editor.tabSize": 2 },
+
+  // PowerShell 스크립트는 UTF-8 BOM 유지 (한글 깨짐 방지)
+  "[powershell]": { "files.encoding": "utf8bom" }
+}
