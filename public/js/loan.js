@@ -42,11 +42,11 @@ const LINKS = {
 
 /* c(u): 자격 함수 — u = 사용자 입력. 반환 [적합여부, 사유] */
 const POLICIES = [
-  { name: '청년전용 버팀목 전세대출', cat: '전세', rate: '연 1.8~2.7%', limit: '최대 2억원 (보증금의 80%)', term: '2년 (최장 10년 연장)',
+  { name: '청년전용 버팀목 전세대출', cat: '전세', rate: '연 2.2~3.3% (소득구간별 · 지방 0.2%p 인하 · 2026-09-10 기금 안내 기준)', limit: '최대 1.5억원 (만 25세 미만 1.2억)', term: '2년 (최장 10년 연장)',
     target: '만 19~34세 무주택 세대주(예정자)', cond: '연소득 5,000만원 이하 · 보증금 3억원 이하(수도권)',
     docs: '신분증, 소득증빙, 재직증명, 임대차계약서, 등기부등본', deadline: '상시', link: LINKS.enhuf,
     c: u => u.purpose === 'jeonse' && u.age >= 19 && u.age <= 34 && u.homeless && u.income <= 5000 },
-  { name: '일반 버팀목 전세대출', cat: '전세', rate: '연 2.3~3.3%', limit: '수도권 1.2억 / 그 외 8,000만원', term: '2년 (연장 가능)',
+  { name: '일반 버팀목 전세대출', cat: '전세', rate: '연 2.5~3.1% (소득구간별 · 지방 0.2%p 인하 · 2026-09-10 기금 안내 기준)', limit: '수도권 1.2억 / 그 외 8,000만원', term: '2년 (연장 가능)',
     target: '무주택 세대주', cond: '연소득 5,000만원 이하 (신혼 7,500만원)',
     docs: '신분증, 소득증빙, 주민등록등본, 임대차계약서', deadline: '상시', link: LINKS.enhuf,
     c: u => u.purpose === 'jeonse' && u.homeless && (u.marital === 'married' ? u.income <= 7500 : u.income <= 5000) },

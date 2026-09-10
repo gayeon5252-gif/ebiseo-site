@@ -49,7 +49,7 @@ ebiseo-project/
 │   │   ├── gilil*.js   이사 길일 계산
 │   │   └── 그 외 페이지별 스크립트
 │   ├── _headers     보안 헤더 + 캐시 정책 (Cloudflare가 읽음)
-│   ├── sitemap.xml  45개 URL
+│   ├── sitemap.xml  46개 URL
 │   └── robots.txt
 ├── docs/            문서 (이 파일, 인수인계 문서)
 ├── tools/           PowerShell 자동화 스크립트
@@ -78,7 +78,7 @@ ebiseo-project/
 
 ### CSS나 JS를 고쳤다면 — 캐시 버전 올리기 (중요)
 **`ebiseo-tools.bat` → 3번**
-모든 HTML의 `?v=13`이 `?v=14`로 일괄 변경됩니다.
+모든 HTML의 `?v=14`가 `?v=15`로 일괄 변경됩니다.
 
 > 이걸 빼먹으면 **방문자 브라우저에 옛 스크립트가 남아 화면이 깨집니다.**
 > 실제로 예전에 이 문제로 데스크탑에서 선택 메뉴가 안 보이는 사고가 있었습니다.

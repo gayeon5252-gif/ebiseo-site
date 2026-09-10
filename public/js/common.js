@@ -119,6 +119,7 @@ function renderFooter() {
         '<a href="/terms">이용약관</a>' +
         '<a href="/situation">상황별 가이드</a>' +
         '<a href="/policy">정부 지원·제도</a>' +
+        '<a href="/youth-housing">청년 주거지원 모집</a>' +
         '<a href="/news">제도 변경 소식</a>' +
         '<a href="/board">문의 게시판</a>' +
         '<a href="/contact">문의하기</a>' +

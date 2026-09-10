@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="이비서">
+<meta property="og:title" content="청년 주거지원 모집 한눈에 — 매입임대·전세임대·행복주택·안심주택·HUG 든든전세 | 이비서">
+<meta property="og:description" content="대출 말고, 집 자체를 싸게 빌려주는 제도만 모았습니다. 지금 신청할 수 있는 것, 올해 실제 모집 일정, 어디서 신청하는지를 한 화면에.">
+<meta property="og:url" content="https://isabiseo.com/youth-housing">
+<meta property="og:image" content="https://isabiseo.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="청년 주거지원 모집 한눈에">
+<meta name="twitter:description" content="매입임대·전세임대·행복주택·청년안심주택·HUG 든든전세. 지금 신청 가능한 것과 올해 모집 일정.">
+<meta name="twitter:image" content="https://isabiseo.com/og-image.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<title>청년 주거지원 모집 한눈에 — 매입임대·전세임대·행복주택·안심주택·HUG | 이비서</title>
+<meta name="description" content="LH 청년매입임대, 청년전세임대, 행복주택, 서울 청년안심주택, HUG 든든전세주택. 대출을 뺀 청년 주거지원 제도의 자격·임대료·2026년 실제 모집 일정·신청처를 한 화면에 정리했습니다.">
+<link rel="canonical" href="https://isabiseo.com/youth-housing">
+<link rel="stylesheet" href="/css/style.css?v=14">
+<style>
+  .yh-now{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--surface);margin-bottom:12px}
+  .yh-now a{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:13px 14px;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text)}
+  .yh-now a:last-child{border-bottom:0}
+  .yh-now b{display:block;font-size:14.5px;color:#191F28}
+  .yh-now small{display:block;font-size:12.5px;color:var(--sub);margin-top:2px}
+  .badge-warn{background:#FFF1E6;color:#C86A00}
+  .badge-red{background:#FDECEC;color:#D33}
+  .pol{border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;background:var(--surface);scroll-margin-top:70px}
+  .pol h3{font-size:16px;margin:0 0 2px;color:#191F28;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .pol .org{font-size:12px;color:var(--sub);margin-bottom:8px}
+  .pol dl{margin:0;font-size:14px;line-height:1.7}
+  .pol dt{color:var(--sub);font-size:12px;margin-top:6px}
+  .pol dd{margin:0 0 2px;color:var(--text)}
+  .pol .due{color:#C86A00;font-weight:700}
+  .yh-tbl{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 4px;font-variant-numeric:tabular-nums}
+  .yh-tbl th,.yh-tbl td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  .yh-tbl th{background:var(--bg);color:var(--sub);font-weight:600;font-size:12px}
+  .yh-tbl td:first-child{white-space:nowrap}
+  .tblwrap{overflow-x:auto}
+  .tbc{display:inline-block;font-size:11px;font-weight:700;color:#C86A00;background:#FFF1E6;border:1px dashed #E5A15B;border-radius:4px;padding:0 6px;vertical-align:middle;white-space:nowrap}
+  .yh-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .yh-links a{font-size:12.5px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;text-decoration:none;color:var(--primary);background:var(--surface)}
+  .yh-nav{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:18px}
+  @media(min-width:640px){.yh-nav{grid-template-columns:repeat(3,1fr)}}
+  .yh-nav a{display:block;text-align:center;padding:12px 6px;border:1px solid var(--border);border-radius:14px;background:var(--surface);text-decoration:none;transition:.15s}
+  .yh-nav a:hover{border-color:var(--primary);background:#E8F3FF}
+  .yh-nav .ico{font-size:20px;display:block;margin-bottom:2px}
+  .yh-nav b{font-size:13px;color:#191F28;display:block}
+  .yh-nav small{font-size:11px;color:var(--sub)}
+  .yh-cal{display:grid;grid-template-columns:52px 1fr;gap:0 10px;font-size:13.5px;line-height:1.6}
+  .yh-cal>div{padding:7px 0;border-bottom:1px solid var(--border)}
+  .yh-cal .m{font-weight:700;color:var(--primary);font-variant-numeric:tabular-nums}
+  #lh-live{min-height:60px}
+  #lh-live .row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;align-items:start}
+  #lh-live .row:last-child{border-bottom:0}
+  #lh-live .row b{display:block;color:#191F28;font-size:14px}
+  #lh-live .row small{color:var(--sub);font-size:12px}
+  #lh-live .empty{font-size:13.5px;color:var(--sub);padding:6px 0}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"청년 주거지원 모집 한눈에","url":"https://isabiseo.com/youth-housing","inLanguage":"ko-KR","description":"대출을 뺀 청년 주거지원 제도(매입임대·전세임대·행복주택·청년안심주택·HUG 든든전세)의 자격·임대료·모집 일정·신청처를 모은 페이지.","dateModified":"2026-09-10"}
+</script>
+</head>
+<body>
+
+<main class="container">
+
+  <h1 style="font-size:22px;margin:16px 0 4px">청년 주거지원 모집 한눈에</h1>
+  <p class="sub" style="font-size:14px;margin-bottom:6px">대출 말고, <b>집 자체를 싸게 빌려주는 제도</b>만 모았습니다. 제도마다 신청 사이트가 달라서 하나씩 찾기 힘든 걸 한 화면에 두었습니다.</p>
+  <p class="sub" style="font-size:13px;margin-bottom:16px">마지막 확인: <b>2026-09-10</b> · 접수 일정은 공고문 원문을 기준으로 적었고, 확인 못 한 것은 <span class="tbc">확인 필요</span>로 남겼습니다.</p>
+
+  <!-- ===== 지금 신청 가능한 것 ===== -->
+  <section class="card" id="now">
+    <div class="card-title"><span data-icon="check"></span><h2>지금 신청할 수 있나 (2026-09-10 기준)</h2></div>
+    <div class="yh-now">
+      <a href="#jeonse"><span><b>LH 청년 전세임대</b><small>수시 모집 · 2026-12-31까지 접수</small></span><span class="badge badge-green">접수 중</span></a>
+      <a href="#happy"><span><b>행복주택</b><small>지역별 수시 공고 · LH청약플러스에서 확인</small></span><span class="badge badge-green">공고별</span></a>
+      <a href="#hug"><span><b>HUG 든든전세주택</b><small>11차 8/7 마감 · 12차 공고 아직 없음</small></span><span class="badge badge-warn">다음 차수 대기</span></a>
+      <a href="#maeip"><span><b>LH 청년 매입임대</b><small>서울·경기남부 2차 7월 마감 · 3차 여부 미공고</small></span><span class="badge badge-warn">다음 차수 대기</span></a>
+      <a href="#ansim"><span><b>서울 청년안심주택</b><small>2차 8/13 마감 · 당첨 발표 12/11 예정</small></span><span class="badge badge-warn">다음 차수 대기</span></a>
+      <a href="/guide/youth-monthly-rent-support"><span><b>청년월세 특별지원</b><small>2026년 접수 5월 마감 · 2027년 일정 미정</small></span><span class="badge badge-red">올해 종료</span></a>
+    </div>
+    <div class="notice" style="margin:0">
+      <span data-icon="info"></span>
+      <span>"다음 차수 대기"는 <b>올해 이미 모집이 있었고 다음 공고가 아직 안 뜬 상태</b>입니다. 아래 제도별 카드에 올해 실제로 열렸던 날짜를 적어두었으니, 그 간격을 보고 다음을 가늠하세요. 확정된 다음 일정은 없습니다.</span>
+    </div>
+  </section>
+
+  <nav class="yh-nav" aria-label="제도 바로가기">
+    <a href="#maeip"><span class="ico">🏢</span><b>청년 매입임대</b><small>시세 40~50%</small></a>
+    <a href="#jeonse"><span class="ico">🔑</span><b>청년 전세임대</b><small>LH가 전세금 지원</small></a>
+    <a href="#happy"><span class="ico">🏘</span><b>행복주택</b><small>시세 60~80%</small></a>
+    <a href="#ansim"><span class="ico">🚇</span><b>청년안심주택</b><small>서울 역세권</small></a>
+    <a href="#hug"><span class="ico">🛡</span><b>HUG 든든전세</b><small>나이·소득 무관</small></a>
+    <a href="#live"><span class="ico">📡</span><b>LH 공고 실시간</b><small>지금 올라온 것</small></a>
+  </nav>
+
+  <!-- ===== 청년 매입임대 ===== -->
+  <section class="card">
+    <div class="card-title"><span data-icon="info"></span><h2>제도별로 보기</h2></div>
+
+    <div class="pol" id="maeip">
+      <h3>LH 청년 매입임대 <span class="badge badge-warn">다음 차수 대기</span></h3>
+      <div class="org">한국토지주택공사(LH) · 지역본부별 공고</div>
+      <dl>
+        <dt>무엇을</dt><dd>LH가 사둔 다세대·오피스텔을 <b>시세의 40~50%</b>로 빌려줍니다. 보증금이 작고 월세형입니다.</dd>
+        <dt>누가</dt><dd>공고일 기준 <b>혼인 중이 아닌 무주택자</b>로 19~39세 청년, 대학생, 취업준비생. 1순위 수급자·한부모·차상위 → 2순위 본인+부모 소득 100% 이하 → 3순위 본인 소득 100% 이하.</dd>
+        <dt>거주기간</dt><dd><span class="tbc">확인 필요</span> LH 안내 페이지에 명시가 없어 공고문에서 확인해야 합니다.</dd>
+        <dt>모집 방식</dt><dd>지역본부(서울·인천·경기남부·경기북부 등)가 <b>따로따로 공고</b>합니다. 내 지역본부 공고를 봐야 합니다. LH 공식 안내에 연간 횟수는 없고, 2026년 실적은 아래와 같습니다.</dd>
+      </dl>
+      <div class="tblwrap"><table class="yh-tbl">
+        <tr><th>2026년</th><th>공고</th><th>청약 접수</th><th>발표</th><th>호수</th></tr>
+        <tr><td>서울 1차</td><td>3/31</td><td>4/15 10:00 ~ 4/17</td><td>서류 4/23 · 당첨 7/7</td><td>—</td></tr>
+        <tr><td>서울 2차</td><td>—</td><td>7/6 10:00 ~ 7/8 16:00</td><td>—</td><td>493호</td></tr>
+        <tr><td>경기남부 2차</td><td>6/30</td><td>7/13 10:00 ~ 7/15 16:00</td><td>예비순번 10/23</td><td>228호</td></tr>
+        <tr><td>인천</td><td colspan="4"><span class="tbc">확인 필요</span> 인천지역본부 공고는 이번 확인에서 못 찾았습니다</td></tr>
+      </table></div>
+      <dl>
+        <dt>어디서</dt><dd>LH청약플러스(apply.lh.or.kr) 온라인 · 문의 1600-1004</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026" target="_blank" rel="noopener">LH 임대 공고문 목록 →</a>
+        <a href="https://apply.lh.or.kr/lhapply/cm/cntnts/cntntsView.do?mi=1150&cntntsId=201251" target="_blank" rel="noopener">LH 청년 매입임대 안내</a>
+        <a href="https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=19958" target="_blank" rel="noopener">서울 1차 공고 원문(마이홈)</a>
+      </div>
+    </div>
+
+    <!-- ===== 청년 전세임대 ===== -->
+    <div class="pol" id="jeonse">
+      <h3>LH 청년 전세임대 <span class="badge badge-green">접수 중</span></h3>
+      <div class="org">한국토지주택공사(LH) · 전국</div>
+      <dl>
+        <dt>무엇을</dt><dd>내가 고른 전셋집을 <b>LH가 집주인과 계약</b>하고 나에게 다시 빌려줍니다. 전세보증금을 LH가 대고, 나는 소액 보증금 + 낮은 월 이자만 냅니다. 집을 직접 구해야 하는 게 다른 제도와 다릅니다.</dd>
+        <dt>누가</dt><dd>19~39세, 대학생, 취업준비생 중 무주택. 1순위(수급자·한부모·차상위 등)는 수시, 2·3순위는 별도 공고.</dd>
+        <dt>얼마</dt><dd>본인 부담 임대보증금 <b>100만원</b> + 월 임대료(지원금의 연 1~2%대 이자). 지원 한도는 <b>수도권 1억 2,000만원</b>, 광역시 9,500만원, 기타 8,500만원 <span class="tbc">2026-08 발표된 '한도 2배 확대안' 시행 여부 확인 필요</span></dd>
+        <dt>거주기간</dt><dd>최초 2년, 2년 단위 4회 재계약 — 최장 10년</dd>
+        <dt>2026년 모집</dt><dd><b>1순위 수시모집: 2026-02-24 ~ 2026-12-31</b>. 연말까지 언제든 신청할 수 있습니다.</dd>
+        <dt>어디서</dt><dd>LH청약플러스 · 문의 1600-1004</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=19631" target="_blank" rel="noopener">2026 청년 전세임대 수시모집 공고(마이홈) →</a>
+        <a href="https://apply.lh.or.kr/lhapply/cm/cntnts/cntntsView.do?cntntsId=1040&mi=1240" target="_blank" rel="noopener">LH 청년전세임대 안내</a>
+      </div>
+    </div>
+
+    <!-- ===== 행복주택 ===== -->
+    <div class="pol" id="happy">
+      <h3>행복주택 <span class="badge badge-green">공고별 수시</span></h3>
+      <div class="org">LH · SH · 지방공사 · 지역별 공고</div>
+      <dl>
+        <dt>무엇을</dt><dd>역세권·직주근접에 새로 지은 임대주택. <b>시세의 60~80%</b>.</dd>
+        <dt>누가</dt><dd>대학생·청년·신혼부부·한부모·고령자·주거급여수급자 계층별. 청년은 본인 소득이 도시근로자 월평균 소득 100% 이하, 총자산 3억 4,500만원 이하, 자동차 4,542만원 이하.</dd>
+        <dt>거주기간</dt><dd>청년·대학생 <b>10년</b> (신혼부부 자녀 있으면 14년)</dd>
+        <dt>모집 방식</dt><dd>단지가 준공될 때마다 <b>단지별로 공고</b>가 뜹니다. 정해진 연간 일정이 없어서 공고 목록을 주기적으로 봐야 합니다. 아래 실시간 공고 칸에서 "행복주택"을 찾으세요.</dd>
+        <dt>어디서</dt><dd>LH 단지는 LH청약플러스, 서울 SH 단지는 SH 인터넷청약, 그 외 지방공사는 각 공사 청약 페이지. 마이홈포털이 이걸 한 곳에 모아 보여줍니다.</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcView.do" target="_blank" rel="noopener">마이홈 통합 모집공고 →</a>
+        <a href="https://apply.lh.or.kr/lhapply/cm/cntnts/cntntsView.do?mi=1201662&cntntsId=1201371" target="_blank" rel="noopener">LH 행복주택 안내</a>
+      </div>
+    </div>
+
+    <!-- ===== 청년안심주택 ===== -->
+    <div class="pol" id="ansim">
+      <h3>서울 청년안심주택 <span class="badge badge-warn">다음 차수 대기</span></h3>
+      <div class="org">서울주택도시공사(SH) · 서울시 · 서울만 해당</div>
+      <dl>
+        <dt>무엇을</dt><dd>지하철역 가까운 곳에 지은 청년·신혼부부용 임대주택. 공공임대(SH)와 민간임대 두 종류가 있고, 여기 적은 건 <b>공공임대</b> 기준입니다.</dd>
+        <dt>누가</dt><dd>공고일 기준 <b>19세 이상 39세 이하</b> 무주택, 계층별 소득·총자산 요건 충족. 신혼부부도 가능.</dd>
+        <dt>모집 방식</dt><dd>SH가 <b>연 2회 안팎 통합 공고</b>로 여러 단지를 한 번에 모집합니다. 2026년은 3월·7월에 공고가 났습니다.</dd>
+      </dl>
+      <div class="tblwrap"><table class="yh-tbl">
+        <tr><th>2026년</th><th>공고</th><th>청약 접수</th><th>서류심사 발표</th><th>당첨 발표</th><th>세대</th></tr>
+        <tr><td>1차</td><td>3/31</td><td>4/10 10:00 ~ 4/14 17:00</td><td>4/20</td><td>—</td><td>—</td></tr>
+        <tr><td>2차</td><td>7/31</td><td>8/11 10:00 ~ 8/13 17:00</td><td>8/21</td><td>12/11 예정</td><td>581</td></tr>
+      </table></div>
+      <dl>
+        <dt>어디서</dt><dd>인터넷·모바일로만 접수. SH 인터넷청약시스템(i-sh.co.kr) · 공고는 청년안심주택 홈페이지</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://soco.seoul.go.kr/youth/bbs/BMSR00015/view.do?boardId=6624&menuNo=400008" target="_blank" rel="noopener">2026 2차 공고 원문 →</a>
+        <a href="https://soco.seoul.go.kr/youth/main/main.do" target="_blank" rel="noopener">청년안심주택 홈페이지</a>
+        <a href="https://www.i-sh.co.kr/cha" target="_blank" rel="noopener">SH 인터넷청약</a>
+      </div>
+    </div>
+
+    <!-- ===== HUG 든든전세 ===== -->
+    <div class="pol" id="hug">
+      <h3>HUG 든든전세주택 <span class="badge badge-warn">다음 차수 대기</span></h3>
+      <div class="org">주택도시보증공사(HUG) · 수도권·부산 등</div>
+      <dl>
+        <dt>무엇을</dt><dd>HUG가 경매 등으로 직접 매입한 집을 <b>시세 90% 이하 보증금의 전세</b>로 빌려줍니다. 보증금 사고 걱정이 없는 게 가장 큰 장점.</dd>
+        <dt>누가</dt><dd>공고일 기준 <b>무주택세대구성원이면 누구나</b>. 소득·자산·나이 조건이 없습니다. 청년 전용은 아니지만 청년이 가장 많이 씁니다.</dd>
+        <dt>거주기간</dt><dd>최장 8년</dd>
+        <dt>모집 방식</dt><dd>집이 확보되는 대로 <b>"○차 수시모집"</b>으로 공고. 2026년 들어 11차까지 진행됐고 차수 간격이 일정하지 않습니다.</dd>
+      </dl>
+      <div class="tblwrap"><table class="yh-tbl">
+        <tr><th>2026년</th><th>공고</th><th>접수</th><th>발표</th><th>호수</th></tr>
+        <tr><td>11차 수시</td><td>7/24</td><td>7/24 10:00 ~ 8/7 17:00</td><td>당첨·예비 10/30</td><td>300호 (서울 118 · <b>인천 116</b> · 경기 62 · 부산 4)</td></tr>
+        <tr><td>12차</td><td colspan="4">2026-09-10 기준 공고 없음</td></tr>
+      </table></div>
+      <p style="font-size:12.5px;color:var(--sub);margin:0 0 6px">11차 세부 수치는 공고 PDF를 직접 열지 못해 언론·요약 자료로 확인했습니다. 신청 전 공고 원문을 보세요.</p>
+      <dl>
+        <dt>어디서</dt><dd>HUG 안심전세포털 온라인 신청 · 문의 1566-9009</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://www.khug.or.kr/jeonse/" target="_blank" rel="noopener">HUG 안심전세포털 →</a>
+        <a href="https://www.khug.or.kr/hug/homepage_file_upload/jeonse_notice_260724.pdf" target="_blank" rel="noopener">11차 공고문 PDF</a>
+      </div>
+    </div>
+
+    <!-- ===== 지자체 ===== -->
+    <div class="pol" id="local">
+      <h3>지자체 제도 <span class="tbc">확인 필요</span></h3>
+      <div class="org">시·도별</div>
+      <dl>
+        <dt>인천</dt><dd>인천시 <b>천원주택(전세임대)</b>이 인천주거포털에 안내돼 있습니다. 조건·모집 시기는 이번 확인 범위에 못 넣었습니다.</dd>
+        <dt>서울</dt><dd>청년안심주택(위) 외에 서울시 청년월세는 2026년 5/19 마감.</dd>
+        <dt>그 외</dt><dd>거주 시·도 주거포털에서 "청년 임대" 또는 "전세임대"로 검색하세요. 지자체 제도는 해마다 바뀝니다.</dd>
+      </dl>
+      <div class="yh-links">
+        <a href="https://www.incheon.go.kr/housing/hou060103" target="_blank" rel="noopener">인천 천원주택 안내 →</a>
+        <a href="https://housing.seoul.go.kr/" target="_blank" rel="noopener">서울주거포털</a>
+        <a href="https://housing.gg.go.kr/" target="_blank" rel="noopener">경기주거복지포털</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LH 실시간 공고 ===== -->
+  <section class="card" id="live">
+    <div class="card-title"><span data-icon="info"></span><h2>📡 LH에 지금 올라온 임대 공고</h2></div>
+    <p class="sub" style="font-size:13px;margin-bottom:8px">LH청약플러스의 임대주택 공고 중 <b>청년·행복주택·매입임대·전세임대</b>가 이름에 들어간 것만 골라 보여줍니다. LH 공공데이터를 자동으로 읽어옵니다.</p>
+    <div id="lh-live"><div class="empty">불러오는 중…</div></div>
+    <div class="yh-links" style="margin-top:10px">
+      <a href="https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026" target="_blank" rel="noopener">LH청약플러스에서 전체 보기 →</a>
+      <a href="https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcView.do" target="_blank" rel="noopener">마이홈 통합 공고(SH·지방공사 포함)</a>
+    </div>
+  </section>
+
+  <!-- ===== 연간 흐름 ===== -->
+  <section class="card" id="calendar">
+    <div class="card-title"><span data-icon="check"></span><h2>📅 2026년에 실제로 있었던 일정</h2></div>
+    <p class="sub" style="font-size:13px;margin-bottom:10px">내년 일정은 달라질 수 있지만, 대체로 이 리듬으로 돕니다. 3~4월과 7~8월에 몰립니다.</p>
+    <div class="yh-cal">
+      <div class="m">2월</div><div>청년 전세임대 1순위 수시모집 시작 (~12/31)</div>
+      <div class="m">3월</div><div>청년안심주택 1차 공고(3/31) · 서울 청년 매입임대 1차 공고(3/31) · HUG "올해 모집 예정" 안내(3/18)</div>
+      <div class="m">4월</div><div>청년안심주택 1차 접수(4/10~14) · 서울 매입임대 1차 접수(4/15~17)</div>
+      <div class="m">5월</div><div>청년월세 접수 마감(서울 5/19 · 국토부 5/29)</div>
+      <div class="m">6월</div><div>경기남부 매입임대 2차 공고(6/30)</div>
+      <div class="m">7월</div><div>서울 매입임대 2차 접수(7/6~8) · 경기남부 2차 접수(7/13~15) · HUG 11차 접수 시작(7/24) · 청년안심주택 2차 공고(7/31)</div>
+      <div class="m">8월</div><div>HUG 11차 마감(8/7) · 청년안심주택 2차 접수(8/11~13)</div>
+      <div class="m">10월</div><div>경기남부 매입임대 발표(10/23) · HUG 11차 발표(10/30)</div>
+      <div class="m">12월</div><div>청년안심주택 2차 당첨 발표(12/11 예정) · 청년 전세임대 수시 마감(12/31)</div>
+    </div>
+  </section>
+
+  <div class="notice" style="margin:16px 0">
+    <span data-icon="info"></span>
+    <span><b>이 페이지는 참고용입니다.</b> 자격·금액·일정은 공고문이 우선하며, 공고문은 같은 제도라도 지역본부·차수마다 다릅니다. 신청 전 반드시 원문을 확인하세요. 대출 제도(버팀목·청년월세대출 등)는 <a href="/loan">대출·지원 진단</a>에서 따로 봅니다.</span>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-bottom:10px;font-size:16px">이어서 준비하기</h2>
+    <div class="stat-grid">
+      <a class="card" href="/loan" style="text-align:center;padding:14px 8px"><b style="color:var(--primary);font-size:14px">대출·지원 진단</b><div style="font-size:12px;color:var(--sub)">버팀목·청년월세대출</div></a>
+      <a class="card" href="/policy" style="text-align:center;padding:14px 8px"><b style="color:var(--primary);font-size:14px">정부 지원·제도</b><div style="font-size:12px;color:var(--sub)">시기별 전체</div></a>
+      <a class="card" href="/safety" style="text-align:center;padding:14px 8px"><b style="color:var(--primary);font-size:14px">계약 안전센터</b><div style="font-size:12px;color:var(--sub)">전세임대는 집을 직접 고릅니다</div></a>
+      <a class="card" href="/situation#youth" style="text-align:center;padding:14px 8px"><b style="color:var(--primary);font-size:14px">청년 1인가구 가이드</b><div style="font-size:12px;color:var(--sub)">자취·원룸·지원금</div></a>
+    </div>
+  </div>
+
+</main>
+
+<script src="/js/config.js?v=14"></script>
+<script src="/js/analytics.js?v=14"></script>
+<script src="/js/common.js?v=14"></script>
+<script src="/js/auth.js?v=14"></script>
+<script>
+/* LH 임대 공고 실시간 위젯
+   - config.js의 LH_NOTICE_API(Cloudflare Worker 주소)가 비어 있으면 링크 안내만 보여준다.
+   - Worker는 공공데이터포털 'LH 분양임대공고문 조회 서비스'를 대신 호출해 키를 숨기고 1시간 캐시한다.
+   - 응답 필드: PAN_NM(공고명) UPP_AIS_TP_NM(유형) AIS_TP_CD_NM(세부유형) CNP_CD_NM(지역) PAN_SS(상태) DTL_URL(상세) */
+(function(){
+  var box = document.getElementById('lh-live');
+  var cfg = window.EBISEO_CONFIG || {};
+  var api = cfg.LH_NOTICE_API;
+  var KEY = /청년|행복주택|매입임대|전세임대|신혼|대학생/;
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function fallback(msg){
+    box.innerHTML = '<div class="empty">' + esc(msg) + ' 위의 <b>LH청약플러스에서 전체 보기</b>를 눌러 확인하세요.</div>';
+  }
+  if (!api) { fallback('실시간 연결이 아직 설정되지 않았습니다.'); return; }
+  fetch(api, { cache: 'no-store' }).then(function(r){ return r.json(); }).then(function(j){
+    /* Worker가 LH 응답을 그대로 넘기면 [ {dsList:[...]} , {...} ] 또는 {dsList:[...]} 형태 */
+    var list = [];
+    (function walk(o){
+      if (!o) return;
+      if (Array.isArray(o)) { o.forEach(walk); return; }
+      if (o.dsList) { list = list.concat(o.dsList); return; }
+      if (o.PAN_NM) { list.push(o); }
+    })(j);
+    var rows = list.filter(function(x){ return KEY.test(x.PAN_NM || '') && /접수중|공고중|정정/.test(x.PAN_SS || ''); });
+    if (!rows.length) { fallback('지금은 청년 관련 LH 공고가 접수 중이 아닙니다.'); return; }
+    box.innerHTML = rows.slice(0, 12).map(function(x){
+      var st = /접수중/.test(x.PAN_SS) ? 'badge-green' : 'badge-blue';
+      return '<div class="row"><span><b>' + esc(x.PAN_NM) + '</b><small>' + esc(x.CNP_CD_NM || '') + ' · ' + esc(x.AIS_TP_CD_NM || x.UPP_AIS_TP_NM || '') + '</small></span>' +
+             '<span><span class="badge ' + st + '">' + esc(x.PAN_SS) + '</span>' + (x.DTL_URL ? ' <a href="' + esc(x.DTL_URL) + '" target="_blank" rel="noopener" style="font-size:12px">공고 →</a>' : '') + '</span></div>';
+    }).join('');
+    if (window.track) window.track('lh_notice_view', { count: rows.length });
+  }).catch(function(){ fallback('공고를 불러오지 못했습니다.'); });
+})();
+</script>
+</body>
+</html>
