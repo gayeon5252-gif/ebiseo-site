@@ -29,7 +29,7 @@ document.getElementById('l-marital').addEventListener('change', function () {
 });
 
 /* ---------- 제도 데이터 (참고값 · 기준일 표시) ---------- */
-const ASOF = '2026년 7월 기준 · 출처: 기금e든든·주택도시기금·복지로·마이홈포털 (실제 조건은 공식 사이트 확인)';
+const ASOF = '2026-09-10 확인 — 청년전용·일반 버팀목은 주택도시기금 공식 안내로 확인, 그 외는 2026년 7월 확인값 · 출처: 기금e든든·주택도시기금·복지로·마이홈포털 (실제 조건은 공식 사이트 확인)';
 const LINKS = {
   enhuf: 'https://enhuf.molit.go.kr',   // 기금e든든
   hf: 'https://www.hf.go.kr',
@@ -100,11 +100,11 @@ const POLICIES = [
     c: u => u.income <= 2000 },
   { name: '행복주택', cat: '공공임대', rate: '시세의 60~80% 임대료', limit: '전용 60㎡ 이하', term: '6~20년',
     target: '청년·신혼부부·대학생 등', cond: '무주택 · 소득 기준(모집공고별 상이)',
-    docs: '청약통장, 소득·자산 서류', deadline: '모집공고 기간 내', link: LINKS.lh,
+    docs: '청약통장, 소득·자산 서류', deadline: '모집공고 기간 내', link: '/youth-housing',
     c: u => u.homeless && (u.age <= 39 || u.marital !== 'single') },
   { name: '매입·전세임대주택', cat: '공공임대', rate: '시세의 30~50% 수준', limit: '지역별 지원 한도 내', term: '최장 20년',
     target: '저소득층·청년·신혼부부', cond: '무주택 · 소득·자산 기준(유형별 상이)',
-    docs: '소득·자산 서류', deadline: '모집공고 기간 내', link: LINKS.lh,
+    docs: '소득·자산 서류', deadline: '모집공고 기간 내', link: '/youth-housing',
     c: u => u.homeless && u.income <= 4000 },
   { name: '지자체 이사비·중개보수 지원', cat: '지원금', rate: '—', limit: '지자체별 최대 40만원 수준', term: '—',
     target: '청년·신혼부부 (지자체별 상이)', cond: '지자체 거주·전입 요건 확인 필요',
@@ -166,7 +166,9 @@ function renderMatches(u) {
       '<tr><th>신청기한</th><td>' + p.deadline + '</td></tr>' +
       '</tbody></table></div>' +
       '<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">' +
-      '<a class="btn btn-sm" href="' + p.link + '" target="_blank" rel="noopener">공식 사이트에서 신청·확인</a>' +
+      (p.link.charAt(0) === '/'
+        ? '<a class="btn btn-sm" href="' + p.link + '">지금 접수 중인 공고·모집 일정 보기</a>'
+        : '<a class="btn btn-sm" href="' + p.link + '" target="_blank" rel="noopener">공식 사이트에서 신청·확인</a>') +
       '<button class="btn btn-sm btn-outline" onclick="prefillRepay()">이 금액으로 상환 계산</button></div>' +
       '<p class="sub" style="font-size:11px;margin-top:8px">' + ASOF + '</p>' +
       '</div>'
