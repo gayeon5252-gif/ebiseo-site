@@ -19,7 +19,7 @@
 <title>이비서 — 이사 준비의 모든 것, 이사 플래너</title>
 <meta name="description" content="이사 날짜만 입력하면 D-day 체크리스트, 이사비용 계산, 대출·주거지원 진단까지. 집을 구하는 순간부터 이사 후 정리까지 놓치는 일 없게 도와주는 무료 이사 플래너 이비서.">
 <link rel="canonical" href="https://isabiseo.com/">
-<link rel="stylesheet" href="/css/style.css?v=15">
+<link rel="stylesheet" href="/css/style.css?v=16">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"이비서","alternateName":"ebiseo","url":"https://isabiseo.com/","description":"이사 날짜 기반 체크리스트·이사비용 계산·대출/주거지원 진단·계약 안전 체크를 제공하는 무료 이사 플래너","inLanguage":"ko-KR"}
 </script>
@@ -47,6 +47,7 @@
     <!-- 날짜 입력됨(대시보드) -->
     <div id="hero-dash" style="display:none">
       <p id="dash-date-label" style="font-size:13px"></p>
+      <p id="dash-profile" style="font-size:12px;color:rgba(255,255,255,.85);margin-top:2px"></p>
       <div class="dday-num" id="dday"></div>
       <div style="margin-top:10px">
         <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px">
@@ -68,13 +69,24 @@
     </div>
   </section>
 
+  <!-- ===== 내 상황 체크 → 맞는 지원·제도 ===== -->
+  <section class="section" id="profile-section">
+    <div class="section-head">
+      <h2 style="display:inline">✅ 내 상황 체크</h2>
+      <span style="font-size:12px;color:var(--sub)">여러 개 가능 · 자동 저장</span>
+    </div>
+    <p class="sub" style="font-size:13px;margin:-4px 0 6px">해당되는 걸 누르면 <b>받을 수 있는 제도</b>와 <b>더 챙길 일</b>이 플래너에 같이 나옵니다.</p>
+    <div class="chip-row" id="profile-chips" style="margin:0 0 12px"></div>
+    <div id="profile-result"></div>
+  </section>
+
   <!-- ===== 상황별 가이드 (상단 배치) ===== -->
   <section class="section" id="situation-section">
     <div class="section-head">
-      <h2 style="display:inline">🔎 내 상황은?</h2>
+      <h2 style="display:inline">🔎 상황별 가이드</h2>
       <a href="/situation" style="font-size:13px;font-weight:600">전체 보기 →</a>
     </div>
-    <p class="sub" style="font-size:13px;margin:-4px 0 10px">상황마다 챙길 것이 다릅니다. 해당되는 것을 눌러보세요.</p>
+    <p class="sub" style="font-size:13px;margin:-4px 0 10px">상황마다 챙길 것이 다릅니다. 자세한 글은 여기서 보세요.</p>
     <div class="stat-grid">
       <a class="card" href="/situation#youth" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🎒</div><b style="color:var(--primary);font-size:14px">청년 1인가구</b><div style="font-size:12px;color:var(--sub)">자취·원룸·지원금</div></a>
       <a class="card" href="/situation#newlywed" style="text-align:center;padding:16px 8px"><div style="font-size:22px">💍</div><b style="color:var(--primary);font-size:14px">신혼부부</b><div style="font-size:12px;color:var(--sub)">집 마련·대출 순서</div></a>
@@ -182,11 +194,12 @@
 
 </main>
 
-<script src="/js/config.js?v=15"></script>
-<script src="/js/analytics.js?v=15"></script>
-<script src="/js/common.js?v=15"></script>
-<script src="/js/affiliate.js?v=15"></script>
-<script src="/js/auth.js?v=15"></script>
-<script src="/js/home.js?v=15"></script>
+<script src="/js/config.js?v=16"></script>
+<script src="/js/analytics.js?v=16"></script>
+<script src="/js/common.js?v=16"></script>
+<script src="/js/affiliate.js?v=16"></script>
+<script src="/js/auth.js?v=16"></script>
+<script src="/js/profile.js?v=16"></script>
+<script src="/js/home.js?v=16"></script>
 </body>
 </html>
