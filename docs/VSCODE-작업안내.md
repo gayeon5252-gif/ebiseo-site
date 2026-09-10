@@ -88,20 +88,19 @@ ebiseo-project/
 
 ## 3. 배포
 
-### 지금 방식 (수동)
-1. **`ebiseo-tools.bat` → 2번** — 배포용 zip 생성 (뺄 파일 자동 제외)
+### 지금 방식 — Git 푸시가 곧 배포 (2026-09-10 확인)
+Cloudflare Pages가 GitHub `main`에 **이미 연결돼 있습니다.** 이 문서의 2026-09-09 판은 "미설정"이라고 적었는데 틀린 내용이었습니다. 실제로 푸시 후 1분 안에 라이브가 바뀌는 것을 확인했습니다.
+
+1. 파일 수정 → CSS·JS를 고쳤으면 **`ebiseo-tools.bat` → 3번** (캐시 버전 올리기)
+2. 4장 순서대로 커밋 → **변경 내용 동기화(푸시)**
+3. 1~2분 뒤 **`ebiseo-tools.bat` → 4번** — 라이브 점검
+
+> **푸시하면 바로 공개됩니다.** 확인 안 된 글, 작업 중인 페이지는 커밋하지 마세요.
+
+### 비상용 — zip 수동 업로드 (Git이 안 될 때만)
+1. **`ebiseo-tools.bat` → 2번** — 배포용 zip 생성
 2. https://dash.cloudflare.com → Workers & Pages → `ebiseo` → **Create deployment**
 3. Production 선택 → zip 올리기 → **Save and deploy**
-4. **`ebiseo-tools.bat` → 4번** — 라이브 사이트 점검 (버전·사이트맵·글 수 대조)
-
-### 더 나은 방식 (권장, 아직 미설정)
-Cloudflare Pages를 GitHub 저장소에 연결하면 **`git push`만 하면 자동 배포**됩니다.
-zip을 만들 필요도, 대시보드에 들어갈 필요도 없어집니다.
-
-설정: Cloudflare Pages → `ebiseo` → Settings → Builds & deployments → Git 연결
-- 저장소: `gayeon5252-gif/ebiseo-site`
-- 빌드 명령: 비워둠 (빌드 과정 없음)
-- 출력 디렉터리: **`public`**
 
 ---
 
