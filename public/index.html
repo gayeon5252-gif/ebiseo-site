@@ -69,6 +69,21 @@
     </div>
   </section>
 
+  <!-- ===== 오늘 할 일 ===== -->
+  <section class="section" id="today-section" style="display:none">
+    <div class="section-head">
+      <h2 data-icon="check"></h2><h2 style="display:inline">오늘 할 일</h2>
+      <a href="/checklist" style="font-size:13px;font-weight:600">전체 보기 →</a>
+    </div>
+    <div class="card" id="today-list"></div>
+  </section>
+
+  <!-- ===== 임박한 중요 업무 ===== -->
+  <section class="section" id="urgent-section" style="display:none">
+    <div class="section-head"><h2>⏰ 임박한 중요 업무</h2></div>
+    <div class="card" id="urgent-list"></div>
+  </section>
+
   <!-- ===== 내 상황 체크 → 맞는 지원·제도 ===== -->
   <section class="section" id="profile-section">
     <div class="section-head">
@@ -122,20 +137,6 @@
     <div class="card" id="lh-home"></div>
   </section>
 
-  <!-- ===== 오늘 할 일 ===== -->
-  <section class="section" id="today-section" style="display:none">
-    <div class="section-head">
-      <h2 data-icon="check"></h2><h2 style="display:inline">오늘 할 일</h2>
-      <a href="/checklist" style="font-size:13px;font-weight:600">전체 보기 →</a>
-    </div>
-    <div class="card" id="today-list"></div>
-  </section>
-
-  <!-- ===== 임박한 중요 업무 ===== -->
-  <section class="section" id="urgent-section" style="display:none">
-    <div class="section-head"><h2>⏰ 임박한 중요 업무</h2></div>
-    <div class="card" id="urgent-list"></div>
-  </section>
 
   <!-- 이사 임박 시에만 노출 (home.js가 제어) -->
   <section class="section" id="aff-section" style="display:none">
