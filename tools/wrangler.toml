@@ -1,0 +1,10 @@
+# LH 임대 공고 프록시 Worker 배포 설정
+# 배포:  cd tools && npx wrangler deploy
+# 키 설정: npx wrangler secret put DATA_GO_KR_KEY
+# 자세한 내용은 lh-notice-worker.js 머리말 참고
+
+name = "lh-notice"
+main = "lh-notice-worker.js"
+compatibility_date = "2026-09-11"
+account_id = "74bd361fd30ba7d9cbf217ce2fedd382"
+workers_dev = true

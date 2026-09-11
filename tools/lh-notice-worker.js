@@ -39,7 +39,7 @@ export default {
     // 최근 60일 공고 중 임대주택(06) + 주거복지(13). 접수 상태 필터는 클라이언트에서.
     const now = new Date();
     const from = new Date(now.getTime() - 60 * 86400000);
-    const cacheKey = new Request('https://cache.local/lh?' + ymd(now));
+    const cacheKey = new Request('https://cache.local/lh?v3-' + ymd(now));
     const cache = caches.default;
     let hit = await cache.match(cacheKey);
     if (hit) {
@@ -65,8 +65,24 @@ export default {
       }
     }
 
-    const out = JSON.stringify(results);
-    ctx.waitUntil(cache.put(cacheKey, new Response(out, { headers: { 'Cache-Control': 'public, max-age=' + CACHE_SEC } })));
+    /* 화면에 쓰는 필드만 남긴다 — 원본 그대로 넘기면 150KB가 넘어 방문자 데이터를 낭비한다.
+       페이지(youth-housing.html)는 PAN_NM을 가진 객체 배열을 그대로 읽을 수 있다. */
+    const FIELDS = ['PAN_NM', 'UPP_AIS_TP_NM', 'AIS_TP_CD_NM', 'CNP_CD_NM', 'PAN_SS', 'DTL_URL', 'PAN_NT_ST_DT', 'CLSG_DT'];
+    const rows = [];
+    (function walk(o) {
+      if (!o) return;
+      if (Array.isArray(o)) { o.forEach(walk); return; }
+      if (o.dsList) { walk(o.dsList); return; }
+      if (o.PAN_NM) {
+        const t = {};
+        for (const f of FIELDS) if (o[f] != null) t[f] = o[f];
+        rows.push(t);
+      }
+    })(results);
+
+    const out = JSON.stringify(rows);
+    /* 실패 응답은 캐시하지 않는다 — 키 오류나 일시 장애를 한 시간 붙잡고 있으면 안 된다 */
+    if (rows.length) ctx.waitUntil(cache.put(cacheKey, new Response(out, { headers: { 'Cache-Control': 'public, max-age=' + CACHE_SEC } })));
     return new Response(out, { headers: cors });
   },
 };

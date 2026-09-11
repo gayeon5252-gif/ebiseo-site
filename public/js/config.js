@@ -16,7 +16,7 @@ window.EBISEO_CONFIG = {
   /* LH 임대 공고 실시간 위젯(/youth-housing) — Cloudflare Worker 주소.
      설치 방법은 tools/lh-notice-worker.js 머리말 참고. 비워두면 위젯이 링크 안내만 보여줍니다.
      예: 'https://lh-notice.계정이름.workers.dev' */
-  LH_NOTICE_API: '',
+  LH_NOTICE_API: 'https://lh-notice.gayeon0114.workers.dev',
 
   /* ── 쿠팡 파트너스 제휴 링크 ──────────────────────────────
      사용법: 쿠팡파트너스 승인 후 발급받은 링크를 url에 붙여넣으세요.
