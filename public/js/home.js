@@ -43,6 +43,7 @@ function renderDashboard() {
   }
   empty.style.display = 'none'; dash.style.display = 'block';
   todaySec.style.display = 'block'; urgentSec.style.display = 'block';
+  if (window.renderProfile) window.renderProfile();   // 상황 칩을 히어로 카드 안으로 옮긴다
 
   const dd = daysUntil(moveDate);
 

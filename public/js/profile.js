@@ -108,19 +108,21 @@ const PROFILE_DATA = {
 
 function getProfile() { return store.get('profile', []); }
 
-function renderProfile() {
-  const chips = document.getElementById('profile-chips');
-  const out = document.getElementById('profile-result');
-  if (!chips || !out) return;
-  const sel = getProfile();
-
-  chips.innerHTML = PROFILE_TAGS.map(tag => {
+/* 칩 HTML. dark=true는 파란 히어로 카드 위에 올라가는 버전 */
+function chipHTML(sel, dark) {
+  return PROFILE_TAGS.map(tag => {
     const on = sel.indexOf(tag.id) > -1;
-    return '<button type="button" class="chip" data-tag="' + tag.id + '" aria-pressed="' + on + '"' +
-      ' style="' + (on ? 'border-color:var(--primary);background:#E8F3FF;color:var(--primary-dark);font-weight:700' : '') + '">' +
+    const st = dark
+      ? (on ? 'background:#fff;border-color:#fff;color:var(--primary-dark);font-weight:700'
+            : 'background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.45);color:#fff')
+      : (on ? 'border-color:var(--primary);background:#E8F3FF;color:var(--primary-dark);font-weight:700' : '');
+    return '<button type="button" class="chip" data-tag="' + tag.id + '" aria-pressed="' + on + '" style="' + st + '">' +
       tag.ico + ' ' + tag.label + '</button>';
   }).join('');
-  chips.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', function () {
+}
+
+function bindChips(box) {
+  box.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', function () {
     const id = this.dataset.tag;
     let cur = getProfile();
     cur = cur.indexOf(id) > -1 ? cur.filter(x => x !== id) : cur.concat([id]);
@@ -128,13 +130,35 @@ function renderProfile() {
     if (window.track) window.track('profile_select', { tags: cur.join(',') });
     renderProfile();
   }));
+}
+
+function renderProfile() {
+  const chips = document.getElementById('profile-chips');
+  const out = document.getElementById('profile-result');
+  if (!chips || !out) return;
+  const sel = getProfile();
+
+  /* 이사 날짜를 넣어 캘린더(히어로)가 켜져 있으면 거기서 고르게 하고,
+     같은 조작이 두 번 보이지 않도록 아래쪽 칩은 숨긴다. */
+  const heroChips = document.getElementById('hero-profile-chips');
+  const heroDash = document.getElementById('hero-dash');
+  const heroOn = !!(heroChips && heroDash && heroDash.style.display !== 'none');
+
+  chips.innerHTML = chipHTML(sel, false);
+  bindChips(chips);
+  chips.style.display = heroOn ? 'none' : '';
+
+  if (heroChips) {
+    heroChips.innerHTML = heroOn ? chipHTML(sel, true) : '';
+    if (heroOn) bindChips(heroChips);
+  }
 
   // 대시보드 한 줄 요약
   const dashLine = document.getElementById('dash-profile');
   if (dashLine) {
     dashLine.textContent = sel.length
       ? '내 상황: ' + sel.map(id => (PROFILE_TAGS.find(t => t.id === id) || {}).label).filter(Boolean).join(' · ')
-      : '';
+      : '해당되는 상황을 눌러 보세요 — 맞춤 제도와 할 일이 캘린더에 함께 담깁니다';
   }
 
   if (!sel.length) {
@@ -171,4 +195,5 @@ function renderProfile() {
     '<p class="sub" style="font-size:12px;margin-top:8px">제도의 자격·금액·기한은 각 페이지가 원본입니다. 여기 요약은 2026-09-10 기준이며, 눌러서 최신 내용을 확인하세요.</p>';
 }
 
+window.renderProfile = renderProfile;
 renderProfile();
