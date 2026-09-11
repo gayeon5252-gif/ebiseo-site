@@ -110,6 +110,18 @@
     </a>
   </section>
 
+  <!-- ===== LH 실시간 공고 (홈 요약 3건) =====
+       /youth-housing 위젯의 축약본. 공고를 못 불러오면 이 섹션은 아예 나타나지 않습니다
+       (빈 블록이나 '불러오지 못했습니다'를 홈에 남기지 않기 위함). -->
+  <section class="section" id="lh-home-section" style="display:none">
+    <div class="section-head">
+      <h2 style="display:inline">📡 지금 모집 중인 임대 공고 <span class="badge badge-green" id="lh-home-count" style="vertical-align:middle;margin-left:2px"></span></h2>
+      <a href="/youth-housing#live" style="font-size:13px;font-weight:600">전체 보기 →</a>
+    </div>
+    <p class="sub" style="font-size:13px;margin:-4px 0 10px">LH청약플러스에 올라온 청년·신혼·행복주택·매입임대 공고입니다. 자동으로 최신 내용을 읽어옵니다.</p>
+    <div class="card" id="lh-home"></div>
+  </section>
+
   <!-- ===== 오늘 할 일 ===== -->
   <section class="section" id="today-section" style="display:none">
     <div class="section-head">
@@ -201,5 +213,43 @@
 <script src="/js/auth.js?v=17"></script>
 <script src="/js/profile.js?v=17"></script>
 <script src="/js/home.js?v=17"></script>
+<script>
+/* 홈 LH 공고 요약 — /youth-housing 위젯의 축약본. 상위 3건만 보여주고 전체는 그 페이지로 넘긴다.
+   불러오지 못하거나 해당 공고가 없으면 섹션을 통째로 숨긴 채 둔다. */
+(function(){
+  var sec = document.getElementById('lh-home-section');
+  var box = document.getElementById('lh-home');
+  var cnt = document.getElementById('lh-home-count');
+  var api = (window.EBISEO_CONFIG || {}).LH_NOTICE_API;
+  if (!api || !sec || !box) return;
+  var KEY = /청년|행복주택|매입임대|전세임대|신혼|대학생/;
+  function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function cut(s, n){ s = String(s || ''); return s.length > n ? s.slice(0, n).replace(/[ ,·]+$/, '') + '…' : s; }
+  fetch(api).then(function(r){ return r.json(); }).then(function(j){
+    var list = [];
+    (function walk(o){
+      if (!o) return;
+      if (Array.isArray(o)) { o.forEach(walk); return; }
+      if (o.dsList) { walk(o.dsList); return; }
+      if (o.PAN_NM) { list.push(o); }
+    })(j);
+    var rows = list.filter(function(x){ return KEY.test(x.PAN_NM || '') && /접수중|공고중|정정/.test(x.PAN_SS || ''); });
+    if (!rows.length) return;
+    cnt.textContent = rows.length + '건';
+    box.innerHTML = rows.slice(0, 3).map(function(x){
+      var st = /접수중/.test(x.PAN_SS) ? 'badge-green' : 'badge-blue';
+      var meta = esc((x.CNP_CD_NM || '') + (x.AIS_TP_CD_NM ? ' · ' + x.AIS_TP_CD_NM : ''));
+      var inner = '<div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;padding:10px 0;border-bottom:1px solid var(--border)">' +
+        '<span><b style="display:block;color:#191F28;font-size:14px;line-height:1.4">' + esc(cut(x.PAN_NM, 40)) + '</b>' +
+        '<small style="color:var(--sub);font-size:12px">' + meta + '</small></span>' +
+        '<span class="badge ' + st + '" style="white-space:nowrap">' + esc(x.PAN_SS) + '</span></div>';
+      return x.DTL_URL ? '<a href="' + esc(x.DTL_URL) + '" target="_blank" rel="noopener" style="text-decoration:none;display:block">' + inner + '</a>' : inner;
+    }).join('') +
+      '<a href="/youth-housing#live" style="display:block;text-align:center;padding:10px 0 2px;font-size:13px;font-weight:600">공고 ' + rows.length + '건 전체 보기 →</a>';
+    sec.style.display = '';
+    if (window.track) window.track('lh_home_view', { count: rows.length });
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
