@@ -39,6 +39,7 @@ function renderDashboard() {
     empty.style.display = 'block'; dash.style.display = 'none';
     todaySec.style.display = 'none'; urgentSec.style.display = 'none';
     if (affSec) affSec.style.display = 'none';
+    if (window.renderProfile) window.renderProfile();   // 상황 칩을 아래 섹션으로 되돌린다
     return;
   }
   empty.style.display = 'none'; dash.style.display = 'block';
