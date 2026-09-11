@@ -137,6 +137,30 @@ if (btnIcs) btnIcs.addEventListener('click', function () {
     const dt = new Date(base.getTime() + t.d * 86400000);
     return { title: t.title, date: dt.toISOString().slice(0, 10), desc: t.desc };
   });
+
+  /* 내 상황 체크에서 고른 상황의 맞춤 할 일도 같은 캘린더에 넣는다.
+     상황을 여러 개 골라도 같은 글은 한 번만 들어간다. */
+  try {
+    const picked = (typeof getProfile === 'function') ? getProfile() : [];
+    const seen = {};
+    picked.forEach(function (id) {
+      const prof = (typeof PROFILE_DATA !== 'undefined') ? PROFILE_DATA[id] : null;
+      if (!prof || !prof.tasks) return;
+      const tag = (typeof PROFILE_TAGS !== 'undefined') ? PROFILE_TAGS.filter(function (x) { return x.id === id; })[0] : null;
+      prof.tasks.forEach(function (t) {
+        if (typeof t.d !== 'number' || seen[t.href]) return;
+        seen[t.href] = 1;
+        const dt = new Date(base.getTime() + t.d * 86400000);
+        events.push({
+          title: '[이사] ' + t.t,
+          date: dt.toISOString().slice(0, 10),
+          desc: (tag ? tag.label + ' 맞춤 — ' : '') + 'https://isabiseo.com' + t.href
+        });
+      });
+    });
+  } catch (e) { /* 맞춤 항목을 못 넣어도 기본 이사 일정은 받을 수 있게 둔다 */ }
+
+  events.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
   window.downloadICS(events, 'ebiseo-이사일정.ics');
 });
 

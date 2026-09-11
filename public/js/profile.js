@@ -28,8 +28,8 @@ const PROFILE_DATA = {
       { t: '전세보증금 반환보증', s: '잔금·전입 후 빨리 가입 · 원룸은 등기부만으로 부족', href: '/policy#contract' }
     ],
     tasks: [
-      { t: '등기부등본에서 반드시 볼 것 (다가구는 선순위 보증금까지)', href: '/guide/registry-check' },
-      { t: '자취 첫 달 실제 비용 계산', href: '/guide/first-living-cost' }
+      { d: -45, t: '등기부등본에서 반드시 볼 것 (다가구는 선순위 보증금까지)', href: '/guide/registry-check' },
+      { d: -30, t: '자취 첫 달 실제 비용 계산', href: '/guide/first-living-cost' }
     ]
   },
   newlywed: {
@@ -40,8 +40,8 @@ const PROFILE_DATA = {
       { t: '전세보증금 반환보증', s: '두 사람 보증금이 커질수록 필수', href: '/policy#contract' }
     ],
     tasks: [
-      { t: '집부터 계약하지 말고 대출 한도부터 — 신혼집 순서', href: '/guide/newlywed-home-loan' },
-      { t: '전세와 월세, 우리 상황엔 뭐가 나을까', href: '/guide/jeonse-vs-wolse' }
+      { d: -60, t: '집부터 계약하지 말고 대출 한도부터 — 신혼집 순서', href: '/guide/newlywed-home-loan' },
+      { d: -55, t: '전세와 월세, 우리 상황엔 뭐가 나을까', href: '/guide/jeonse-vs-wolse' }
     ]
   },
   pregnant: {
@@ -51,9 +51,9 @@ const PROFILE_DATA = {
       { t: '전세보증금 반환보증', s: '출산 전후로 이사가 많은 시기 · 잔금·전입 후 바로 가입', href: '/policy#contract' }
     ],
     tasks: [
-      { t: '임산부 이사, 무엇을 다르게 해야 할까 — 몸을 지키는 순서', href: '/guide/moving-with-baby' },
-      { t: '이 시기엔 포장이사를 권하는 이유', href: '/guide/packing-vs-semi-packing' },
-      { t: '입주청소로 새집 먼지·냄새 줄이기', href: '/guide/move-out-cleaning' }
+      { d: -30, t: '임산부 이사, 무엇을 다르게 해야 할까 — 몸을 지키는 순서', href: '/guide/moving-with-baby' },
+      { d: -30, t: '이 시기엔 포장이사를 권하는 이유', href: '/guide/packing-vs-semi-packing' },
+      { d: -3, t: '입주청소로 새집 먼지·냄새 줄이기', href: '/guide/move-out-cleaning' }
     ]
   },
   baby: {
@@ -63,9 +63,9 @@ const PROFILE_DATA = {
       { t: '주거급여', s: '소득인정액 중위소득 48% 이하 가구 · 부양의무자 기준 없음', href: '/policy#support' }
     ],
     tasks: [
-      { t: '아기와 함께하는 이사 당일 동선', href: '/guide/moving-with-baby' },
-      { t: '이사 후 주소 변경 — 어린이집·학교·병원까지', href: '/guide/address-change-list' },
-      { t: '이사 당일 체크리스트', href: '/guide/moving-day-checklist' }
+      { d: -3, t: '아기와 함께하는 이사 당일 동선', href: '/guide/moving-with-baby' },
+      { d: 3, t: '이사 후 주소 변경 — 어린이집·학교·병원까지', href: '/guide/address-change-list' },
+      { d: -1, t: '이사 당일 체크리스트', href: '/guide/moving-day-checklist' }
     ]
   },
   middle: {
@@ -76,9 +76,9 @@ const PROFILE_DATA = {
       { t: '전세보증금 반환보증', s: '보증금이 클수록 가입 우선', href: '/policy#contract' }
     ],
     tasks: [
-      { t: '보관이사가 필요한 순간과 비용 구조', href: '/guide/storage-moving' },
-      { t: '가족 이사 비용, 어디서 차이가 날까', href: '/guide/moving-cost-family' },
-      { t: '보증금을 안 돌려줄 때', href: '/guide/deposit-return' }
+      { d: -30, t: '보관이사가 필요한 순간과 비용 구조', href: '/guide/storage-moving' },
+      { d: -35, t: '가족 이사 비용, 어디서 차이가 날까', href: '/guide/moving-cost-family' },
+      { d: -60, t: '보증금을 안 돌려줄 때', href: '/guide/deposit-return' }
     ]
   },
   senior: {
@@ -89,8 +89,8 @@ const PROFILE_DATA = {
       { t: '주거급여', s: '소득인정액 중위소득 48% 이하', href: '/policy#support' }
     ],
     tasks: [
-      { t: '이사 후 주소 변경, 어디까지 해야 할까', href: '/guide/address-change-list' },
-      { t: '이사 당일 체크리스트', href: '/guide/moving-day-checklist' }
+      { d: 3, t: '이사 후 주소 변경, 어디까지 해야 할까', href: '/guide/address-change-list' },
+      { d: -1, t: '이사 당일 체크리스트', href: '/guide/moving-day-checklist' }
     ]
   },
   foreign: {
@@ -100,8 +100,8 @@ const PROFILE_DATA = {
       { t: '전월세 신고제', s: '보증금 6,000만원 초과 또는 월세 30만원 초과면 30일 내 신고', href: '/policy#contract' }
     ],
     tasks: [
-      { t: '등기부등본에서 반드시 볼 것', href: '/guide/registry-check' },
-      { t: '보증금을 안 돌려줄 때', href: '/guide/deposit-return' }
+      { d: -45, t: '등기부등본에서 반드시 볼 것', href: '/guide/registry-check' },
+      { d: -60, t: '보증금을 안 돌려줄 때', href: '/guide/deposit-return' }
     ]
   }
 };
