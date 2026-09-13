@@ -48,7 +48,7 @@ jobs:
           git commit -m 'chore: refresh guide feed and missing sitemap entries'
           git push origin HEAD:main
           echo 'changed=true' >> "$GITHUB_OUTPUT"
-      - name: Verify Cloudflare serves the generated files
+      - name: Verify deployed discovery files and selected frontend files against checkout
         id: deployment
         run: node tools/operations/verify-generated-live.mjs
       - name: Check the production website

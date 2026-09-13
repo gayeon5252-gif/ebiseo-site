@@ -101,8 +101,11 @@ function renderTaskList(elId, tasks, done, emptyMsg) {
   ).join('');
   el.querySelectorAll('input[type=checkbox]').forEach(cb => {
     cb.addEventListener('change', function () {
-      const d = getDoneMap(); d[this.dataset.tid] = this.checked; store.set('homeDone', d);
+      const d = getDoneMap();
+      const completed = this.checked && !d[this.dataset.tid];
+      d[this.dataset.tid] = this.checked; store.set('homeDone', d);
       renderDashboard();
+      if (completed && typeof window.track === 'function') window.track('checklist_item_completed', {});
     });
   });
 }

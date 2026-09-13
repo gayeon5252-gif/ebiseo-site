@@ -20,7 +20,7 @@ function showTab(name) {
 document.querySelectorAll('#cost-tabs .chip').forEach(c =>
   c.addEventListener('click', () => showTab(c.dataset.tab))
 );
-showTab('diagnose');
+showTab(new URLSearchParams(window.location.search).get('tab') === 'supplies' ? 'supplies' : 'diagnose');
 
 /* ---------- 가구원 수별 기준표 (참고값) ---------- */
 const REF = {
