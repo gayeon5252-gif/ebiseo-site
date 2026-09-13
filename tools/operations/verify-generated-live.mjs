@@ -39,6 +39,17 @@ export function sameGeneratedContent(expected, actual) {
   return normalizeXml(expected) === normalizeXml(actual);
 }
 
+/** Cloudflare Web Analytics adds one beacon immediately before </body>. */
+export function sameDeployedHtml(expected, actual) {
+  const beacon = /<script\b(?=[^>]*\bsrc="https:\/\/static\.cloudflareinsights\.com\/beacon\.min\.js\/[^"\s]+")(?=[^>]*\bcrossorigin="anonymous")[^>]*><\/script>\s*(?=<\/body>)/gi;
+  const matches = [...actual.matchAll(beacon)];
+  if (matches.length > 1) return false;
+  const withoutPlatformBeacon = matches.length
+    ? actual.slice(0, matches[0].index) + actual.slice(matches[0].index + matches[0][0].length)
+    : actual;
+  return normalizeXml(expected) === normalizeXml(withoutPlatformBeacon);
+}
+
 /** Read only the selected local script reference; never follow arbitrary HTML URLs. */
 function scriptPath(html, pathname) {
   const refs = [];
@@ -102,8 +113,11 @@ async function matchesLive(resource, expected, deadline) {
     if (resource.kind === 'xml') {
       return sameGeneratedContent(expected.toString('utf8'), actual.toString('utf8'));
     }
-    // Exact bytes for JS AND HTML: preserve code, script versions and guide links.
-    // Full HTML equality also checks link labels and inline scripts without a DOM approximation.
+    if (resource.kind === 'html') {
+      // Ignore only Cloudflare's own analytics beacon; compare the rest of the HTML exactly.
+      return sameDeployedHtml(expected.toString('utf8'), actual.toString('utf8'));
+    }
+    // Exact bytes for JavaScript: do not normalize executable code.
     return expected.equals(actual);
   } catch {
     return false;
