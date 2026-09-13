@@ -1,0 +1,73 @@
+name: Ebiseo cloud operations
+
+on:
+  schedule:
+    # 09:17 Asia/Seoul. GitHub may delay scheduled runs under load.
+    - cron: '17 0 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - 'tools/operations/**'
+      - '.github/workflows/ebiseo-operations.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ebiseo-cloud-operations
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Refresh guide discovery files from existing articles
+        run: node tools/operations/refresh-guide-feed.mjs
+      - name: Commit generated files only when they changed
+        id: update
+        shell: bash
+        run: |
+          git add -- public/guide-feed.xml public/sitemap.xml
+          if git diff --cached --quiet; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: refresh guide feed and missing sitemap entries'
+          git push origin HEAD:main
+          echo 'changed=true' >> "$GITHUB_OUTPUT"
+      - name: Verify Cloudflare serves the generated files
+        id: deployment
+        run: node tools/operations/verify-generated-live.mjs
+      - name: Check the production website
+        if: ${{ !cancelled() }}
+        run: node tools/operations/check-site.mjs --source-root . --output-dir /tmp/ebiseo-health
+      - name: Record the result
+        if: ${{ !cancelled() }}
+        env:
+          EBISEO_FEED_CHANGED: ${{ steps.update.outputs.changed }}
+          EBISEO_DEPLOYMENT_OUTCOME: ${{ steps.deployment.outcome }}
+        run: node tools/operations/summarize-check.mjs /tmp/ebiseo-health/latest-check.json
+      - name: Retain one real health audit per month
+        run: |
+          node tools/operations/save-monthly-health.mjs /tmp/ebiseo-health/latest-check.json
+          git add -- docs/operations/monthly
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: retain monthly production health audit'
+          git push origin HEAD:main
