@@ -54,6 +54,9 @@ jobs:
       - name: Check the production website
         if: ${{ !cancelled() }}
         run: node tools/operations/check-site.mjs --source-root . --output-dir /tmp/ebiseo-health
+      - name: Check the LH notice worker
+        # 위젯은 실패하면 스스로 숨는다. 이 단계가 없으면 워커가 죽어도 아무도 모른다.
+        run: node tools/operations/check-lh-notice.mjs
       - name: Record the result
         if: ${{ !cancelled() }}
         env:
