@@ -12,19 +12,46 @@
   var B = (window.EBISEO_CONFIG || {}).COUPANG_BANNER;
   if (!B) return;
 
+  /* 동적으로 넣은 <script src>는 비동기로 받아진다. 그런데 인라인 <script>는
+     붙이는 즉시 실행되므로, 그대로 두면 g.js가 도착하기 전에 PartnersCoupang을
+     불러 조용히 실패한다(2026-09-18에 실제로 iframe 0개였던 원인).
+     그래서 한 노드씩 순서대로, src는 onload를 기다린 뒤 다음으로 넘어간다. */
   function inject(target, html) {
     var tmp = document.createElement('div');
     tmp.innerHTML = html;
-    Array.prototype.slice.call(tmp.childNodes).forEach(function (node) {
-      if (node.tagName === 'SCRIPT') {
-        var s = document.createElement('script');
-        if (node.src) s.src = node.src; else s.textContent = node.textContent;
-        s.async = false;
+    var nodes = Array.prototype.slice.call(tmp.childNodes);
+
+    (function step(i) {
+      if (i >= nodes.length) return;
+      var node = nodes[i];
+      if (node.tagName !== 'SCRIPT') {
+        target.appendChild(node.cloneNode(true));
+        return step(i + 1);
+      }
+      var s = document.createElement('script');
+      if (node.src) {
+        s.src = node.src;
+        s.onload = function () { step(i + 1); };
+        s.onerror = function () { /* 광고가 안 떠도 사이트는 그대로 둔다 */ };
         target.appendChild(s);
       } else {
-        target.appendChild(node.cloneNode(true));
+        s.textContent = node.textContent;
+        target.appendChild(s);
+        step(i + 1);
       }
-    });
+    })(0);
+  }
+
+  /* 쿠팡 필수 고지. 배너가 보이는 곳에는 예외 없이 함께 나온다. */
+  function withNotice(box, html) {
+    var note = document.createElement('p');
+    note.className = 'cp-notice';
+    note.textContent = ((window.EBISEO_CONFIG || {}).AFFILIATE || {}).disclosure ||
+      '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
+    var holder = document.createElement('div');
+    box.appendChild(holder);
+    box.appendChild(note);
+    inject(holder, html);
   }
 
   function mount() {
@@ -32,15 +59,19 @@
       var rail = document.createElement('div');
       rail.className = 'cp-rail cp-rail-r';
       document.body.appendChild(rail);
-      inject(rail, B.side);
+      withNotice(rail, B.side);
     }
-    if (B.bottom && B.bottom.trim()) {
+    /* 하단은 화면 폭에 맞는 것 하나만. 600px 배너를 430px 화면에 넣으면
+       가로 스크롤이 생기고, 조회의 3분의 2가 모바일이다. */
+    var wide = (window.innerWidth || 0) >= 680;
+    var code = wide ? B.bottom : (B.bottomNarrow || B.bottom);
+    if (code && code.trim()) {
       var main = document.querySelector('main');
       if (!main) return;
       var box = document.createElement('div');
       box.className = 'cp-bottom';
       main.appendChild(box);
-      inject(box, B.bottom);
+      withNotice(box, code);
     }
   }
 

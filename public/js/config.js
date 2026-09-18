@@ -23,7 +23,7 @@ window.EBISEO_CONFIG = {
      url이 비어 있는 항목은 화면에 아예 표시되지 않습니다(가짜 링크 방지).
      하나라도 채우면 해당 위치에 상품 블록과 법정 고지 문구가 함께 나타납니다. */
   AFFILIATE: {
-    disclosure: '이 페이지는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.',
+    disclosure: '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.',  /* 쿠팡 규정 원문 그대로. 임의로 바꾸지 말 것 */
     groups: {
       supplies: {
         title: '이사 준비물 바로 보기',
@@ -56,7 +56,8 @@ window.EBISEO_CONFIG = {
      주의: 본인 클릭 후 구매는 파트너스 부정행위입니다. */
   COUPANG_BANNER: {
     side: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"side","template":"carousel","width":"300","height":"300"});</script>',
-    bottom: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"bottom","template":"carousel","width":"300","height":"300"});</script>'
+    bottom: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":1031054,"trackingCode":"AF5215861","subId":"bottom","template":"carousel","width":"600","height":"160"});</script>',
+    bottomNarrow: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"bottom-m","template":"carousel","width":"300","height":"300"});</script>'
   },
 
   /* 기능 플래그 — 아직 실제 시스템이 없는 기능은 false로 두어 공개 화면에서 숨깁니다.
