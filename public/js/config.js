@@ -55,9 +55,13 @@ window.EBISEO_CONFIG = {
      bottom = 본문 맨 아래 (모바일·데스크탑 공통)
      주의: 본인 클릭 후 구매는 파트너스 부정행위입니다. */
   COUPANG_BANNER: {
-    side: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"side","template":"carousel","width":"300","height":"300"});</script>',
-    bottom: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":1031054,"trackingCode":"AF5215861","subId":"bottom","template":"carousel","width":"600","height":"160"});</script>',
-    bottomNarrow: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"bottom-m","template":"carousel","width":"300","height":"300"});</script>'
+    trackingCode: 'AF5215861',
+    /* 파트너스가 주는 <script> 조각은 삽입 위치를 스스로 정해 버려서
+       두 배너가 한자리에 겹쳤습니다(2026-09-18). 그래서 값만 두고
+       iframe을 직접 만듭니다. 배너를 새로 발급받으면 id·크기만 바꾸세요. */
+    side:         { id: 808036,  w: 300, h: 300, subId: 'side' },
+    bottom:       { id: 1031054, w: 600, h: 160, subId: 'bottom' },
+    bottomNarrow: { id: 808036,  w: 300, h: 300, subId: 'bottom-m' }
   },
 
   /* 기능 플래그 — 아직 실제 시스템이 없는 기능은 false로 두어 공개 화면에서 숨깁니다.

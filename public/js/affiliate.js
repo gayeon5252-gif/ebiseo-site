@@ -6,73 +6,57 @@
    - 링크가 하나라도 있으면 쿠팡 파트너스 필수 고지 문구를 항상 함께 노출합니다.
    ============================================================ */
 /* ---------- 쿠팡 배너 ----------
-   파트너스가 주는 코드는 <script src>+인라인 <script> 조합이라 innerHTML로는 실행되지 않는다.
-   그래서 스크립트 노드를 다시 만들어 붙인다. 코드 형태가 바뀌어도 그대로 동작한다. */
+   파트너스 <script> 조각은 삽입 위치를 스스로 정해 버린다. 실제로 두 배너가 모두
+   오른쪽 레일에 들어가고 하단은 비었으며, 모바일에서는 숨은 레일에 들어가 아무것도
+   보이지 않았다(2026-09-18 실측). 그래서 그 스크립트가 만들어내는 주소로
+   iframe을 직접 만든다. 위치가 어긋날 여지가 없다. */
 (function () {
   var B = (window.EBISEO_CONFIG || {}).COUPANG_BANNER;
-  if (!B) return;
+  if (!B || !B.trackingCode) return;
 
-  /* 동적으로 넣은 <script src>는 비동기로 받아진다. 그런데 인라인 <script>는
-     붙이는 즉시 실행되므로, 그대로 두면 g.js가 도착하기 전에 PartnersCoupang을
-     불러 조용히 실패한다(2026-09-18에 실제로 iframe 0개였던 원인).
-     그래서 한 노드씩 순서대로, src는 onload를 기다린 뒤 다음으로 넘어간다. */
-  function inject(target, html) {
-    var tmp = document.createElement('div');
-    tmp.innerHTML = html;
-    var nodes = Array.prototype.slice.call(tmp.childNodes);
+  var NOTICE = ((window.EBISEO_CONFIG || {}).AFFILIATE || {}).disclosure ||
+    '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
 
-    (function step(i) {
-      if (i >= nodes.length) return;
-      var node = nodes[i];
-      if (node.tagName !== 'SCRIPT') {
-        target.appendChild(node.cloneNode(true));
-        return step(i + 1);
-      }
-      var s = document.createElement('script');
-      if (node.src) {
-        s.src = node.src;
-        s.onload = function () { step(i + 1); };
-        s.onerror = function () { /* 광고가 안 떠도 사이트는 그대로 둔다 */ };
-        target.appendChild(s);
-      } else {
-        s.textContent = node.textContent;
-        target.appendChild(s);
-        step(i + 1);
-      }
-    })(0);
+  function frame(spec) {
+    if (!spec || !spec.id) return null;
+    var q = 'id=' + spec.id +
+      '&trackingCode=' + encodeURIComponent(B.trackingCode) +
+      '&subId=' + encodeURIComponent(spec.subId || '') +
+      '&template=' + encodeURIComponent(spec.template || 'carousel') +
+      '&width=' + spec.w + '&height=' + spec.h + '&tag=js';
+    var f = document.createElement('iframe');
+    f.src = 'https://ads-partners.coupang.com/widgets.html?' + q;
+    f.width = spec.w; f.height = spec.h;
+    f.setAttribute('frameborder', '0');
+    f.setAttribute('scrolling', 'no');
+    f.setAttribute('referrerpolicy', 'unsafe-url');
+    f.setAttribute('loading', 'lazy');
+    f.setAttribute('title', '쿠팡 파트너스 광고');
+    f.style.border = '0';
+    f.style.maxWidth = '100%';
+    return f;
   }
 
-  /* 쿠팡 필수 고지. 배너가 보이는 곳에는 예외 없이 함께 나온다. */
-  function withNotice(box, html) {
+  /* 광고가 보이는 곳에는 대가성 문구가 예외 없이 함께 나온다 (공정위 심사지침·쿠팡 규정) */
+  function place(parent, spec, cls) {
+    var f = frame(spec);
+    if (!f) return;
+    var box = document.createElement('div');
+    box.className = cls;
     var note = document.createElement('p');
     note.className = 'cp-notice';
-    note.textContent = ((window.EBISEO_CONFIG || {}).AFFILIATE || {}).disclosure ||
-      '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
-    var holder = document.createElement('div');
-    box.appendChild(holder);
+    note.textContent = NOTICE;
+    box.appendChild(f);
     box.appendChild(note);
-    inject(holder, html);
+    parent.appendChild(box);
   }
 
   function mount() {
-    if (B.side && B.side.trim()) {
-      var rail = document.createElement('div');
-      rail.className = 'cp-rail cp-rail-r';
-      document.body.appendChild(rail);
-      withNotice(rail, B.side);
-    }
-    /* 하단은 화면 폭에 맞는 것 하나만. 600px 배너를 430px 화면에 넣으면
-       가로 스크롤이 생기고, 조회의 3분의 2가 모바일이다. */
-    var wide = (window.innerWidth || 0) >= 680;
-    var code = wide ? B.bottom : (B.bottomNarrow || B.bottom);
-    if (code && code.trim()) {
-      var main = document.querySelector('main');
-      if (!main) return;
-      var box = document.createElement('div');
-      box.className = 'cp-bottom';
-      main.appendChild(box);
-      withNotice(box, code);
-    }
+    var w = window.innerWidth || 0;
+    /* 레일은 자리가 나는 화면에서만 만든다. 숨겨놓고 불러오면 보이지도 않는 광고를 받는다. */
+    if (w >= 1600) place(document.body, B.side, 'cp-rail cp-rail-r');
+    var main = document.querySelector('main');
+    if (main) place(main, w >= 680 ? B.bottom : B.bottomNarrow, 'cp-bottom');
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
