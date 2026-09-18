@@ -51,12 +51,43 @@
     parent.appendChild(box);
   }
 
+  /* 본문 맨 끝은 거의 아무도 도달하지 않는다(2026-09-18 사용자 지적).
+     그렇다고 맨 위에 두면 '오늘 할 일'처럼 먼저 보여야 할 것을 밀어낸다.
+     그래서 본문의 3분의 1 지점에 넣되, 제목과 본문 사이를 가르지 않도록
+     블록 요소(section/article/div) 바로 뒤에만 넣는다. */
+  function insertMid(main, box) {
+    var kids = Array.prototype.filter.call(main.children, function (el) {
+      return String(el.className || '').indexOf('cp-') !== 0;
+    });
+    var start = Math.max(1, Math.floor(kids.length / 3));
+    for (var i = start; i < kids.length; i++) {
+      var t = kids[i].tagName;
+      if (t === 'SECTION' || t === 'ARTICLE' || t === 'DIV') {
+        kids[i].insertAdjacentElement('afterend', box);
+        return;
+      }
+    }
+    main.appendChild(box);
+  }
+
   function mount() {
     var w = window.innerWidth || 0;
-    /* 레일은 자리가 나는 화면에서만 만든다. 숨겨놓고 불러오면 보이지도 않는 광고를 받는다. */
+    /* 레일은 자리가 나는 화면에서만 만든다. 숨겨놓고 불러오면 보이지도 않는 광고를 받는다.
+       다만 전체 조회의 16%에만 보이므로(28일 실측 37/233회) 본문 배너가 주력이다. */
     if (w >= 1600) place(document.body, B.side, 'cp-rail cp-rail-r');
     var main = document.querySelector('main');
-    if (main) place(main, w >= 680 ? B.bottom : B.bottomNarrow, 'cp-bottom');
+    if (!main) return;
+    var spec = w >= 680 ? B.bottom : B.bottomNarrow;
+    var f = frame(spec);
+    if (!f) return;
+    var box = document.createElement('div');
+    box.className = 'cp-inline';
+    var note = document.createElement('p');
+    note.className = 'cp-notice';
+    note.textContent = NOTICE;
+    box.appendChild(f);
+    box.appendChild(note);
+    insertMid(main, box);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);

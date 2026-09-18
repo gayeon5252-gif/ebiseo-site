@@ -214,8 +214,8 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
 .cp-rail{position:fixed;top:140px;width:300px;z-index:5}
 .cp-rail-r{right:calc(50% - 480px - 320px)}
 /* 1600px 미만에서는 affiliate.js가 레일을 아예 만들지 않는다 */
-.cp-bottom{margin:24px 0 8px;text-align:center;overflow-x:auto}
-.cp-bottom:empty{display:none}
+.cp-inline{margin:20px 0;text-align:center}
+.cp-inline:empty{display:none}
 
 .cp-notice{font-size:11px;color:var(--sub);margin:6px 0 0;line-height:1.5}
 .cp-rail .cp-notice{font-size:10px;text-align:left}
