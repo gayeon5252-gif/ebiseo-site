@@ -55,8 +55,8 @@ window.EBISEO_CONFIG = {
      bottom = 본문 맨 아래 (모바일·데스크탑 공통)
      주의: 본인 클릭 후 구매는 파트너스 부정행위입니다. */
   COUPANG_BANNER: {
-    side: '',
-    bottom: ''
+    side: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"side","template":"carousel","width":"300","height":"300"});</script>',
+    bottom: '<script src="https://ads-partners.coupang.com/g.js"></script><script>new PartnersCoupang.G({"id":808036,"trackingCode":"AF5215861","subId":"bottom","template":"carousel","width":"300","height":"300"});</script>'
   },
 
   /* 기능 플래그 — 아직 실제 시스템이 없는 기능은 false로 두어 공개 화면에서 숨깁니다.

@@ -29,12 +29,10 @@
 
   function mount() {
     if (B.side && B.side.trim()) {
-      ['l', 'r'].forEach(function (side) {
-        var rail = document.createElement('div');
-        rail.className = 'cp-rail cp-rail-' + side;
-        document.body.appendChild(rail);
-        inject(rail, B.side);
-      });
+      var rail = document.createElement('div');
+      rail.className = 'cp-rail cp-rail-r';
+      document.body.appendChild(rail);
+      inject(rail, B.side);
     }
     if (B.bottom && B.bottom.trim()) {
       var main = document.querySelector('main');
