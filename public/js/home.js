@@ -49,7 +49,8 @@ function renderDashboard() {
   const dd = daysUntil(moveDate);
 
   /* 준비물은 실제로 사야 하는 시기(D-21 ~ 이사 직후)에만 노출 */
-  if (affSec) affSec.style.display = (dd <= 21 && dd >= -3) ? 'block' : 'none';
+  /* 박스·테이프는 보통 한 달 전부터 산다. D-21은 너무 늦어 거의 아무에게도 안 보였다. */
+  if (affSec) affSec.style.display = (dd <= 45 && dd >= -3) ? 'block' : 'none';
   const ddayEl = document.getElementById('dday');
   ddayEl.textContent = dd > 0 ? 'D-' + dd : dd === 0 ? 'D-Day 🚚' : '이사 후 ' + (-dd) + '일';
   document.getElementById('dash-date-label').textContent = '이사 예정일 · ' + moveDate;

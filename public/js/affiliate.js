@@ -5,6 +5,51 @@
      → 승인 전에는 화면에 아무것도 나타나지 않으므로 '있는 척'이 발생하지 않습니다.
    - 링크가 하나라도 있으면 쿠팡 파트너스 필수 고지 문구를 항상 함께 노출합니다.
    ============================================================ */
+/* ---------- 쿠팡 배너 ----------
+   파트너스가 주는 코드는 <script src>+인라인 <script> 조합이라 innerHTML로는 실행되지 않는다.
+   그래서 스크립트 노드를 다시 만들어 붙인다. 코드 형태가 바뀌어도 그대로 동작한다. */
+(function () {
+  var B = (window.EBISEO_CONFIG || {}).COUPANG_BANNER;
+  if (!B) return;
+
+  function inject(target, html) {
+    var tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    Array.prototype.slice.call(tmp.childNodes).forEach(function (node) {
+      if (node.tagName === 'SCRIPT') {
+        var s = document.createElement('script');
+        if (node.src) s.src = node.src; else s.textContent = node.textContent;
+        s.async = false;
+        target.appendChild(s);
+      } else {
+        target.appendChild(node.cloneNode(true));
+      }
+    });
+  }
+
+  function mount() {
+    if (B.side && B.side.trim()) {
+      ['l', 'r'].forEach(function (side) {
+        var rail = document.createElement('div');
+        rail.className = 'cp-rail cp-rail-' + side;
+        document.body.appendChild(rail);
+        inject(rail, B.side);
+      });
+    }
+    if (B.bottom && B.bottom.trim()) {
+      var main = document.querySelector('main');
+      if (!main) return;
+      var box = document.createElement('div');
+      box.className = 'cp-bottom';
+      main.appendChild(box);
+      inject(box, B.bottom);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
+  else mount();
+})();
+
 (function () {
   var cfg = (window.EBISEO_CONFIG || {}).AFFILIATE;
   if (!cfg || !cfg.groups) return;

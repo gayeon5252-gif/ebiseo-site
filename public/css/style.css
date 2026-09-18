@@ -206,3 +206,14 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
   .tabbar{display:none}
   .gnb{display:flex}
 }
+
+
+/* ---------- 쿠팡 배너 자리 ----------
+   본문은 960px 고정이라 넓은 화면에서 좌우가 빈다. 그 여백만 쓴다.
+   1340px 미만(노트북·태블릿·모바일)에서는 아예 보이지 않는다. */
+.cp-rail{position:fixed;top:120px;width:160px;display:none;z-index:5}
+.cp-rail-l{left:calc(50% - 480px - 176px)}
+.cp-rail-r{right:calc(50% - 480px - 176px)}
+@media (min-width:1340px){ .cp-rail{display:block} }
+.cp-bottom{margin:24px 0 8px;text-align:center;overflow-x:auto}
+.cp-bottom:empty{display:none}
