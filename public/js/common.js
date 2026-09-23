@@ -123,6 +123,7 @@ function renderFooter() {
         '<a href="/news">제도 변경 소식</a>' +
         '<a href="/board">문의 게시판</a>' +
         '<a href="/contact">문의하기</a>' +
+        '<a href="/contact#ad">광고·제휴 문의</a>' +
       '</nav>' +
       '<p>이비서 — 집을 구하는 순간부터 이사 후 정리까지, 놓치는 일 없게.</p>' +
       '<p>입력하신 이사 날짜·체크리스트·계산 내용은 <b>이 기기(브라우저)에만 저장</b>됩니다. 다른 기기와 자동으로 동기화되지 않습니다.</p>' +
@@ -177,9 +178,29 @@ window.downloadICS = function (events, filename) {
   if (window.track) window.track('calendar_exported', { count: events.length });
 };
 
+
+/* ---------- 메일 주소 조립 ----------
+   수집 봇이 HTML을 긁어도 완전한 주소가 나오지 않도록 아이디와 도메인을
+   나눠 두고 화면에 뿌릴 때만 합칩니다. 사람에게는 그대로 보이고 클릭됩니다.
+   쓰는 법: <span data-mu="아이디" data-md="도메인" data-ms="메일 제목"></span>   */
+function renderMail() {
+  document.querySelectorAll('[data-mu]').forEach(function (el) {
+    const addr = el.dataset.mu + String.fromCharCode(64) + el.dataset.md;
+    const a = document.createElement('a');
+    a.href = 'mail' + 'to:' + addr + (el.dataset.ms ? '?subject=' + encodeURIComponent(el.dataset.ms) : '');
+    a.textContent = addr;
+    a.className = el.className;
+    a.addEventListener('click', function () {
+      if (window.track) window.track('mail_clicked', { page: currentKey() });
+    });
+    el.replaceWith(a);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   renderNav();
   renderFooter();
+  renderMail();
   // data-icon="이름" 요소에 아이콘 삽입
   document.querySelectorAll('[data-icon]').forEach(el => {
     el.innerHTML = icon(el.dataset.icon, el.dataset.iconClass || '') + el.innerHTML;

@@ -1,0 +1,10 @@
+import { chromium } from 'playwright-core'
+const b = await chromium.launch({ channel: 'chrome', headless: true })
+const p = await b.newContext({ viewport: { width: 860, height: 1200 }, deviceScaleFactor: 2, locale: 'ko-KR' }).then(c => c.newPage())
+await p.goto('file:///C:/Users/USER/AppData/Local/Temp/claude/C--Users-USER/bb086a52-25a1-4b01-9f57-25c39906d292/scratchpad/ebiseo-report.html', { waitUntil: 'networkidle', timeout: 45000 })
+await p.waitForTimeout(3000)
+await p.evaluate(() => window.scrollTo(0, 560))
+await p.waitForTimeout(600)
+await p.screenshot({ path: 'shots/report-charts.png' })
+console.log('가로 스크롤: ' + await p.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth))
+await b.close()
