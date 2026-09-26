@@ -206,7 +206,7 @@
           '<span class="badge" style="font-size:11px;vertical-align:middle;margin-right:6px">광고</span>' + esc(c.disclosure) + '</p>' +
         '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
           '<div style="flex:1 1 180px;min-width:0"><b style="font-size:15px">' + esc(c.title) + '</b>' +
-            '<div class="sub" style="font-size:12.5px;margin-top:2px">이사일 60일 이내만 신청 가능</div></div>' +
+            '<div class="sub" style="font-size:12.5px;margin-top:2px">어떤 이사를 준비하세요? · 이사일 60일 이내만 신청 가능</div></div>' +
         '</div>' +
         /* 벤치마킹(2026-09-26, 위매치·짐싸): 버튼 하나보다 이사 종류를 고르게 하는 편이 신청으로 이어진다. 세 칩 모두 같은 신청 폼으로 간다. */
         '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">' +
