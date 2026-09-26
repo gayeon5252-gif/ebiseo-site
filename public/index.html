@@ -20,7 +20,7 @@
 <meta name="description" content="이사 날짜만 입력하면 D-day 체크리스트, 이사비용 계산, 대출·주거지원 진단까지. 집을 구하는 순간부터 이사 후 정리까지 놓치는 일 없게 도와주는 무료 이사 플래너 이비서.">
 <link rel="canonical" href="https://isabiseo.com/">
 <link rel="alternate" type="application/rss+xml" title="이비서 이사 가이드" href="https://isabiseo.com/guide-feed.xml">
-<link rel="stylesheet" href="/css/style.css?v=33">
+<link rel="stylesheet" href="/css/style.css?v=34">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"이비서","alternateName":"ebiseo","url":"https://isabiseo.com/","description":"이사 날짜 기반 체크리스트·이사비용 계산·대출/주거지원 진단·계약 안전 체크를 제공하는 무료 이사 플래너","inLanguage":"ko-KR"}
 </script>
@@ -72,6 +72,19 @@
     </div>
   </section>
 
+  <!-- 바로가기 — 첫 화면에 핵심 행동 6개. 2026-09-26 벤치마킹: 짐싸·위매치는 첫 화면이 곧 행동 그리드인데
+       이비서는 도구가 2,954px(3.5화면) 아래에 처음 나왔다. 6번째 칸은 CPA 링크(광고 표시), 링크가 비면 칸이 사라진다. -->
+  <section class="section" id="quick-section" style="margin-top:12px">
+    <div class="quick-grid">
+      <a class="quick-tile" href="/cost"><span class="qi">🧮</span><b>비용 계산</b><small>박스·차량·예상비</small></a>
+      <a class="quick-tile" href="/checklist"><span class="qi">✅</span><b>체크리스트</b><small>날짜별 할 일</small></a>
+      <a class="quick-tile" href="/gilil"><span class="qi">📅</span><b>이사 길일</b><small>손 없는 날</small></a>
+      <a class="quick-tile" href="/loan"><span class="qi">🏦</span><b>대출·지원</b><small>버팀목·디딤돌</small></a>
+      <a class="quick-tile" href="/safety"><span class="qi">🛡️</span><b>계약 안전</b><small>전세사기 예방</small></a>
+      <div class="cpa-slot" data-cpa="quote" data-place="home-tile" data-tile="1"></div>
+    </div>
+  </section>
+
   <!-- ===== 오늘 할 일 ===== -->
   <section class="section" id="today-section" style="display:none">
     <div class="section-head">
@@ -110,14 +123,15 @@
       <a href="/situation" style="font-size:13px;font-weight:600">전체 보기 →</a>
     </div>
     <p class="sub" style="font-size:13px;margin:-4px 0 10px">상황마다 챙길 것이 다릅니다. 자세한 글은 여기서 보세요.</p>
-    <div class="stat-grid">
-      <a class="card" href="/situation#youth" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🎒</div><b style="color:var(--primary);font-size:14px">청년 1인가구</b><div style="font-size:12px;color:var(--sub)">자취·원룸·지원금</div></a>
-      <a class="card" href="/situation#newlywed" style="text-align:center;padding:16px 8px"><div style="font-size:22px">💍</div><b style="color:var(--primary);font-size:14px">신혼부부</b><div style="font-size:12px;color:var(--sub)">집 마련·대출 순서</div></a>
-      <a class="card" href="/situation#pregnant" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🤰</div><b style="color:var(--primary);font-size:14px">임신 중</b><div style="font-size:12px;color:var(--sub)">몸이 우선입니다</div></a>
-      <a class="card" href="/situation#baby" style="text-align:center;padding:16px 8px"><div style="font-size:22px">👶</div><b style="color:var(--primary);font-size:14px">아기·어린이</b><div style="font-size:12px;color:var(--sub)">안전과 적응</div></a>
-      <a class="card" href="/situation#middle" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🧭</div><b style="color:var(--primary);font-size:14px">중장년</b><div style="font-size:12px;color:var(--sub)">집 줄이기·노후 준비</div></a>
-      <a class="card" href="/situation#senior" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🧓</div><b style="color:var(--primary);font-size:14px">어르신</b><div style="font-size:12px;color:var(--sub)">안전·주택연금·임대</div></a>
-      <a class="card" href="/situation#foreign" style="text-align:center;padding:16px 8px"><div style="font-size:22px">🌏</div><b style="color:var(--primary);font-size:14px">외국인</b><div style="font-size:12px;color:var(--sub)">체류지 신고·보증금</div></a>
+    <!-- 2026-09-26: 타일 7장(1,030px)을 칩 한 줄로. 첫 화면을 도구에 내주기 위해서다. 링크는 그대로. -->
+    <div class="chip-row chip-scroll" aria-label="상황별 가이드">
+      <a class="chip" href="/situation#youth">🎒 청년 1인가구</a>
+      <a class="chip" href="/situation#newlywed">💍 신혼부부</a>
+      <a class="chip" href="/situation#pregnant">🤰 임신 중</a>
+      <a class="chip" href="/situation#baby">👶 아기·어린이</a>
+      <a class="chip" href="/situation#middle">🧭 중장년</a>
+      <a class="chip" href="/situation#senior">🧓 어르신</a>
+      <a class="chip" href="/situation#foreign">🌏 외국인</a>
     </div>
     <a class="card" href="/youth-housing" style="display:block;margin-top:10px;border-color:var(--primary);background:#E8F3FF">
       <div style="font-weight:700;color:var(--primary-dark);font-size:15px">🏢 청년 주거지원, 지금 신청할 수 있나 <span class="badge badge-green" style="vertical-align:middle;margin-left:4px">NEW</span></div>
@@ -219,13 +233,13 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"이비서","alternateName":"ebiseo","url":"https://isabiseo.com/","logo":"https://isabiseo.com/favicon.svg","image":"https://isabiseo.com/og-image.png","description":"한국에서 이사를 준비하는 사람을 위한 무료 정보 사이트. 집을 구하는 순간부터 이사 후 정리까지 날짜별로 안내합니다.","areaServed":{"@type":"Country","name":"대한민국"},"knowsLanguage":"ko-KR","sameAs":["https://blog.naver.com/kimssiat-ad"]}
 </script>
-<script src="/js/config.js?v=33"></script>
-<script src="/js/analytics.js?v=33"></script>
-<script src="/js/common.js?v=33"></script>
-<script src="/js/affiliate.js?v=33"></script>
-<script src="/js/auth.js?v=33"></script>
-<script src="/js/profile.js?v=33"></script>
-<script src="/js/home.js?v=33"></script>
+<script src="/js/config.js?v=34"></script>
+<script src="/js/analytics.js?v=34"></script>
+<script src="/js/common.js?v=34"></script>
+<script src="/js/affiliate.js?v=34"></script>
+<script src="/js/auth.js?v=34"></script>
+<script src="/js/profile.js?v=34"></script>
+<script src="/js/home.js?v=34"></script>
 <script>
 /* 홈 LH 공고 요약 — /youth-housing 위젯의 축약본. 상위 3건만 보여주고 전체는 그 페이지로 넘긴다.
    불러오지 못하거나 해당 공고가 없으면 섹션을 통째로 숨긴 채 둔다. */

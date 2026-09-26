@@ -186,6 +186,15 @@
     var place = slot.getAttribute('data-place') || 'unknown';
     var useForm = slot.hasAttribute('data-form') && isValid(c.formUrl || '');
 
+    /* 홈 바로가기 그리드의 여섯 번째 칸. 다른 칸과 같은 모양이되 '광고' 배지를 단다. */
+    if (slot.hasAttribute('data-tile')) {
+      var t = document.createElement('a');
+      t.className = 'quick-tile cpa-tile'; t.href = c.url.trim(); t.target = '_blank'; t.rel = 'nofollow sponsored noopener';
+      t.innerHTML = '<span class="qi">🚚</span><b>견적 받기 <span class="badge" style="font-size:10px;vertical-align:middle">광고</span></b><small>방문견적 2~3곳 무료</small>';
+      t.addEventListener('click', function () { if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place }); });
+      slot.replaceWith(t);
+      return;
+    }
     var compact = slot.hasAttribute('data-compact');
     slot.className = 'card cpa-card' + (compact ? ' cpa-compact' : '');
     if (compact) {
