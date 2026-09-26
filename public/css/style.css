@@ -222,3 +222,13 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
 .cp-rail .cpa-card{margin:0}
 .cpa-compact{padding:14px 16px}
 .cpa-slot:empty{display:none}
+
+/* 가이드 글 모바일 하단 고정 CTA — 탭바(하단 메뉴) 위에 얹는다 */
+.cpa-sticky{position:fixed;left:8px;right:8px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:40;
+  display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--card,#fff);
+  border:1px solid var(--line,#E5E8EB);border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.14)}
+.cpa-sticky-txt{flex:1 1 auto;min-width:0;font-size:12.5px;line-height:1.35}
+.cpa-sticky-txt b{display:block;font-size:13.5px}
+.cpa-sticky .btn{flex:0 0 auto;white-space:nowrap}
+.cpa-sticky-x{flex:0 0 auto;border:0;background:none;font-size:20px;line-height:1;color:var(--sub,#8B95A1);padding:0 2px;cursor:pointer}
+@media (min-width:680px){.cpa-sticky{display:none}}

@@ -195,10 +195,16 @@
         '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
           '<div style="flex:1 1 180px;min-width:0"><b style="font-size:15px">' + esc(c.title) + '</b>' +
             '<div class="sub" style="font-size:12.5px;margin-top:2px">이사일 60일 이내만 신청 가능</div></div>' +
-          '<a class="btn btn-sm" style="flex:0 0 auto" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>무료 견적 받기 →</a>' +
+        '</div>' +
+        /* 벤치마킹(2026-09-26, 위매치·짐싸): 버튼 하나보다 이사 종류를 고르게 하는 편이 신청으로 이어진다. 세 칩 모두 같은 신청 폼으로 간다. */
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">' +
+          ['가정이사', '원룸·소형이사', '사무실이사'].map(function (k) {
+            return '<a class="btn btn-outline btn-sm" style="flex:1 1 90px;text-align:center" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link data-kind="' + k + '">' + k + ' 견적 →</a>';
+          }).join('') +
         '</div>';
-      var lk = slot.querySelector('[data-cpa-link]');
-      lk.addEventListener('click', function () { if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place }); });
+      Array.prototype.forEach.call(slot.querySelectorAll('[data-cpa-link]'), function (lk) {
+        lk.addEventListener('click', function () { if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place, kind: lk.getAttribute('data-kind') || '' }); });
+      });
       return;
     }
     slot.innerHTML =
@@ -231,4 +237,43 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+
+/* ---------- 가이드 글 모바일 하단 고정 CTA ----------
+   벤치마킹(2026-09-26): 모바일 하단 고정 CTA는 여러 실측에서 전환을 12~31% 올렸다. 이비서 방문의 62%가 모바일이고,
+   가이드 글은 검색으로 들어온 사람이 읽고 그냥 나가는 자리다. 조건을 좁게 둔다 —
+   가이드 글 · 680px 미만 · 본문을 25% 이상 읽은 뒤 · 닫으면 이 세션에선 다시 안 뜸. 탭바 위에 얹는다. */
+(function () {
+  var c = ((window.EBISEO_CONFIG || {}).CPA || {}).quote;
+  if (!c || typeof c.url !== 'string' || !/^https:\/\/\S+$/i.test(c.url.trim())) return;
+  if (!/^\/guide\/.+/.test(location.pathname)) return;
+  if ((window.innerWidth || 0) >= 680) return;
+  var KEY = 'ebiseo_cpa_sticky_closed';
+  try { if (sessionStorage.getItem(KEY) === '1') return; } catch (e) {}
+  var esc = window.escapeHtml || function (s) { return String(s == null ? '' : s); };
+  var shown = false, bar = null;
+
+  function show() {
+    if (shown) return; shown = true;
+    bar = document.createElement('div');
+    bar.className = 'cpa-sticky';
+    bar.innerHTML =
+      '<div class="cpa-sticky-txt"><span class="badge" style="font-size:10px;margin-right:4px">광고</span>' +
+        '<b>이사업체 방문견적 2~3곳 무료</b><span class="sub"> · 이비서가 수수료를 지급받습니다</span></div>' +
+      '<a class="btn btn-sm" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>견적 받기</a>' +
+      '<button type="button" class="cpa-sticky-x" aria-label="닫기">×</button>';
+    document.body.appendChild(bar);
+    bar.querySelector('[data-cpa-link]').addEventListener('click', function () {
+      if (typeof window.track === 'function') window.track('cpa_click', { campaign: 'quote', place: 'sticky' });
+    });
+    bar.querySelector('.cpa-sticky-x').addEventListener('click', function () {
+      bar.remove(); try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    });
+    if (typeof window.track === 'function') window.track('cpa_sticky_view', { campaign: 'quote' });
+  }
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if (h > 0 && window.scrollY / h >= 0.25) { show(); window.removeEventListener('scroll', onScroll); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
