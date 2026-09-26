@@ -13,6 +13,13 @@ window.EBISEO_CONFIG = {
      비워두면 분석 스크립트가 로드되지 않습니다. */
   GA_MEASUREMENT_ID: 'G-B48QQVFM8J',
 
+  /* 집계할 호스트. 여기 없는 주소에서는 GA4를 아예 켜지 않습니다.
+     미리보기 주소(ebiseo.pages.dev, ebiseo-site.pages.dev)와 옛 배포처
+     (ebiseo.netlify.app), localhost가 같은 측정 ID로 보내고 있어서
+     실제 방문자 수가 부풀려졌습니다 (2026-09-26 실측: 누적 조회 중 약 7%).
+     도메인을 옮기면 여기부터 고쳐야 합니다. 안 고치면 수치가 0이 됩니다. */
+  GA_HOSTS: ['isabiseo.com', 'www.isabiseo.com'],
+
   /* LH 임대 공고 실시간 위젯(/youth-housing) — Cloudflare Worker 주소.
      설치 방법은 tools/lh-notice-worker.js 머리말 참고. 비워두면 위젯이 링크 안내만 보여줍니다.
      예: 'https://lh-notice.계정이름.workers.dev' */

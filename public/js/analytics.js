@@ -36,7 +36,19 @@
     /* 사생활 보호 모드 등에서 localStorage가 막히면 그냥 집계합니다 */
   }
 
-  var enabled = /^G-[A-Z0-9]+$/.test(GA_ID || '') && !optedOut;
+  /* ---------- 호스트 확인 ----------
+     미리보기 주소와 옛 배포처가 같은 측정 ID로 보내 실제 방문자가 부풀려졌습니다.
+     목록에 없는 주소에서는 켜지 않습니다. 목록이 비어 있으면 종전대로 전부 켭니다. */
+  var hosts = cfg.GA_HOSTS;
+  var hostAllowed = true;
+  if (hosts && hosts.length) {
+    hostAllowed = hosts.indexOf(location.hostname) > -1;
+    if (!hostAllowed) {
+      console.info('[이비서] ' + location.hostname + ' 은(는) 집계 대상이 아닙니다. 방문자 수에 잡히지 않습니다.');
+    }
+  }
+
+  var enabled = /^G-[A-Z0-9]+$/.test(GA_ID || '') && !optedOut && hostAllowed;
 
   if (enabled) {
     var s = document.createElement('script');
