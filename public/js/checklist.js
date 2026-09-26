@@ -87,9 +87,10 @@ function renderChecklist() {
 
   // 견적 CPA 카드는 '이사업체 3곳 이상 견적' 항목이 있는 첫 그룹 바로 뒤에 둔다. 맨 아래는 아무도 안 본다.
   (function () {
-    const slot = document.querySelector('.cpa-slot, .cpa-card');
-    const first = document.querySelector('#cl-groups > *');
-    if (slot && first && first.nextElementSibling !== slot) first.insertAdjacentElement('afterend', slot);
+    const groups = document.querySelectorAll('#cl-groups > *');
+    const moveAfter = (sel, idx) => { const el = document.querySelector(sel); const g = groups[idx]; if (el && g && g.nextElementSibling !== el) g.insertAdjacentElement('afterend', el); };
+    moveAfter('[data-place="checklist"]', 0);            // 이사 견적 — 첫 그룹(견적 항목) 뒤
+    moveAfter('[data-place="checklist-internet"]', 1);   // 인터넷 — 둘째 그룹(인터넷 이전 항목) 뒤. 링크 비면 슬롯이 이미 지워져 없음
   })();
   document.querySelectorAll('#cl-groups input[type=checkbox]').forEach(cb =>
     cb.addEventListener('change', function () {
