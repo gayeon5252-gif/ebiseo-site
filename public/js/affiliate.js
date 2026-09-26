@@ -70,11 +70,29 @@
     main.appendChild(box);
   }
 
+  /* 2026-09-26: 수익 자리는 CPA(상담 1건 16,000p)가 먼저다. CPA가 레일과 본문 1/3 지점을 가져가고,
+     쿠팡(구매 1건 276원)은 본문 끝으로 내려간다. 페이지에 이미 .cpa-slot 이 있으면 본문 CPA는 만들지 않는다. */
+  function cpaReady() {
+    var c = ((window.EBISEO_CONFIG || {}).CPA || {}).quote;
+    return !!(c && typeof c.url === 'string' && /^https:\/\/\S+$/i.test(c.url.trim()));
+  }
+  function cpaSlot(place, compact) {
+    var d = document.createElement('div');
+    d.className = 'cpa-slot'; d.setAttribute('data-cpa', 'quote'); d.setAttribute('data-place', place);
+    if (compact) d.setAttribute('data-compact', '1');
+    return d;
+  }
+
   function mount() {
     var w = window.innerWidth || 0;
     /* 레일은 자리가 나는 화면에서만 만든다. 숨겨놓고 불러오면 보이지도 않는 광고를 받는다.
        다만 전체 조회의 16%에만 보이므로(28일 실측 37/233회) 본문 배너가 주력이다. */
-    if (w >= 1600) place(document.body, B.side, 'cp-rail cp-rail-r');
+    if (w >= 1600) {
+      if (cpaReady()) {
+        var rail = document.createElement('div'); rail.className = 'cp-rail cp-rail-r';
+        rail.appendChild(cpaSlot('rail', false)); document.body.appendChild(rail);
+      } else place(document.body, B.side, 'cp-rail cp-rail-r');
+    }
     var main = document.querySelector('main');
     if (!main) return;
     var spec = w >= 680 ? B.bottom : B.bottomNarrow;
@@ -87,7 +105,10 @@
     note.textContent = NOTICE;
     box.appendChild(f);
     box.appendChild(note);
-    insertMid(main, box);
+    if (cpaReady()) {
+      if (!document.querySelector('.cpa-slot:not([data-place="rail"])')) insertMid(main, cpaSlot('article', false));   // 레일은 본문이 아니다
+      main.appendChild(box);            // 쿠팡은 본문 끝
+    } else insertMid(main, box);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
@@ -165,7 +186,21 @@
     var place = slot.getAttribute('data-place') || 'unknown';
     var useForm = slot.hasAttribute('data-form') && isValid(c.formUrl || '');
 
-    slot.className = 'card cpa-card';
+    var compact = slot.hasAttribute('data-compact');
+    slot.className = 'card cpa-card' + (compact ? ' cpa-compact' : '');
+    if (compact) {
+      slot.innerHTML =
+        '<p class="sub" style="font-size:11.5px;line-height:1.5;margin-bottom:8px">' +
+          '<span class="badge" style="font-size:11px;vertical-align:middle;margin-right:6px">광고</span>' + esc(c.disclosure) + '</p>' +
+        '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
+          '<div style="flex:1 1 180px;min-width:0"><b style="font-size:15px">' + esc(c.title) + '</b>' +
+            '<div class="sub" style="font-size:12.5px;margin-top:2px">이사일 60일 이내만 신청 가능</div></div>' +
+          '<a class="btn btn-sm" style="flex:0 0 auto" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>무료 견적 받기 →</a>' +
+        '</div>';
+      var lk = slot.querySelector('[data-cpa-link]');
+      lk.addEventListener('click', function () { if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place }); });
+      return;
+    }
     slot.innerHTML =
       '<p class="sub" style="font-size:12px;line-height:1.5;margin-bottom:8px">' +
         '<span class="badge" style="font-size:11px;vertical-align:middle;margin-right:6px">광고</span>' +

@@ -219,3 +219,6 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
 
 .cp-notice{font-size:11px;color:var(--sub);margin:6px 0 0;line-height:1.5}
 .cp-rail .cp-notice{font-size:10px;text-align:left}
+.cp-rail .cpa-card{margin:0}
+.cpa-compact{padding:14px 16px}
+.cpa-slot:empty{display:none}

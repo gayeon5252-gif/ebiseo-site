@@ -85,6 +85,12 @@ function renderChecklist() {
       ).join('') + '</div>';
   }).join('');
 
+  // 견적 CPA 카드는 '이사업체 3곳 이상 견적' 항목이 있는 첫 그룹 바로 뒤에 둔다. 맨 아래는 아무도 안 본다.
+  (function () {
+    const slot = document.querySelector('.cpa-slot, .cpa-card');
+    const first = document.querySelector('#cl-groups > *');
+    if (slot && first && first.nextElementSibling !== slot) first.insertAdjacentElement('afterend', slot);
+  })();
   document.querySelectorAll('#cl-groups input[type=checkbox]').forEach(cb =>
     cb.addEventListener('change', function () {
       const d = getDone(); d[this.dataset.tid] = this.checked; store.set('homeDone', d);
