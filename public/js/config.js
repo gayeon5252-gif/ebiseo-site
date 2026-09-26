@@ -61,9 +61,35 @@ window.EBISEO_CONFIG = {
     /* 예비: 포장이사 이사방 — DB당 20,000p(프로모션 +4,000), 승인율 62%, 미승인에 「지점마감」. 이사스토리가 멈추면
        quote.url / formUrl 의 i= 값을 12539132 로 바꾸고 폼 높이를 다시 잰다. 메타·당근 홍보 금지 캠페인. */
 
-    /* 경로별 배정. 여기 없는 페이지는 전부 quote(이사스토리). */
+    /* 커튼/블라인드 무료방문견적 — DB당 24,000p, 승인율 100%. 세 캠페인 중 기대값이 가장 높다(2026-09-26 캠페인 페이지).
+       이사 견적과 경쟁하지 않는 의도(새집 창문)라 이사 후·입주·신혼 페이지에만 붙인다. 미승인: 오류·결번·중복·미성년자·장기부재·상담거절·본인아님. */
+    curtain: {
+      url: 'https://appu.kr/?i=12539134',
+      formUrl: 'https://appu.kr/?i=12539134&t=o&f=o&ft=n',
+      formHeight: 1200,
+      title: '새집 커튼·블라인드, 무료 방문 실측',
+      note: '샘플 책자를 들고 와서 실측과 견적까지 무료로 봐줍니다. 창문 개수만 알면 됩니다.',
+      disclosure: '여기서 신청하면 이비서가 애드릭스로부터 수수료를 지급받습니다.'
+    },
+
+    /* 이사/입주 청소 모두클린 — DB당 8,000p, 승인율 80%. 청소 전용 신청서(5항목)라 입주청소 가이드 독자의 의도와 정확히 맞는다.
+       모두이사(cleaning, 기대값 13,000)는 이사 견적 신청서에 청소 항목이 딸린 것이라 청소만 찾는 독자에겐 어긋난다 → 예비로 내림. */
+    clean: {
+      url: 'https://appu.kr/?i=12539135',
+      formUrl: 'https://appu.kr/?i=12539135&t=o&f=o&ft=n',
+      formHeight: 1000,
+      title: '입주청소 업체 무료 견적 받기',
+      note: '청소 원하는 날짜와 주소만 적으면 됩니다. 전국 지점, 가격 정찰제라고 밝힌 곳입니다.',
+      disclosure: '여기서 신청하면 이비서가 애드릭스로부터 수수료를 지급받습니다.'
+    },
+
+    /* 경로별 배정. 여기 없는 페이지는 전부 quote(이사스토리). 한 페이지엔 한 캠페인 — 같은 자리에 둘을 두면 신청을 쪼갤 뿐이다. */
     byPath: {
-      '/guide/move-out-cleaning': 'cleaning'
+      '/guide/move-out-cleaning':    'clean',
+      '/guide/address-change-list':  'curtain',
+      '/guide/move-in-report':       'curtain',
+      '/guide/moving-day-checklist': 'curtain',
+      '/guide/newlywed-home-loan':   'curtain'
     }
   },
 

@@ -17,38 +17,56 @@
   var NOTICE = ((window.EBISEO_CONFIG || {}).AFFILIATE || {}).disclosure ||
     '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
 
-  function frame(spec) {
-    if (!spec || !spec.id) return null;
-    var q = 'id=' + spec.id +
-      '&trackingCode=' + encodeURIComponent(B.trackingCode) +
-      '&subId=' + encodeURIComponent(spec.subId || '') +
-      '&template=' + encodeURIComponent(spec.template || 'carousel') +
-      '&width=' + spec.w + '&height=' + spec.h + '&tag=js';
-    var f = document.createElement('iframe');
-    f.src = 'https://ads-partners.coupang.com/widgets.html?' + q;
-    f.width = spec.w; f.height = spec.h;
-    f.setAttribute('frameborder', '0');
-    f.setAttribute('scrolling', 'no');
-    f.setAttribute('referrerpolicy', 'unsafe-url');
-    f.setAttribute('loading', 'lazy');
-    f.setAttribute('title', '쿠팡 파트너스 광고');
-    f.style.border = '0';
-    f.style.maxWidth = '100%';
-    return f;
+  /* 2026-09-26: 손으로 만든 iframe 을 버리고 공식 g.js 에 맡긴다.
+     손으로 만든 주소에는 rUrl(배너가 실린 페이지)·resolution·depth·serverBaseUrl·logServerBaseUrl 다섯 파라미터가
+     없었다. 노출 로그는 나갔지만 클릭 집계에 영향이 없다고 증명할 수 없어서, 의심을 없애는 쪽을 택했다.
+     g.js 는 inline <script> 의 바로 앞에 iframe 을 넣는다 → 그 inline script 를 우리 컨테이너 안에 넣으면
+     iframe 도 그 안에 생긴다. 9/18 의 "자리가 어긋나던 문제"는 스크립트가 아니라 삽입 위치의 문제였다. */
+  var G_SRC = 'https://ads-partners.coupang.com/g.js';
+  var gLoad = null;
+  function loadG() {
+    if (gLoad) return gLoad;
+    gLoad = new Promise(function (res) {
+      if (window.PartnersCoupang) return res();
+      var sc = document.createElement('script');
+      sc.src = G_SRC; sc.async = true;
+      sc.onload = res; sc.onerror = res;   // 광고 차단기면 그냥 빈 자리
+      document.head.appendChild(sc);
+    });
+    return gLoad;
+  }
+  function mountOfficial(container, spec) {
+    if (!spec || !spec.id) return;
+    loadG().then(function () {
+      if (!window.PartnersCoupang || !window.PartnersCoupang.G) { container.remove(); return; }
+      var inline = document.createElement('script');
+      inline.text = 'new PartnersCoupang.G(' + JSON.stringify({
+        id: spec.id, trackingCode: B.trackingCode, subId: spec.subId || null,
+        template: spec.template || 'carousel', width: String(spec.w), height: String(spec.h)
+      }) + ');';
+      container.appendChild(inline);
+      /* g.js 는 <ins><iframe> 을 '문서의 마지막 script' 앞에 넣는다(2026-09-26 계측). 우리 상자가 아니다.
+         생성 직후(아직 로드 전) subId 로 찾아 상자 맨 앞으로 옮긴다. 옮겨도 로드 전이라 두 번 불리지 않는다. */
+      var list = document.getElementsByTagName('ins'), ins = null;
+      for (var i = list.length - 1; i >= 0; i--) {
+        var f = list[i].querySelector('iframe');
+        if (f && f.src.indexOf('id=' + spec.id + '&') > -1 && f.src.indexOf('subId=' + encodeURIComponent(spec.subId || '')) > -1) { ins = list[i]; break; }
+      }
+      if (ins && ins.parentNode !== container) container.insertBefore(ins, container.firstChild);
+    });
   }
 
   /* 광고가 보이는 곳에는 대가성 문구가 예외 없이 함께 나온다 (공정위 심사지침·쿠팡 규정) */
   function place(parent, spec, cls) {
-    var f = frame(spec);
-    if (!f) return;
+    if (!spec || !spec.id) return;
     var box = document.createElement('div');
     box.className = cls;
     var note = document.createElement('p');
     note.className = 'cp-notice';
     note.textContent = NOTICE;
-    box.appendChild(f);
-    box.appendChild(note);
+    box.appendChild(note);            // 고지 문구는 먼저 넣고, iframe 은 그 앞(script 앞)에 생긴다
     parent.appendChild(box);
+    mountOfficial(box, spec);
   }
 
   /* 본문 맨 끝은 거의 아무도 도달하지 않는다(2026-09-18 사용자 지적).
@@ -107,19 +125,17 @@
     var main = document.querySelector('main');
     if (!main) return;
     var spec = w >= 680 ? B.bottom : B.bottomNarrow;
-    var f = frame(spec);
-    if (!f) return;
     var box = document.createElement('div');
     box.className = 'cp-inline';
     var note = document.createElement('p');
     note.className = 'cp-notice';
     note.textContent = NOTICE;
-    box.appendChild(f);
     box.appendChild(note);
     if (cpaReady()) {
       if (!document.querySelector('.cpa-slot:not([data-place="rail"])')) insertMid(main, cpaSlot('article', false));   // 레일은 본문이 아니다
       main.appendChild(box);            // 쿠팡은 본문 끝
     } else insertMid(main, box);
+    mountOfficial(box, spec);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount);
