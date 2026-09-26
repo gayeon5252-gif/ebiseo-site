@@ -163,6 +163,7 @@
     var c = cfg && cfg[key];
     if (!c || !isValid(c.url)) { slot.remove(); return; }
     var place = slot.getAttribute('data-place') || 'unknown';
+    var useForm = slot.hasAttribute('data-form') && isValid(c.formUrl || '');
 
     slot.className = 'card cpa-card';
     slot.innerHTML =
@@ -172,16 +173,21 @@
       '<div class="card-title" style="margin-bottom:6px"><span data-icon="truck"></span>' +
         '<h2 style="font-size:16px">' + esc(c.title) + '</h2></div>' +
       (c.note ? '<p class="sub" style="font-size:13px;margin-bottom:12px">' + esc(c.note) + '</p>' : '') +
-      '<a class="btn btn-block" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>' +
-        '무료 견적 신청하러 가기 →</a>';
+      (useForm
+        ? '<iframe title="이사 견적 상담 신청 (애드릭스)" src="' + esc(c.formUrl.trim()) + '" width="100%" height="' + (parseInt(c.formHeight, 10) || 1260) + '" style="border:0;display:block;max-width:100%" scrolling="no" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
+          '<p class="sub" style="font-size:12px;margin-top:8px">위 신청서는 애드릭스·이사스토리가 운영하며, 입력한 정보는 이비서가 아니라 해당 업체에 전달됩니다.</p>'
+        : '<a class="btn btn-block" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>' +
+          '무료 견적 신청하러 가기 →</a>');
 
     // data-icon 은 common.js 가 DOMContentLoaded 에서 채우므로, 그 뒤에 만들어진 건 직접 채운다
     var ic = slot.querySelector('[data-icon]');
     if (ic && typeof window.icon === 'function' && !ic.innerHTML) ic.innerHTML = window.icon('truck');
 
-    slot.querySelector('[data-cpa-link]').addEventListener('click', function () {
+    var link = slot.querySelector('[data-cpa-link]');
+    if (link) link.addEventListener('click', function () {
       if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place });
     });
+    if (useForm && typeof window.track === 'function') window.track('cpa_form_view', { campaign: key, place: place });
   }
 
   function init() {
