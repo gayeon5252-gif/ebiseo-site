@@ -198,8 +198,8 @@
         '</div>' +
         /* 벤치마킹(2026-09-26, 위매치·짐싸): 버튼 하나보다 이사 종류를 고르게 하는 편이 신청으로 이어진다. 세 칩 모두 같은 신청 폼으로 간다. */
         '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">' +
-          ['가정이사', '원룸·소형이사', '사무실이사'].map(function (k) {
-            return '<a class="btn btn-outline btn-sm" style="flex:1 1 90px;text-align:center" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link data-kind="' + k + '">' + k + ' 견적 →</a>';
+          ['가정이사', '원룸·소형', '사무실'].map(function (k) {
+            return '<a class="btn btn-outline btn-sm" style="flex:1 1 auto;text-align:center;white-space:nowrap;word-break:keep-all;padding-left:10px;padding-right:10px" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link data-kind="' + k + '">' + k + ' →</a>';
           }).join('') +
         '</div>';
       Array.prototype.forEach.call(slot.querySelectorAll('[data-cpa-link]'), function (lk) {
