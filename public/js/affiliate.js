@@ -87,11 +87,14 @@
     var w = window.innerWidth || 0;
     /* 레일은 자리가 나는 화면에서만 만든다. 숨겨놓고 불러오면 보이지도 않는 광고를 받는다.
        다만 전체 조회의 16%에만 보이므로(28일 실측 37/233회) 본문 배너가 주력이다. */
-    if (w >= 1600) {
-      if (cpaReady()) {
-        var rail = document.createElement('div'); rail.className = 'cp-rail cp-rail-r';
-        rail.appendChild(cpaSlot('rail', false)); document.body.appendChild(rail);
-      } else place(document.body, B.side, 'cp-rail cp-rail-r');
+    /* 2026-09-26: 레일은 1,180px부터. 1,600px 기준일 때 데스크톱 방문자 상당수(사장님 화면 1,414px 포함)가 레일을 못 봤다.
+       1,180~1,599px에서는 CSS가 본문을 왼쪽으로 옮겨 자리를 만든다(헤더는 가운데 그대로).
+       레일 안은 CPA 카드(상담 1건 16,000p) 위, 쿠팡 300×300 아래 — 미디어펜 같은 사이드바처럼 세로로 쌓는다. */
+    if (w >= 1180) {
+      var rail = document.createElement('div'); rail.className = 'cp-rail cp-rail-r';
+      if (cpaReady()) rail.appendChild(cpaSlot('rail', false));
+      document.body.appendChild(rail);
+      place(rail, B.side, 'cp-rail-item');
     }
     var main = document.querySelector('main');
     if (!main) return;
