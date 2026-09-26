@@ -147,3 +147,47 @@
     init();
   }
 })();
+
+/* ---------- 이사 견적 CPA (애드릭스) ----------
+   <div class="cpa-slot" data-cpa="quote" data-place="cost"></div> 에 채운다.
+   config.CPA.quote.url 이 비어 있으면 슬롯을 흔적 없이 지운다 — 승인 전에 '있는 척'하지 않는다.
+   공정위 2024-12-01 개정: 대가성 문구를 블록의 첫 부분에 둔다. 그래서 제목보다 위에 있다. */
+(function () {
+  var cfg = (window.EBISEO_CONFIG || {}).CPA;
+  var esc = window.escapeHtml || function (s) { return String(s == null ? '' : s); };
+
+  function isValid(u) { return typeof u === 'string' && /^https:\/\/\S+$/i.test(u.trim()); }
+
+  function render(slot) {
+    var key = slot.getAttribute('data-cpa');
+    var c = cfg && cfg[key];
+    if (!c || !isValid(c.url)) { slot.remove(); return; }
+    var place = slot.getAttribute('data-place') || 'unknown';
+
+    slot.className = 'card cpa-card';
+    slot.innerHTML =
+      '<p class="sub" style="font-size:12px;line-height:1.5;margin-bottom:8px">' +
+        '<span class="badge" style="font-size:11px;vertical-align:middle;margin-right:6px">광고</span>' +
+        esc(c.disclosure) + '</p>' +
+      '<div class="card-title" style="margin-bottom:6px"><span data-icon="truck"></span>' +
+        '<h2 style="font-size:16px">' + esc(c.title) + '</h2></div>' +
+      (c.note ? '<p class="sub" style="font-size:13px;margin-bottom:12px">' + esc(c.note) + '</p>' : '') +
+      '<a class="btn btn-block" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>' +
+        '무료 견적 신청하러 가기 →</a>';
+
+    // data-icon 은 common.js 가 DOMContentLoaded 에서 채우므로, 그 뒤에 만들어진 건 직접 채운다
+    var ic = slot.querySelector('[data-icon]');
+    if (ic && typeof window.icon === 'function' && !ic.innerHTML) ic.innerHTML = window.icon('truck');
+
+    slot.querySelector('[data-cpa-link]').addEventListener('click', function () {
+      if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place });
+    });
+  }
+
+  function init() {
+    var slots = document.querySelectorAll('.cpa-slot');
+    for (var i = 0; i < slots.length; i++) render(slots[i]);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
