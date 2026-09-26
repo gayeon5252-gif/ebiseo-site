@@ -106,7 +106,7 @@ window.EBISEO_CONFIG = {
   },
 
   AFFILIATE: {
-    disclosure: '신청 시 이비서가 수수료를 지급받습니다.',  /* 쿠팡 규정 원문 그대로. 임의로 바꾸지 말 것 */
+    disclosure: '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.',  /* 쿠팡 규정 원문 그대로. 임의로 바꾸지 말 것 */
     groups: {
       supplies: {
         title: '이사 준비물 바로 보기',
