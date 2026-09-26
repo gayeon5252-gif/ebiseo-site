@@ -96,7 +96,7 @@
     var path = location.pathname.replace(/\.html$/, '');
     var k = C.byPath && C.byPath[path];
     // 배정된 캠페인의 링크가 아직 비어 있으면(승인 대기) 이사스토리로 되돌아간다. 빈 자리를 두지 않는다.
-    var ok = k && C[k] && typeof C[k].url === 'string' && /^https://S+$/i.test(C[k].url.trim());
+    var ok = k && C[k] && typeof C[k].url === 'string' && /^https:\/\/\S+$/i.test(C[k].url.trim());
     return ok ? k : 'quote';
   }
   window.resolveCpaKey = resolveCpaKey;
