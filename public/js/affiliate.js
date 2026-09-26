@@ -72,13 +72,21 @@
 
   /* 2026-09-26: 수익 자리는 CPA(상담 1건 16,000p)가 먼저다. CPA가 레일과 본문 1/3 지점을 가져가고,
      쿠팡(구매 1건 276원)은 본문 끝으로 내려간다. 페이지에 이미 .cpa-slot 이 있으면 본문 CPA는 만들지 않는다. */
+  /* 이 페이지에 배정된 캠페인. config.CPA.byPath 에 경로가 있으면 그것, 없으면 quote. */
+  function resolveCpaKey() {
+    var C = (window.EBISEO_CONFIG || {}).CPA || {};
+    var path = location.pathname.replace(/\.html$/, '');
+    var k = C.byPath && C.byPath[path];
+    return (k && C[k]) ? k : 'quote';
+  }
+  window.resolveCpaKey = resolveCpaKey;
   function cpaReady() {
-    var c = ((window.EBISEO_CONFIG || {}).CPA || {}).quote;
+    var c = ((window.EBISEO_CONFIG || {}).CPA || {})[resolveCpaKey()];
     return !!(c && typeof c.url === 'string' && /^https:\/\/\S+$/i.test(c.url.trim()));
   }
   function cpaSlot(place, compact) {
     var d = document.createElement('div');
-    d.className = 'cpa-slot'; d.setAttribute('data-cpa', 'quote'); d.setAttribute('data-place', place);
+    d.className = 'cpa-slot'; d.setAttribute('data-cpa', resolveCpaKey()); d.setAttribute('data-place', place);
     if (compact) d.setAttribute('data-compact', '1');
     return d;
   }
@@ -256,7 +264,8 @@
    가이드 글은 검색으로 들어온 사람이 읽고 그냥 나가는 자리다. 조건을 좁게 둔다 —
    가이드 글 · 680px 미만 · 본문을 25% 이상 읽은 뒤 · 닫으면 이 세션에선 다시 안 뜸. 탭바 위에 얹는다. */
 (function () {
-  var c = ((window.EBISEO_CONFIG || {}).CPA || {}).quote;
+  var KEYC = typeof window.resolveCpaKey === 'function' ? window.resolveCpaKey() : 'quote';
+  var c = ((window.EBISEO_CONFIG || {}).CPA || {})[KEYC];
   if (!c || typeof c.url !== 'string' || !/^https:\/\/\S+$/i.test(c.url.trim())) return;
   if (!/^\/guide\/.+/.test(location.pathname)) return;
   if ((window.innerWidth || 0) >= 680) return;
@@ -276,12 +285,12 @@
       '<button type="button" class="cpa-sticky-x" aria-label="닫기">×</button>';
     document.body.appendChild(bar);
     bar.querySelector('[data-cpa-link]').addEventListener('click', function () {
-      if (typeof window.track === 'function') window.track('cpa_click', { campaign: 'quote', place: 'sticky' });
+      if (typeof window.track === 'function') window.track('cpa_click', { campaign: KEYC, place: 'sticky' });
     });
     bar.querySelector('.cpa-sticky-x').addEventListener('click', function () {
       bar.remove(); try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
     });
-    if (typeof window.track === 'function') window.track('cpa_sticky_view', { campaign: 'quote' });
+    if (typeof window.track === 'function') window.track('cpa_sticky_view', { campaign: KEYC });
   }
   function onScroll() {
     var h = document.documentElement.scrollHeight - window.innerHeight;
