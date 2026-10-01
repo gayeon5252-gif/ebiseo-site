@@ -8,6 +8,13 @@
     <atom:link href="https://isabiseo.com/guide-feed.xml" rel="self" type="application/rss+xml" />
     <!-- Item dc:date comes from sitemap lastmod; it is not a publication timestamp. -->
     <item>
+      <title>2026년 이사관련 정책 알아보기 | 이비서</title>
+      <link>https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</link>
+      <guid isPermaLink="true">https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</guid>
+      <description>이사 할 때 바뀐 정책 여기서 알아보세요 (2026년 최신 버전)</description>
+      <dc:date>2026-10-01</dc:date>
+    </item>
+    <item>
       <title>관리비로 돌린 월세, 세액공제와 청년월세지원에서 깎입니다 | 이비서</title>
       <link>https://isabiseo.com/guide/maintenance-fee-hidden-rent</link>
       <guid isPermaLink="true">https://isabiseo.com/guide/maintenance-fee-hidden-rent</guid>
@@ -20,13 +27,6 @@
       <guid isPermaLink="true">https://isabiseo.com/guide/moving-out-maintenance-settlement</guid>
       <description>퇴거할 때 관리비를 어디까지 내는지, 장기수선충당금과 선수관리비처럼 돌려받을 수 있는 돈은 무엇인지 정리했습니다.</description>
       <dc:date>2026-09-13</dc:date>
-    </item>
-    <item>
-      <title>2026년 이사관련 정책 알아보기 | 이비서</title>
-      <link>https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</link>
-      <guid isPermaLink="true">https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</guid>
-      <description>이사 할 때 바뀐 정책 여기서 알아보세요 (2026년 최신 버전)</description>
-      <dc:date>2026-08-18</dc:date>
     </item>
     <item>
       <title>월세 중도 퇴거, 복비는 누가 내야 할까 | 이비서</title>
