@@ -26,7 +26,7 @@
 <main class="container">
 
   <h1 style="margin-top:20px">이사비용 계산</h1>
-  <p class="sub" style="font-size:14px;margin-bottom:14px">조건을 입력하면 박스·차량·인원·비용을 한 번에 계산해 드려요.</p>
+  <p class="sub" style="font-size:14px;margin-bottom:14px">이사 조건을 넣어 예상 비용 범위를 먼저 잡으세요. 계산 후에는 같은 짐·날짜·작업 조건으로 업체 견적을 비교하면 됩니다.</p>
 
   <!-- 페이지 내 탭 -->
   <div class="chip-row" id="cost-tabs" style="margin-bottom:16px">
@@ -41,6 +41,7 @@
   <section class="tab-panel" id="panel-diagnose">
     <div class="card">
       <div class="card-title"><span data-icon="search"></span><h2>이사 맞춤 진단</h2></div>
+      <p class="sub" style="font-size:13px;margin-bottom:12px">가구원 수로 짐의 양을 추정하는 참고 계산입니다. 주택 형태·평수·방 개수는 현재 금액에 반영되지 않으므로, 실제 견적에는 짐 사진과 목록도 함께 전달하세요.</p>
 
       <div class="grid-2">
         <div class="field"><label>가구원 수</label>
@@ -67,7 +68,7 @@
             <option value="25">인근 시·구 (약 25km)</option>
           </select>
         </div>
-        <div class="field"><label>이동 거리 (km) <small class="sub">— 지역 선택 시 자동 계산, 직접 수정 가능</small></label><input type="number" id="f-distance" placeholder="출발지·도착지를 선택하세요" min="1"></div>
+        <div class="field"><label>이동 거리 (km) <small class="sub">— 자동 거리는 지역 중심점 기준 추정값입니다. 지도에서 확인한 차량 이동 거리로 수정하세요.</small></label><input type="number" id="f-distance" placeholder="출발지·도착지를 선택하세요" min="1"></div>
         <div class="field"><label>주택 형태</label>
           <select id="f-house"><option>아파트</option><option>빌라·다세대</option><option>오피스텔</option><option>단독주택</option><option>원룸·고시원</option></select>
         </div>
@@ -107,6 +108,7 @@
         <button class="chip" data-item="에어컨 이전설치">에어컨 이전설치</button>
         <button class="chip" data-item="벽걸이TV 이전">벽걸이TV 이전</button>
       </div>
+      <p class="sub" style="font-size:13px;margin-top:8px">선택 항목 중 피아노·금고·돌침대·에어컨 이전설치·벽걸이TV 이전만 추가 금액에 반영됩니다. 냉장고·침대 등 일반 가구 선택은 차량 크기나 금액을 바꾸지 않습니다.</p>
 
       <div style="margin-top:18px">
         <button class="btn btn-block" id="btn-diagnose">진단 완료 → 비용 계산하기</button>
@@ -131,18 +133,31 @@
         <div class="card-title"><span data-icon="won"></span><h2>예상 비용 <span id="method-label" class="badge badge-blue"></span></h2></div>
         <div class="stat-grid" id="cost-grid"></div>
         <div id="method-compare"></div>
-        <h3 style="margin:16px 0 8px">항목별 계산 내역 <small class="sub">기본 차량·작업비 + 거리 + 인력 + 층수·운반환경 + 날짜 할증 + 추가 서비스</small></h3>
+        <h3 style="margin:16px 0 8px">항목별 계산 내역 <small class="sub">기본 차량·작업비 + 거리 + 층수·운반환경 + 날짜 할증 + 추가 서비스</small></h3>
         <div class="table-wrap"><table id="breakdown-table" style="min-width:0">
           <thead><tr><th>항목</th><th>내용</th><th style="text-align:right">금액</th></tr></thead>
           <tbody></tbody>
         </table></div>
-        <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>위 금액은 <b>동일 지역 일반 조건의 참고값</b>이며 실제 견적이 아닙니다. 정확한 금액은 방문 견적 2~3곳 이상을 비교하세요. 예상비용 외 <b>10~15% 예비비</b>를 권장합니다.</span></div>
+        <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>금액은 <b>이비서가 정한 가정값으로 계산한 참고 범위</b>입니다. 표시된 ‘평균’은 최소·최대의 중간값이며 업체 견적의 평균이 아닙니다. 권장 예비비 12.5%는 예상 비용에 포함되지 않은 별도 금액입니다.</span></div>
+        <details style="margin-top:14px">
+          <summary style="cursor:pointer;font-weight:600">어떤 비용이 계산에 들어가나요?</summary>
+          <ul style="padding-left:20px;font-size:14px;line-height:1.8;margin-top:8px">
+            <li><b>기본 차량·작업비:</b> 아래 가구원 수별 포장이사 범위에 방식별 비율을 적용합니다. 포장 100%, 반포장 75%, 일반 55%, 용달 38%이며 거리·환경 등 추가 항목에는 이 비율을 적용하지 않습니다.</li>
+            <li><b>거리:</b> 30km를 넘는 구간에만 km당 2,000원을 더합니다.</li>
+            <li><b>작업 환경:</b> 엘리베이터 선택과 층수에 따른 계단 작업, 입력한 예약비, 운반 거리·주차 조건을 반영합니다. 사다리차는 ‘진입 가능’이고 엘리베이터가 ‘한쪽만 있음’ 또는 ‘양쪽 모두 없음’일 때 25만원을 더합니다. 실제 사용 여부와 출발·도착지 각각의 비용은 업체에 확인하세요.</li>
+            <li><b>날짜:</b> 금·토·일과 25일~말일에 각각 기본 작업비 중간값의 10%를 더합니다. 두 조건이 겹치면 20%이며, 날짜를 비우면 적용하지 않습니다. 손 없는 날·공휴일·성수기 요금은 별도로 계산하지 않습니다.</li>
+            <li><b>특수 짐·보관:</b> 위에 안내한 특수 짐 5종과 보관이사 선택을 반영합니다. 보관은 기간 입력 없이 1개월 보관·상하차 가정값 30만원을 더하므로, 실제 보관 기간과 재운송비를 확인하세요.</li>
+          </ul>
+        </details>
+        <h3 style="margin:16px 0 8px">계산 밖에서 따로 챙길 비용</h3>
+        <p style="font-size:14px;margin-bottom:8px">청소·폐기물 처리·중개보수·인터넷 이전비는 이 예상 금액에 들어 있지 않습니다. 추가 인력·차량, 통행료, 가전 설치의 배관·부품비와 부가세 포함 여부도 견적서에서 확인하세요.</p>
+        <p style="font-size:14px">계약 만료 전에 옮긴다면 <a href="/guide/early-termination-broker-fee">중도퇴거 복비 부담</a>을 먼저 정리한 뒤 이사 예산에 따로 적어두세요.</p>
       </div>
       <div class="cpa-slot" data-cpa="quote" data-place="cost" data-form="1"></div>
       <div class="aff-slot" data-aff="supplies"></div>
       <!-- 인원별 참고 범위 -->
       <div class="card">
-        <h3 style="margin-bottom:8px">가구원 수별 참고 범위 <small class="sub">(동일 지역 · 일반 조건 · 포장이사 기준 참고값)</small></h3>
+        <h3 style="margin-bottom:8px">가구원 수별 참고 범위 <small class="sub">(거리·환경 등 추가금 전 · 포장이사 기본 가정값)</small></h3>
         <div class="table-wrap"><table>
           <thead><tr><th>가구원</th><th>박스 수</th><th>차량</th><th>포장이사 비용</th></tr></thead>
           <tbody>
@@ -162,13 +177,14 @@
   <section class="tab-panel" id="panel-extra" style="display:none">
     <div class="card">
       <div class="card-title"><span data-icon="won"></span><h2>추가비용 계산</h2></div>
-      <p class="sub" style="font-size:13px;margin-bottom:8px">해당하는 항목을 선택하면 합산됩니다. 금액은 일반적인 참고 범위의 평균값이에요.</p>
+      <p class="sub" style="font-size:13px;margin-bottom:8px">예산을 따로 점검하는 체크표입니다. 금액은 항목별 고정 예시이며 실제 청구액이나 시장 평균이 아닙니다. 선택한 항목끼리만 합산되고 ② 비용 계산에는 자동으로 더해지지 않습니다.</p>
+      <p style="font-size:14px;margin-bottom:12px"><b>같은 비용을 두 번 더하지 마세요.</b> 사다리차·날짜 할증·보관비·에어컨 이전비 등이 ② 계산 내역에 이미 있다면, 이 탭에서 다시 선택한 금액을 총예산에 중복해서 더하지 않습니다.</p>
       <div id="extra-list"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:2px solid var(--border)">
         <b style="font-size:15px;color:#191F28">추가비용 합계</b>
         <b style="font-size:20px;color:var(--primary)" id="extra-total">0원</b>
       </div>
-      <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>이사 총예산은 <b>예상비용 + 추가비용 + 예비비 10~15%</b>로 잡는 것이 안전해요.</span></div>
+      <div class="notice" style="margin-top:12px"><span data-icon="alert"></span><span>총예산은 <b>② 예상 비용 + 아직 반영되지 않은 비용 + 예비비</b>로 정리하세요. 실제 견적을 받았다면 포함 항목부터 대조하고, 확정 금액으로 다시 적어두세요.</span></div>
     </div>
   </section>
 
@@ -222,6 +238,19 @@
       <div id="survival-list"></div>
     </div>
   </section>
+
+  <div class="card" style="margin-top:16px">
+    <h2 style="margin-bottom:10px;font-size:18px">견적 2~3곳을 비교할 때 확인할 것</h2>
+    <p style="font-size:14px;margin-bottom:8px">업체마다 아래 조건을 똑같이 보내고, 포함·별도 항목이 적힌 견적서를 받아두세요.</p>
+    <ul style="padding-left:20px;font-size:14px;line-height:1.8">
+      <li><b>날짜와 짐:</b> 이사 날짜·시간, 큰 가구·가전의 사진과 수량, 버릴 짐을 구분합니다.</li>
+      <li><b>양쪽 집의 작업 조건:</b> 층수, 엘리베이터 예약, 사다리차 사용, 주차 위치와 트럭에서 현관까지 거리를 알립니다.</li>
+      <li><b>맡기는 범위:</b> 차량 톤수·대수, 작업 인원, 잔짐 포장·정리, 가전 분해·설치 담당을 확인합니다.</li>
+      <li><b>최종 지불액:</b> 부가세·장비·주차·통행료 포함 여부와 현장에서 추가금이 생기는 조건을 확인합니다. 보관이사는 입고·보관·출고·재운송을 나눠 적습니다.</li>
+      <li><b>일정 변경과 파손:</b> 취소·날짜 변경 시 비용, 파손 접수 방법과 보상 절차를 계약 전에 확인합니다.</li>
+    </ul>
+    <p class="sub" style="font-size:12px;margin-top:10px">계산 기준 확인: 2026-10-12 · 이비서 계산기의 현재 입력 항목과 고정 가정값 기준입니다.</p>
+  </div>
 
 </main>
 

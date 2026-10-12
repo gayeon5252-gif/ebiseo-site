@@ -8,6 +8,13 @@
     <atom:link href="https://isabiseo.com/guide-feed.xml" rel="self" type="application/rss+xml" />
     <!-- Item dc:date comes from sitemap lastmod; it is not a publication timestamp. -->
     <item>
+      <title>월세 중도 퇴거, 복비는 누가 내야 할까 | 이비서</title>
+      <link>https://isabiseo.com/guide/early-termination-broker-fee</link>
+      <guid isPermaLink="true">https://isabiseo.com/guide/early-termination-broker-fee</guid>
+      <description>중도퇴거 복비는 자동으로 세입자 부담이 되지 않습니다. 일반 계약·묵시적 갱신·갱신요구권 행사 후를 구분하고, 해지 통지와 비용·보증금 정산 전에 확인할 항목을 정리했습니다.</description>
+      <dc:date>2026-10-12</dc:date>
+    </item>
+    <item>
       <title>2026년 이사관련 정책 알아보기 | 이비서</title>
       <link>https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</link>
       <guid isPermaLink="true">https://isabiseo.com/guide/2026nyeon-isagwanryeon-jeongchaek-alabogi</guid>
@@ -27,13 +34,6 @@
       <guid isPermaLink="true">https://isabiseo.com/guide/moving-out-maintenance-settlement</guid>
       <description>퇴거할 때 관리비를 어디까지 내는지, 장기수선충당금과 선수관리비처럼 돌려받을 수 있는 돈은 무엇인지 정리했습니다.</description>
       <dc:date>2026-09-13</dc:date>
-    </item>
-    <item>
-      <title>월세 중도 퇴거, 복비는 누가 내야 할까 | 이비서</title>
-      <link>https://isabiseo.com/guide/early-termination-broker-fee</link>
-      <guid isPermaLink="true">https://isabiseo.com/guide/early-termination-broker-fee</guid>
-      <description>계약 기간을 못 채우고 나갈 때 복비를 내라는 요구를 받습니다. 법이 정한 원칙과 현실의 협상, 복비를 안 내도 되는 경우를 구분해 정리했습니다.</description>
-      <dc:date>2026-08-16</dc:date>
     </item>
     <item>
       <title>전월세 신고 30일, 이제는 진짜 과태료가 나옵니다 | 이비서</title>
