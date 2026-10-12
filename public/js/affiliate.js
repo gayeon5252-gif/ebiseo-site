@@ -232,13 +232,11 @@
           '<span class="badge" style="font-size:11px;vertical-align:middle;margin-right:6px">광고</span>' + esc(c.disclosure) + '</p>' +
         '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
           '<div style="flex:1 1 180px;min-width:0"><b style="font-size:15px">' + esc(c.title) + '</b>' +
-            '<div class="sub" style="font-size:12.5px;margin-top:2px">어떤 이사를 준비하세요? · 이사일 60일 이내만 신청 가능</div></div>' +
+            '<div class="sub" style="font-size:12.5px;margin-top:2px">' + esc(c.note || '') + '</div></div>' +
         '</div>' +
-        /* 벤치마킹(2026-09-26, 위매치·짐싸): 버튼 하나보다 이사 종류를 고르게 하는 편이 신청으로 이어진다. 세 칩 모두 같은 신청 폼으로 간다. */
-        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">' +
-          ['가정이사', '원룸·소형', '사무실'].map(function (k) {
-            return '<a class="btn btn-outline btn-sm" style="flex:1 1 auto;text-align:center;white-space:nowrap;word-break:keep-all;padding-left:10px;padding-right:10px" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link data-kind="' + k + '">' + k + ' →</a>';
-          }).join('') +
+        '<p class="sub" style="font-size:12px;margin-top:10px">광고주 상담 신청 페이지로 이동합니다.</p>' +
+        '<div style="margin-top:10px">' +
+          '<a class="btn btn-block" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>이사 견적 상담 신청하기</a>' +
         '</div>';
       Array.prototype.forEach.call(slot.querySelectorAll('[data-cpa-link]'), function (lk) {
         lk.addEventListener('click', function () { if (typeof window.track === 'function') window.track('cpa_click', { campaign: key, place: place, kind: lk.getAttribute('data-kind') || '' }); });
