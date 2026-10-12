@@ -127,7 +127,7 @@ function bindChips(box) {
     let cur = getProfile();
     cur = cur.indexOf(id) > -1 ? cur.filter(x => x !== id) : cur.concat([id]);
     store.set('profile', cur);
-    if (window.track) window.track('profile_select', { tags: cur.join(',') });
+    if (window.track) window.track('profile_select', {});
     renderProfile();
   }));
 }

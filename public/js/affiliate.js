@@ -298,9 +298,10 @@
     bar.className = 'cpa-sticky';
     bar.innerHTML =
       '<div class="cpa-sticky-txt"><span class="badge" style="font-size:10px;margin-right:4px">광고</span>' +
-        '<b>이사업체 방문견적 2~3곳 무료</b><span class="sub"> · 이비서가 수수료를 지급받습니다</span></div>' +
+        '<b></b><span class="sub"> · 이비서가 수수료를 지급받습니다</span></div>' +
       '<a class="btn btn-sm" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>견적 받기</a>' +
       '<button type="button" class="cpa-sticky-x" aria-label="닫기">×</button>';
+    bar.querySelector('.cpa-sticky-txt b').textContent = typeof c.title === 'string' && c.title.trim() ? c.title.trim() : '견적 받기';
     document.body.appendChild(bar);
     bar.querySelector('[data-cpa-link]').addEventListener('click', function () {
       if (typeof window.track === 'function') window.track('cpa_click', { campaign: KEYC, place: 'sticky' });
