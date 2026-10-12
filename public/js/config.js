@@ -67,8 +67,9 @@ window.EBISEO_CONFIG = {
       url: 'https://appu.kr/?i=12539134',
       formUrl: 'https://appu.kr/?i=12539134&t=o&f=o&ft=n',
       formHeight: 1200,
-      title: '새집 커튼·블라인드, 무료 방문 실측',
-      note: '샘플 책자를 들고 와서 실측과 견적까지 무료로 봐줍니다. 창문 개수만 알면 됩니다.',
+      title: '새집 커튼·블라인드 방문견적',
+      note: '설치할 공간과 창문 개수를 준비해 상담하세요. 견적과 시공 조건은 광고주에게 확인하세요.',
+      buttonLabel: '광고주 사이트에서 커튼·블라인드 상담 →',
       disclosure: '신청 시 이비서가 수수료를 지급받습니다.'
     },
 
@@ -78,8 +79,9 @@ window.EBISEO_CONFIG = {
       url: 'https://appu.kr/?i=12539135',
       formUrl: 'https://appu.kr/?i=12539135&t=o&f=o&ft=n',
       formHeight: 1000,
-      title: '입주청소 업체 무료 견적 받기',
-      note: '청소 원하는 날짜와 주소만 적으면 됩니다. 전국 지점, 가격 정찰제라고 밝힌 곳입니다.',
+      title: '입주청소 견적 상담 · 모두클린',
+      note: '청소할 집의 주소와 희망 날짜를 준비하세요. 작업 범위와 추가요금은 상담 때 확인하세요.',
+      buttonLabel: '광고주 사이트에서 청소 견적 확인 →',
       disclosure: '신청 시 이비서가 수수료를 지급받습니다.'
     },
 

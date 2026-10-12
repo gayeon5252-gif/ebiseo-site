@@ -225,7 +225,7 @@
       return;
     }
     var compact = slot.hasAttribute('data-compact');
-    slot.className = 'card cpa-card' + (compact ? ' cpa-compact' : '');
+    slot.className = 'card cpa-card' + (compact ? ' cpa-compact' : '') + (slot.hasAttribute('data-featured') ? ' cpa-featured' : '');
     if (compact) {
       slot.innerHTML =
         '<p class="sub" style="font-size:11.5px;line-height:1.5;margin-bottom:8px">' +
@@ -256,7 +256,7 @@
         ? '<iframe title="이사 견적 상담 신청 (애드릭스)" src="' + esc(c.formUrl.trim()) + '" width="100%" height="' + (parseInt(c.formHeight, 10) || 1260) + '" style="border:0;display:block;max-width:100%" scrolling="no" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
           '<p class="sub" style="font-size:12px;margin-top:8px">위 신청서는 애드릭스·이사스토리가 운영하며, 입력한 정보는 이비서가 아니라 해당 업체에 전달됩니다.</p>'
         : '<a class="btn btn-block" href="' + esc(c.url.trim()) + '" target="_blank" rel="nofollow sponsored noopener" data-cpa-link>' +
-          '무료 견적 신청하러 가기 →</a>');
+          esc(c.buttonLabel || '무료 견적 신청하러 가기 →') + '</a>');
 
     // data-icon 은 common.js 가 DOMContentLoaded 에서 채우므로, 그 뒤에 만들어진 건 직접 채운다
     var ic = slot.querySelector('[data-icon]');

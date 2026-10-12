@@ -231,6 +231,16 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
 .cpa-compact{padding:14px 16px}
 .cpa-slot:empty{display:none}
 
+/* 관련 서비스가 필요한 세 페이지에서만 쓰는 제휴 안내 카드 */
+.cpa-options{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.cpa-options > .card{margin:0;min-width:0}
+.cpa-featured{border:2px solid var(--primary);background:#EBF3FE}
+.cpa-featured > .sub{color:var(--text)}
+.cpa-featured .card-title{align-items:flex-start}
+.cpa-featured .card-title h2{margin:0}
+.cpa-featured .btn{background:var(--primary-dark);color:#fff;white-space:normal;overflow-wrap:anywhere;text-align:center}
+@media(min-width:768px){.cpa-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 /* 가이드 글 모바일 하단 고정 CTA — 탭바(하단 메뉴) 위에 얹는다 */
 .cpa-sticky{position:fixed;left:8px;right:8px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:40;
   display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--card,#fff);
