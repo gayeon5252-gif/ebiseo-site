@@ -252,6 +252,7 @@
       '<div class="card-title" style="margin-bottom:6px"><span data-icon="truck"></span>' +
         '<h2 style="font-size:16px">' + esc(c.title) + '</h2></div>' +
       (c.note ? '<p class="sub" style="font-size:13px;margin-bottom:12px">' + esc(c.note) + '</p>' : '') +
+      (!useForm && c.actionNotice ? '<p class="sub" style="font-size:12px;margin-bottom:10px">' + esc(c.actionNotice) + '</p>' : '') +
       (useForm
         ? '<iframe title="이사 견적 상담 신청 (애드릭스)" src="' + esc(c.formUrl.trim()) + '" width="100%" height="' + (parseInt(c.formHeight, 10) || 1260) + '" style="border:0;display:block;max-width:100%" scrolling="no" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
           '<p class="sub" style="font-size:12px;margin-top:8px">위 신청서는 애드릭스·이사스토리가 운영하며, 입력한 정보는 이비서가 아니라 해당 업체에 전달됩니다.</p>'
