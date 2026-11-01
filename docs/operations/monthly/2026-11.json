@@ -1,0 +1,29 @@
+{
+  "month": "2026-11",
+  "checkedAt": "2026-11-01T06:12:42.627Z",
+  "status": "healthy",
+  "summary": {
+    "resources": 50,
+    "sitemapUrls": 48,
+    "failures": 0,
+    "warnings": 0,
+    "elapsedMs": 1458
+  },
+  "comparison": {
+    "available": true,
+    "cacheVersion": {
+      "local": "47",
+      "live": "47"
+    },
+    "sitemapCount": {
+      "local": 48,
+      "live": 48
+    },
+    "guideCount": {
+      "local": 31,
+      "live": 31
+    }
+  },
+  "warnings": [],
+  "limits": "HTTP and static HTML checks only; no JavaScript execution or GA4 collection verification."
+}
