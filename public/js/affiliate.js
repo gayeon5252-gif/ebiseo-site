@@ -15,7 +15,7 @@
   if (!B || !B.trackingCode) return;
 
   var NOTICE = ((window.EBISEO_CONFIG || {}).AFFILIATE || {}).disclosure ||
-    '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.';
+    '아래 광고는 쿠팡 파트너스 활동의 일환으로, 광고를 통한 구매 시 이 사이트는 일정액의 수수료를 제공받습니다.';
 
   /* 2026-09-26: 손으로 만든 iframe 을 버리고 공식 g.js 에 맡긴다.
      손으로 만든 주소에는 rUrl(배너가 실린 페이지)·resolution·depth·serverBaseUrl·logServerBaseUrl 다섯 파라미터가
