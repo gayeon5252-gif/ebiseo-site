@@ -225,8 +225,8 @@ td{padding:10px 12px;border-top:1px solid var(--border);vertical-align:top}
 .cp-inline{margin:20px 0;text-align:center}
 .cp-inline:empty{display:none}
 
-.cp-notice{font-size:11px;color:var(--sub);margin:6px 0 0;line-height:1.5}
-.cp-rail .cp-notice{font-size:10px;text-align:left}
+.cp-notice{font-size:15px;font-weight:700;color:#334155;margin:8px 0 12px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+.cp-rail .cp-notice{font-size:15px;text-align:left}
 .cp-rail .cpa-card{margin:0}
 .cpa-compact{padding:14px 16px}
 .cpa-slot:empty{display:none}
